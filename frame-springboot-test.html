@@ -1,0 +1,1280 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SpringBoot,MockMvc," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言测试在 SpringBoot 1.4 版本之后进行了改进，Testing improvements in Spring Boot 1.4。由于 Spring Boot 1.4 之前的测试方式均属于集成测试。一个单纯的单元测试不应该创建和加载 Spring 的上下文。在 1.4 版本之前想要使用单元测试测试一个带有@Autowired注解的外部 services 的 controller 而不用">
+<meta name="keywords" content="SpringBoot,MockMvc">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBootTest[1.4+]">
+<meta property="og:url" content="http://www.jiyongguang.xin/frame-springboot-test.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="前言测试在 SpringBoot 1.4 版本之后进行了改进，Testing improvements in Spring Boot 1.4。由于 Spring Boot 1.4 之前的测试方式均属于集成测试。一个单纯的单元测试不应该创建和加载 Spring 的上下文。在 1.4 版本之前想要使用单元测试测试一个带有@Autowired注解的外部 services 的 controller 而不用">
+<meta property="og:updated_time" content="2017-09-26T14:21:22.061Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBootTest[1.4+]">
+<meta name="twitter:description" content="前言测试在 SpringBoot 1.4 版本之后进行了改进，Testing improvements in Spring Boot 1.4。由于 Spring Boot 1.4 之前的测试方式均属于集成测试。一个单纯的单元测试不应该创建和加载 Spring 的上下文。在 1.4 版本之前想要使用单元测试测试一个带有@Autowired注解的外部 services 的 controller 而不用">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/frame-springboot-test.html"/>
+
+
+
+
+
+  <title> SpringBootTest[1.4+] | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/frame-springboot-test.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                SpringBootTest[1.4+]
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-27T21:48:04+08:00">
+                2017-08-27
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-09-26T22:21:22+08:00">
+                2017-09-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/frame-springboot-test.html" class="leancloud_visitors" data-flag-title="SpringBootTest[1.4+]">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  1,768
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>测试在 SpringBoot 1.4 版本之后进行了改进，<a href="https://spring.io/blog/2016/04/15/testing-improvements-in-spring-boot-1-4" target="_blank" rel="external">Testing improvements in Spring Boot 1.4</a>。由于 Spring Boot 1.4 之前的测试方式均属于集成测试。一个单纯的单元测试不应该创建和加载 Spring 的上下文。在 1.4 版本之前想要使用单元测试测试一个带有<code>@Autowired</code>注解的外部 services 的 controller 而不用去加载<code>Spring</code>上下文，是不可能的。</p>
+<hr>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Spring Boot 1.4 解决的另外一个问题是，可以测试一段代码。不用启动服务器。并且不用启动整个<code>Spring</code>上下文，Spring Boot 1.4 通过新的<em>Test Slicing的特性</em> 就可以完成，这个特性被设计成可以至启动一小片的<code>Spring</code>上下文。这时的测试单个的代码片段更加容易了。你可以这样去测试你的应用中的特定代码片段</p>
+<a id="more"></a>
+<ul>
+<li><strong>MVC 片段：</strong> 通过<code>@WebMvcTest</code>注解测试<code>Controller</code>代码</li>
+<li><strong>JPA 片段：</strong> 通过<code>@DataJpaTest</code>注解测试<code>Spring Data JPA repository</code>代码</li>
+<li><strong>JSON 片段：</strong> 通过<code>@JsonTest</code>注解<code>JSON</code>序列化代码</li>
+</ul>
+<p>解决的问题；大型的应用要测试的话，如果它启动Spring上下文，会很耗费时间</p>
+<hr>
+<h3 id="SpringBoot-1-4"><a href="#SpringBoot-1-4" class="headerlink" title="SpringBoot 1.4-"></a>SpringBoot 1.4-</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)</div><div class="line"><span class="meta">@SpringApplicationConfiguration</span>(classes = Application.class)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationTests</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Or</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)</div><div class="line"><span class="meta">@ContextConfiguration</span>(classes = Application.class)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationTests</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="SpringBoot-1-4-1"><a href="#SpringBoot-1-4-1" class="headerlink" title="SpringBoot 1.4+"></a>SpringBoot 1.4+</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</div><div class="line"><span class="meta">@SpringBootTest</span>(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = Application.class)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplicationTests</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h3><ul>
+<li><code>@RunWith(SpringRunner.class)</code> 告诉Spring运行使用的JUnit测试支持。<code>SpringRunner</code>是<code>SpringJUnit4ClassRunner</code>的新名字，这个名字只是让名字看起来简单些。</li>
+<li><code>@SpringBootTest</code>意思是“带有Spring Boot支持的引导程序”（例如，加载应用程序、属性，为我们提供Spring Boot的所有精华部分）。<ul>
+<li><code>webEnvironment属性</code>允许为测试配置特定的“网络环境”。<ul>
+<li><code>MOCK：</code>提供一个Mock的Servlet环境，内置的Servlet容器并没有真实的启动，主要搭配使用@AutoConfigureMockMvc</li>
+<li><code>RANDOM_PORT：</code> 提供一个真实的Servlet环境，也就是说会启动内置容器，然后使用的是随机端口</li>
+<li><code>DEFINED_PORT：</code>这个配置也是提供一个真实的Servlet环境，使用的默认的端口，如果没有配置就是8080</li>
+<li><code>NONE：</code>这是个神奇的配置，跟Mock一样也不提供真实的Servlet环境。</li>
+</ul>
+</li>
+<li><code>classes</code>如果想要加载一个特定的配置，可以用<code>@SpringBootTes</code>t的<code>classes</code>属性。在这个实例中，省略<code>classes</code>就意味着测试要首次尝试从任意一个<code>inner-classes</code>中加载<code>@configuration</code>，如果这个尝试失败了，它会在你主要的<code>@SpringBootApplicationclass</code>中进行搜索。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><h4 id="单例测试"><a href="#单例测试" class="headerlink" title="单例测试"></a>单例测试</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</div><div class="line"><span class="meta">@WebMvcTest</span>(controllers = HelloController.class)</div><div class="line"><span class="meta">@AutoConfigureWebMvc</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloControllerTest</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> MockMvc mockMvc;</div><div class="line">    </div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">index</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mockMvc.perform(get(<span class="string">"/hello"</span>))</div><div class="line">                .andExpect(status().isOk())</div><div class="line">                .andExpect(content().contentType(<span class="string">"application/json;charset=UTF-8"</span>))</div><div class="line"><span class="comment">//                .andExpect(view().name("index"))</span></div><div class="line">                .andExpect(content().string(Matchers.containsString(<span class="string">"Hello World"</span>)))</div><div class="line">                .andDo(print());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>与<code>@SpringBootTest</code>注解不同<code>@WebMvcTest</code>注解会把自动配置给禁用掉。<ul>
+<li><code>@WebMvcTest</code>只会将 Spring MVC 的基础架构自动配置，并且仅对使用<code>@Controller,@ControllerAdvice,@JsonComponent</code>注解的<code>bean</code> ，以及<code>Filter</code>、<code>WebMvcConfigurer</code>和<code>HandlerMethodArgumentResolver</code>类型的<code>bean</code>进行扫描。此时<code>@Component、@Service 或 @Repository</code>注解的<code>bean</code>将不会被扫描到</li>
+</ul>
+</li>
+</ul>
+<h4 id="集成测试"><a href="#集成测试" class="headerlink" title="集成测试"></a>集成测试</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</div><div class="line"><span class="comment">//@WebMvcTest(controllers = HelloController.class)</span></div><div class="line"><span class="comment">//@AutoConfigureWebMvc</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloControllerTest</span> <span class="keyword">extends</span> <span class="title">C1ApplicationTests</span> </span>&#123;</div><div class="line"></div><div class="line"><span class="comment">//    @Autowired</span></div><div class="line">    <span class="keyword">private</span> MockMvc mockMvc;</div><div class="line"></div><div class="line">    <span class="meta">@Before</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        mockMvc = MockMvcBuilders.standaloneSetup(<span class="keyword">new</span> HelloController()).build();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">index</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        <span class="keyword">this</span>.mockMvc.perform(get(<span class="string">"/hello"</span>))</div><div class="line">                .andExpect(status().isOk())</div><div class="line">                .andExpect(content().contentType(<span class="string">"application/json;charset=UTF-8"</span>))</div><div class="line"><span class="comment">//                .andExpect(view().name("index"))</span></div><div class="line">                .andExpect(content().string(Matchers.containsString(<span class="string">"Hello World"</span>)))</div><div class="line">                .andDo(print());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</div><div class="line"><span class="meta">@SpringBootTest</span>(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = C1Application.class)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">C1ApplicationTests</span> </span>&#123;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>如果想要加载所有的应用配置并且使用 MockMVC，就应该使用<code>@SpringBootTest</code>注解并且加上 <code>@AutoConfigureMockMvc</code>注解，而不是使用<code>@WebMvcTest</code>注解。</li>
+<li>MockMvc 通过模拟 Spring MVC 来测试 MVC 网页应用。可以向一个<code>controller</code>发送模拟的<code>HTTP</code>请求，这样不再需要启动应用服务器。可以通过 MockMvcBuilders 来获取 MockMvc 的实例。 <ul>
+<li><strong>(推荐)standaloneSetup()：</strong>注册一个或多个<code>@Controller</code>实例，并且允许通过编程去配置 Spring MVC 的基础架构 从而来构造一个 MockMvc 的实例。 这跟普通的单元测试很相似，同时也使得一次仅关注一个<code>controller</code>的测试成为可能。</li>
+<li><strong>webAppContextSetup()：</strong> 使用完全被初始化（并且刷新过）了的 WebApplicationContext 来构建一个MockMvc实例。这样使Spring可以加载你的控制层以及它们的所有依赖，从而进行一个完整的集成测试。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="方法解析："><a href="#方法解析：" class="headerlink" title="方法解析："></a>方法解析：</h3><ul>
+<li><strong>perform：</strong>执行一个<code>RequestBuilder</code>请求，会自动执行 SpringMVC 的流程并映射到相应的控制器执行处理；</li>
+<li><strong>get：</strong>声明发送一个<code>get</code>请求的方法。<code>MockHttpServletRequestBuilder get(String urlTemplate, Object... urlVariables)：</code>根据<code>uri</code>模板和<code>uri</code>变量值得到一个 GET 请求方式的。另外提供了其他的请求的方法，如：<code>post、put、delete</code>等。</li>
+<li><strong>param：</strong>添加<code>request</code>的参数，假如使用需要发送json数据格式的时将不能使用这种方式，可见后面被@ResponseBody注解参数的解决方法</li>
+<li><strong>andExpect：</strong>添加<code>ResultMatcher</code>验证规则，验证控制器执行完成后结果是否正确（对返回的数据进行的判断）；</li>
+<li><strong>andDo：</strong>添加<code>ResultHandler</code>结果处理器，比如调试时打印结果到控制台（对返回的数据进行的判断）；</li>
+<li><strong>andReturn：</strong>最后返回相应的<code>MvcResult</code>；然后进行自定义验证/进行下一步的异步处理（对返回的数据进行的判断）；</li>
+</ul>
+<hr>
+<h3 id="控制台"><a href="#控制台" class="headerlink" title="控制台"></a>控制台</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="attr">MockHttpServletRequest:</span></div><div class="line">      <span class="string">HTTP</span> <span class="string">Method</span> <span class="string">=</span> <span class="string">GET</span></div><div class="line">      <span class="string">Request</span> <span class="string">URI</span> <span class="string">=</span> <span class="string">/hello</span></div><div class="line">       <span class="string">Parameters</span> <span class="string">=</span> <span class="string">&#123;&#125;</span></div><div class="line">          <span class="string">Headers</span> <span class="string">=</span> <span class="string">&#123;&#125;</span></div><div class="line"></div><div class="line"><span class="attr">Handler:</span></div><div class="line">             <span class="string">Type</span> <span class="string">=</span> <span class="string">nuc.jyg.c1.web.HelloController</span></div><div class="line">           <span class="string">Method</span> <span class="string">=</span> <span class="string">public</span> <span class="string">java.lang.String</span> <span class="string">nuc.jyg.c1.web.HelloController.index()</span></div><div class="line"></div><div class="line"><span class="attr">Async:</span></div><div class="line">    <span class="string">Async</span> <span class="string">started</span> <span class="string">=</span> <span class="literal">false</span></div><div class="line">     <span class="string">Async</span> <span class="string">result</span> <span class="string">=</span> <span class="literal">null</span></div><div class="line"></div><div class="line"><span class="string">Resolved</span> <span class="attr">Exception:</span></div><div class="line">             <span class="string">Type</span> <span class="string">=</span> <span class="literal">null</span></div><div class="line"></div><div class="line"><span class="attr">ModelAndView:</span></div><div class="line">        <span class="string">View</span> <span class="string">name</span> <span class="string">=</span> <span class="literal">null</span></div><div class="line">             <span class="string">View</span> <span class="string">=</span> <span class="literal">null</span></div><div class="line">            <span class="string">Model</span> <span class="string">=</span> <span class="literal">null</span></div><div class="line"></div><div class="line"><span class="attr">FlashMap:</span></div><div class="line">       <span class="string">Attributes</span> <span class="string">=</span> <span class="literal">null</span></div><div class="line"></div><div class="line"><span class="attr">MockHttpServletResponse:</span></div><div class="line">           <span class="string">Status</span> <span class="string">=</span> <span class="number">200</span></div><div class="line">    <span class="string">Error</span> <span class="string">message</span> <span class="string">=</span> <span class="literal">null</span></div><div class="line">          <span class="string">Headers</span> <span class="string">=</span> <span class="string">&#123;Content-Type=[application/json;charset=UTF-8],</span> <span class="string">Content-Length=[11]&#125;</span></div><div class="line">     <span class="string">Content</span> <span class="string">type</span> <span class="string">=</span> <span class="string">application/json;charset=UTF-8</span></div><div class="line">             <span class="string">Body</span> <span class="string">=</span> <span class="string">Hello</span> <span class="string">World</span></div><div class="line">    <span class="string">Forwarded</span> <span class="string">URL</span> <span class="string">=</span> <span class="literal">null</span></div><div class="line">   <span class="string">Redirected</span> <span class="string">URL</span> <span class="string">=</span> <span class="literal">null</span></div><div class="line">          <span class="string">Cookies</span> <span class="string">=</span> <span class="string">[]</span></div></pre></td></tr></table></figure>
+<hr>
+<h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><h4 id="事物回滚"><a href="#事物回滚" class="headerlink" title="事物回滚"></a>事物回滚</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@TransactionConfiguration</span>(transactionManager = <span class="string">"transactionManager"</span>, defaultRollback = <span class="keyword">true</span>)</div><div class="line"><span class="meta">@Transactional</span></div></pre></td></tr></table></figure>
+<p>上面两句的作用是，让我们对数据库的操作会事务回滚，如对数据库的添加操作，在方法结束之后，会撤销我们对数据库的操作。</p>
+<p>为什么要事务回滚?</p>
+<ul>
+<li>测试过程对数据库的操作，会产生脏数据，影响数据的正确性</li>
+<li>不方便循环测试，即假如这次将一个记录删除了，下次就无法再进行这个Junit测试了，因为该记录已经删除，将会报错。</li>
+<li>如果不使用事务回滚，需要在代码中显式的对增删改数据库操作进行恢复，将多很多和测试无关的代码</li>
+</ul>
+<p>这里需要注意，如果使用了事物回滚。那么有些时候对数据库内容进行修改操作后你将不能直观的看到变化。如何判断是否成功了，可以在返回的数据中带上<code>data</code>字段，将修改的数据存进去传向前台。</p>
+<p>使用andExpect方法对返回的数据进行判断，用“$.属性”获取里面的数据，如要获取返回数据中的”data.name”，可以写成”$.data.name”。下面的例子是判断返回的 data.name = “测试”。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MockHttpServletRequestBuilder.andExpect(jsonPath(<span class="string">"$.data.name"</span>, is(<span class="string">"##"</span>))))</div></pre></td></tr></table></figure>
+<p>####不同环境的测试</p>
+<p><code>@ActiveProfiles(profiles = &quot;test&quot;)</code> 在测试类上面指定profiles，可以改变当前spring 的profile，来达到多环境的测试</p>
+<hr>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/frame-springboot-test.html" title="SpringBootTest[1.4+]">http://www.jiyongguang.xin/frame-springboot-test.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          
+            <a href="/tags/MockMvc/" rel="tag"># MockMvc</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/frame-springboot-mybatis.html" rel="next" title="SpringBoot + Mybatis">
+                <i class="fa fa-chevron-left"></i> SpringBoot + Mybatis
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/frame-springmvc-demo-1.html" rel="prev" title="SpringMVC Demo(一) 框架搭建">
+                SpringMVC Demo(一) 框架搭建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBoot-1-4"><span class="nav-number">3.</span> <span class="nav-text">SpringBoot 1.4-</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBoot-1-4-1"><span class="nav-number">4.</span> <span class="nav-text">SpringBoot 1.4+</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注解"><span class="nav-number">5.</span> <span class="nav-text">注解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">6.</span> <span class="nav-text">实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单例测试"><span class="nav-number">6.1.</span> <span class="nav-text">单例测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集成测试"><span class="nav-number">6.2.</span> <span class="nav-text">集成测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法解析："><span class="nav-number">7.</span> <span class="nav-text">方法解析：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制台"><span class="nav-number">8.</span> <span class="nav-text">控制台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展"><span class="nav-number">9.</span> <span class="nav-text">扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#事物回滚"><span class="nav-number">9.1.</span> <span class="nav-text">事物回滚</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

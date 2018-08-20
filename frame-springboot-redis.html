@@ -1,0 +1,1283 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SpringBoot,Redis," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="GitHub 地址访问GitHub下载最新源码：https://github.com/JYG0723/SpringBootAction/tree/master/chapter4  Spring Boot 中除了对常用的关系型数据库提供了优秀的自动化支持之外，对于很多 NoSQL 数据库一样提供了自动化配置的支持，包括：Redis，MongoDB,，Elasticsearch,，Solr 和 Cas">
+<meta name="keywords" content="SpringBoot,Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot + Redis">
+<meta property="og:url" content="http://www.jiyongguang.xin/frame-springboot-redis.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="GitHub 地址访问GitHub下载最新源码：https://github.com/JYG0723/SpringBootAction/tree/master/chapter4  Spring Boot 中除了对常用的关系型数据库提供了优秀的自动化支持之外，对于很多 NoSQL 数据库一样提供了自动化配置的支持，包括：Redis，MongoDB,，Elasticsearch,，Solr 和 Cas">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjrnahd1wuj30sv06bwhw.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjrnccgkjjj30g207iwgf.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjrnqd7udrj30yp0e77c9.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjrnvd1xyoj30zx0ljn5t.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjrobjxhbjj30r20ijn7m.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjroenwi3bj30qx02rq3t.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjroo6yqqrj3101093wk6.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjrpvkgh76j30xz0nph29.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjs9aa3eqgj30l90h7dni.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjs9i50kobj30h403iwg4.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjs9sws0m0j30kq0bhgqx.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjsjohsaavj30b904rjs9.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjsjohwtdgj30pn0h7dod.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjsoq0ft0jj30t806075d.jpg">
+<meta property="og:updated_time" content="2017-09-26T14:20:08.485Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot + Redis">
+<meta name="twitter:description" content="GitHub 地址访问GitHub下载最新源码：https://github.com/JYG0723/SpringBootAction/tree/master/chapter4  Spring Boot 中除了对常用的关系型数据库提供了优秀的自动化支持之外，对于很多 NoSQL 数据库一样提供了自动化配置的支持，包括：Redis，MongoDB,，Elasticsearch,，Solr 和 Cas">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006gmCthly1fjrnahd1wuj30sv06bwhw.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/frame-springboot-redis.html"/>
+
+
+
+
+
+  <title> SpringBoot + Redis | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/frame-springboot-redis.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                SpringBoot + Redis
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-20T19:21:43+08:00">
+                2017-09-20
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-09-26T22:20:08+08:00">
+                2017-09-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/frame-springboot-redis.html" class="leancloud_visitors" data-flag-title="SpringBoot + Redis">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,174
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="GitHub-地址"><a href="#GitHub-地址" class="headerlink" title="GitHub 地址"></a>GitHub 地址</h3><p>访问GitHub下载最新源码：<a href="https://github.com/JYG0723/SpringBootAction/tree/master/chapter4" target="_blank" rel="external">https://github.com/JYG0723/SpringBootAction/tree/master/chapter4</a></p>
+<hr>
+<p>Spring Boot 中除了对常用的关系型数据库提供了优秀的自动化支持之外，对于很多 NoSQL 数据库一样提供了自动化配置的支持，包括：Redis，MongoDB,，Elasticsearch,，Solr 和 Cassandra。</p>
+<hr>
+<h3 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h3><ul>
+<li><a href="http://redis.io/" target="_blank" rel="external">Redis官网</a></li>
+<li><a href="http://www.redis.cn/" target="_blank" rel="external">Redis中文社区</a></li>
+</ul>
+<a id="more"></a>
+<hr>
+<h3 id="Pom"><a href="#Pom" class="headerlink" title="Pom"></a>Pom</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>Spring Boot提供的数据访问框架 Spring Data Redis 基于Jedis，源码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.data<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">      	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></div></pre></td></tr></table></figure>
+<hr>
+<h3 id="properties"><a href="#properties" class="headerlink" title="properties"></a>properties</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># REDIS (RedisProperties)</div><div class="line"># Redis数据库索引（默认为0）</div><div class="line">spring.redis.database=0</div><div class="line"># Redis服务器地址</div><div class="line">spring.redis.host=localhost</div><div class="line"># Redis服务器连接端口</div><div class="line">spring.redis.port=6379</div><div class="line"># Redis服务器连接密码（默认为空）</div><div class="line">spring.redis.password=</div><div class="line"># 连接池最大连接数（使用负值表示没有限制）</div><div class="line">spring.redis.pool.max-active=8</div><div class="line"># 连接池最大阻塞等待时间（使用负值表示没有限制）</div><div class="line">spring.redis.pool.max-wait=-1</div><div class="line"># 连接池中的最大空闲连接</div><div class="line">spring.redis.pool.max-idle=8</div><div class="line"># 连接池中的最小空闲连接</div><div class="line">spring.redis.pool.min-idle=0</div><div class="line"># 连接超时时间（毫秒）</div><div class="line">spring.redis.timeout=0</div></pre></td></tr></table></figure>
+<p>其中<code>spring.redis.database</code>的配置通常使用0即可，Redis 在配置的时候可以设置数据库数量，默认为16，可以理解为数据库的 schema</p>
+<p>因为有好多人曾问我是如何看源码的，(其实我不怎么看，偶尔瞟两眼)，然后这里我就简单说一下我是怎么过流程的。</p>
+<hr>
+<h3 id="看源码："><a href="#看源码：" class="headerlink" title="看源码："></a>看源码：</h3><p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjrnahd1wuj30sv06bwhw.jpg" alt=""></p>
+<p>这里对着属性，CTRL + B</p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjrnccgkjjj30g207iwgf.jpg" alt=""></p>
+<p>到了这里，我们就进入了源码的世界。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjrnqd7udrj30yp0e77c9.jpg" alt=""></p>
+<p>同样可以根据 CTRL + B 定位到我们的 Libraries 中类所在的位置。我经常定位到这里会看看引入的包的目录结构，或者随便点点看看该包下的其他相关类。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjrnvd1xyoj30zx0ljn5t.jpg" alt=""></p>
+<p>再对着 RedisProperties 类 CTRL + B。我们可以看到很多处引用到该 RedisProperties 类的地方，其中有包引入<code>import ···</code>，还有专门为该类开启关于<code>@ConfigurationProperties</code>注解的支持，<code>@EnableConfigurationProperties。</code>还有实例的声明，还有作为构造参数的注入，还有静态变量的引用，还有配置文件对应关系的指定。等等，会有很多作用处被检索到。我们需要根据自己感兴趣的内容点进去一探究竟。这里很明显我们进入了 RedisAutoConfiguration(看名字都知道是你)。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjrobjxhbjj30r20ijn7m.jpg" alt=""></p>
+<p>一进来就看到了很多的条件。众多的<code>@ConditionalOnClass</code>摆在面前。我们怎么样能知道这些被要求存在于 classpath 的类是否存在于 classpath 呢？ 很简单，</p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjroenwi3bj30qx02rq3t.jpg" alt=""></p>
+<p>我们按住 CTRL 鼠标移到该类上方，就可以看到这一行详细信息，这一段信息向我们交代了它所被包含在 maven 的哪个包中。在什么包下，还顺带告诉了我们他继承了 AbstractRedisConnection 类。是不是很直观很清晰。下面我们还看到一个引用了的<code>@ConditionalOnClass</code>的配置 bean。我们还用刚才的小套路，发现咦不对，乍一看。如果我们对一些包依赖不清晰的话，以为自己没有在 maven 中引入这个依赖呢，虽然我们确实没有显示的依赖。但是我们不妨在右侧的 MavenProjects 栏下的树结构找一找看看是否真的没有引入该依赖呢。就这样，我们找到了它。原来 springboot 打包好的 starter-data-redis 下的 redis.clients:jedis 依赖已经为我们传递依赖引入了该 commons 依赖。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjroo6yqqrj3101093wk6.jpg" alt=""></p>
+<p>到这里，我们就可以确认这个 springboot 为我们自动配置的配置类可以作用了。同时它下面的静态内部类 RedisConnectionConfiguration 也可以起作用了。是不是很有感觉呢 ~ 到这里我们先暂停存档，待我们进行到后面继续带大家探索。</p>
+<hr>
+<h3 id="测试访问"><a href="#测试访问" class="headerlink" title="测试访问"></a>测试访问</h3><p>我们引入了各种依赖，也为其配置了属性，也走了一遍流程。我们觉得他应该是可以运作了。可是到底是可以了吗？我们也不确定，那就来写一个测试用例吧。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</div><div class="line"><span class="meta">@SpringBootTest</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Chapter4ApplicationTests</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> StringRedisTemplate stringRedisTemplate;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> </span>&#123;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        stringRedisTemplate.opsForValue().set(<span class="string">"aaa"</span>, <span class="string">"111"</span>);</div><div class="line"></div><div class="line">        Assert.assertEquals(<span class="string">"111"</span>, stringRedisTemplate.opsForValue().get(<span class="string">"aaa"</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过上面这段极为简单的测试案例演示了如何通过自动配置的<code>StringRedisTemplate</code>对象进行 Redis 的读写操作，该对象从命名中就可注意到支持的是 String 类型 <code>StringRedisTemplate extends RedisTemplate&lt;String, String&gt;</code>。如果有使用过<code>spring-data-redis</code>的开发者一定熟悉<code>RedisTemplate&lt;K, V&gt;</code>接口，<code>StringRedisTemplate</code>就相当于<code>RedisTemplate&lt;String, String&gt;</code>的实现。</p>
+<p>除了 String 类型，实战中我们还经常会在 Redis 中存储对象，这时候我们就会想是否可以使用类似<code>RedisTemplate&lt;String, User&gt;</code>来初始化并进行操作。但是 Spring Boot 并不支持直接使用，需要我们自己实现<code>RedisSerializer&lt;T&gt;</code>接口来对传入对象进行序列化和反序列化，下面我们通过一个实例来完成对象的读写操作。</p>
+<hr>
+<h3 id="Po"><a href="#Po" class="headerlink" title="Po"></a>Po</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// 手动声明较好</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = -<span class="number">1L</span>;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String username;</div><div class="line">    <span class="keyword">private</span> String password;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(String username, String password)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.username = username;</div><div class="line">        <span class="keyword">this</span>.password = password;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUsername</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> username;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUsername</span><span class="params">(String username)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.username = username;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> password;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPassword</span><span class="params">(String password)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.password = password;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<h3 id="实现对象的序列化接口"><a href="#实现对象的序列化接口" class="headerlink" title="实现对象的序列化接口"></a>实现对象的序列化接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisObjectSerializer</span> <span class="keyword">implements</span> <span class="title">RedisSerializer</span>&lt;<span class="title">Object</span>&gt; </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Converter&lt;Object, <span class="keyword">byte</span>[]&gt; serializer = <span class="keyword">new</span> SerializingConverter();</div><div class="line">    <span class="keyword">private</span> Converter&lt;<span class="keyword">byte</span>[], Object&gt; deserializer = <span class="keyword">new</span> DeserializingConverter();</div><div class="line"></div><div class="line">    <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">byte</span>[] EMPTY_ARRAY = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>];</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">deserialize</span><span class="params">(<span class="keyword">byte</span>[] bytes)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (isEmpty(bytes)) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">return</span> deserializer.convert(bytes);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception ex) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> SerializationException(<span class="string">"Cannot deserialize"</span>, ex);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">byte</span>[] serialize(Object object) &#123;</div><div class="line">        <span class="keyword">if</span> (object == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">return</span> EMPTY_ARRAY;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">return</span> serializer.convert(object);</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception ex) &#123;</div><div class="line">            <span class="keyword">return</span> EMPTY_ARRAY;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">(<span class="keyword">byte</span>[] data)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> (data == <span class="keyword">null</span> || data.length == <span class="number">0</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>到这里你可能会问，为什么你要配置这个呢？这个不急，我们后面详谈。</p>
+<hr>
+<h3 id="针对-User-的-RedisTemplate-实例"><a href="#针对-User-的-RedisTemplate-实例" class="headerlink" title="针对 User 的 RedisTemplate 实例"></a>针对 User 的 RedisTemplate 实例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> </span>&#123;</div><div class="line"></div><div class="line">   <span class="meta">@Bean</span></div><div class="line">   <span class="function">JedisConnectionFactory <span class="title">jedisConnectionFactory</span><span class="params">()</span> </span>&#123; <span class="comment">// 方法名即对象名</span></div><div class="line">       <span class="keyword">return</span> <span class="keyword">new</span> JedisConnectionFactory();</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="meta">@Bean</span></div><div class="line">   <span class="function"><span class="keyword">public</span> RedisTemplate&lt;String, User&gt; <span class="title">redisTemplate</span><span class="params">(RedisConnectionFactory redisConnectionFactory &#123;</span></span></div><div class="line">       RedisTemplate&lt;String, User&gt; template = new RedisTemplate&lt;String, User&gt;();</div><div class="line">       template.setConnectionFactory(jedisConnectionFactory());</div><div class="line">       template.setKeySerializer(<span class="keyword">new</span> StringRedisSerializer());</div><div class="line">       template.setValueSerializer(<span class="keyword">new</span> RedisObjectSerializer());</div><div class="line">       <span class="keyword">return</span> template;</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>到了这里。你肯定会问我，为什么要这样配？这样配好杂乱，我怎么样就可以记住它呢？别忘了我们相当于配置了一个 RedisTemplate 类的子类哦。既然同时其子类，为什么我们不参考那个被自动配置的 StringRedisTemplate 类呢？</p>
+<p>所以我们继续我们的源码：</p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjrpvkgh76j30xz0nph29.jpg" alt=""></p>
+<p>是不是瞬间明白了我们前面为什么要创建 RedisObjectSerializer 类来实现对象的序列化接口。因为我们在实现 RedisTemplate 类的时候需要引用我们关于对象的序列化方式。既然要创建的序列化接口，就要去参谋一下别人的序列化接口是怎么实现的不是吗？所以来到 StringRedisSerizlizer 类。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjs9aa3eqgj30l90h7dni.jpg" alt=""></p>
+<p>照猫画虎我们也来一遍自己的实现。就 ok 了</p>
+<p>StringRedisTemplate 类的第一个构造函数看完了。我们再来看一看第二个构造函数有什么要求。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjs9i50kobj30h403iwg4.jpg" alt=""></p>
+<p>它要求我们配置一个 RedisConnectionFactory 接口式的连接工厂。这里我们不用 RedisConnectionFactory 默认的实现。既然我们是 Java 应用 Redis。那就用我们依赖中包含的传递依赖 jedis (即 Java 语言来操作 Redis) 中的 JedisConnectionFactory 类来创建该链接工厂。同时该 JedisConnectionFactory 类也是专门针对 Java  语言对该RedisConnectionFactory 接口的实现类。由于 SpringBoot 为我们自动配置 JedisConnectionFactory  的要求是 classpath 中不包含 RedisConnectionFactory 。这里我们只有显示声明。同时也可以在 pom 文件中将其排除出去。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjs9sws0m0j30kq0bhgqx.jpg" alt=""></p>
+<p>除此之外。原来在 StringRedisTemplate 中显示调用的 afterproperties() 方法这里由于我们实现了自己的实例化接口也不再显示调用。该方法由 RedisTemplate 进行了扩展，为我们键值以及 hashkey，hashvalue 判断如果为空则引用默认的实例化方案。由于首先调用了其父类的该方法，我们不妨进去看看。一目了然，利用断言确保我们配置了连接工厂而已。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjsjohsaavj30b904rjs9.jpg" alt=""></p>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjsjohwtdgj30pn0h7dod.jpg" alt=""></p>
+<p>到这里我们的源码探索就结束了。是不是觉得看源码其实也没有那么难？</p>
+<hr>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</div><div class="line"><span class="meta">@SpringBootTest</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserSerializableTest</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Autowired</span></div><div class="line">    <span class="keyword">private</span> RedisTemplate&lt;String, User&gt; redisTemplate;</div><div class="line"></div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line"></div><div class="line">        <span class="comment">//保存对象</span></div><div class="line">        User user = <span class="keyword">new</span> User(<span class="string">"ji"</span>, <span class="number">20</span>);</div><div class="line">        redisTemplate.opsForValue().set(user.getUsername(), user);</div><div class="line"></div><div class="line">        user = <span class="keyword">new</span> User(<span class="string">"yong"</span>, <span class="number">30</span>);</div><div class="line">        redisTemplate.opsForValue().set(user.getUsername(), user);</div><div class="line"></div><div class="line">        user = <span class="keyword">new</span> User(<span class="string">"guang"</span>, <span class="number">40</span>);</div><div class="line">        redisTemplate.opsForValue().set(user.getUsername(), user);</div><div class="line"></div><div class="line">        Assert.assertEquals(<span class="number">20</span>, redisTemplate.opsForValue().get(<span class="string">"ji"</span>).getAge().longValue());</div><div class="line">        Assert.assertEquals(<span class="number">30</span>, redisTemplate.opsForValue().get(<span class="string">"yong"</span>).getAge().longValue());</div><div class="line">        Assert.assertEquals(<span class="number">40</span>, redisTemplate.opsForValue().get(<span class="string">"guang"</span>).getAge().longValue());</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1fjsoq0ft0jj30t806075d.jpg" alt=""></p>
+<p>可以看到我们三个对象已经成功序列化并存储到 Redis 中啦。</p>
+<hr>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/frame-springboot-redis.html" title="SpringBoot + Redis">http://www.jiyongguang.xin/frame-springboot-redis.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/frame-springboot-springsecurity.html" rel="next" title="SpringBoot + SpringSecurity">
+                <i class="fa fa-chevron-left"></i> SpringBoot + SpringSecurity
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/java-keywords-native.html" rel="prev" title="Java中native关键字">
+                Java中native关键字 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#GitHub-地址"><span class="nav-number">1.</span> <span class="nav-text">GitHub 地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Redis"><span class="nav-number">2.</span> <span class="nav-text">Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pom"><span class="nav-number">3.</span> <span class="nav-text">Pom</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#properties"><span class="nav-number">4.</span> <span class="nav-text">properties</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#看源码："><span class="nav-number">5.</span> <span class="nav-text">看源码：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试访问"><span class="nav-number">6.</span> <span class="nav-text">测试访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Po"><span class="nav-number">7.</span> <span class="nav-text">Po</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现对象的序列化接口"><span class="nav-number">8.</span> <span class="nav-text">实现对象的序列化接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#针对-User-的-RedisTemplate-实例"><span class="nav-number">9.</span> <span class="nav-text">针对 User 的 RedisTemplate 实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">10.</span> <span class="nav-text">测试</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

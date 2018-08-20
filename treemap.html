@@ -1,0 +1,1271 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java基础," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言 本文使用用的是jdk1.8  TreeMap">
+<meta name="keywords" content="Java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TreeMap了解一下">
+<meta property="og:url" content="http://www.jiyongguang.xin/treemap.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="前言 本文使用用的是jdk1.8  TreeMap">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-23170e9abfcbc003.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-977587904be97050.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:updated_time" content="2018-05-13T11:02:19.711Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TreeMap了解一下">
+<meta name="twitter:description" content="前言 本文使用用的是jdk1.8  TreeMap">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5291509-23170e9abfcbc003.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/treemap.html"/>
+
+
+
+
+
+  <title> TreeMap了解一下 | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/treemap.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                TreeMap了解一下
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-13T18:59:26+08:00">
+                2018-05-13
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-05-13T19:02:19+08:00">
+                2018-05-13
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/treemap.html" class="leancloud_visitors" data-flag-title="TreeMap了解一下">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,602
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>本文使用用的是jdk1.8</p>
+</blockquote>
+<h1 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h1><p><img src="https://upload-images.jianshu.io/upload_images/5291509-23170e9abfcbc003.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<a id="more"></a>
+<ul>
+<li>基于红黑树的NavigableMap的实现。</li>
+<li>TreeMap实现了NavigableMap接口，而NavigableMap接口继承着SortedMap接口，致使我们的TreeMap符合SotredMap接口的定义。TreeMap根据key自然顺序进行排序，或者在构造实例构造的时候传递 Comparator 进行自定义规则排序。</li>
+<li>由于是实现自SortedMap，所以存入TreeMap的所有元素的key都必须是实现了Comparable接口的，即保证其key相互调用<code>k1.compareTo(k2)</code>的时候不会报<code>ClassCastException</code>。</li>
+<li>containsKey、get、put 和 remove 函数的时间复杂度是<code>log(n)</code></li>
+<li>有序映射使用它的compareTo（或compare）方法对所有键进行比较，只要这两个方法认为相等，那么在有序映射中的两个键就是相等的。</li>
+<li>非同步的</li>
+<li>此类方法返回的所有Entry是其真实的映射关系的快照。它们不支持Entry.setValue方法来更改值。不过put函数是可以的</li>
+</ul>
+<h1 id="TreeMap类继承图"><a href="#TreeMap类继承图" class="headerlink" title="TreeMap类继承图"></a>TreeMap类继承图</h1><p><img src="https://upload-images.jianshu.io/upload_images/5291509-977587904be97050.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>实现了NavigableMap接口，而NavigableMap接口继承着SortedMap接口，致使我们的TreeMap符合SotredMap接口的定义。元素有序</p>
+<p>不同的是SortdeMap要求：插入SortedMap的所有元素的键都必须实现 Comparable 接口。或者类型在Comparator类(对应TreeMap维护的comparator变量)中所接受。即对有序映射中的任意两个键 k1 和 k2 执行 <code>k1.compareTo(k2)</code>（或 <code>comparator.compare(k1, k2)</code>）必须是正确的。</p>
+<h1 id="TreeMap的域"><a href="#TreeMap的域" class="headerlink" title="TreeMap的域"></a>TreeMap的域</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * The comparator used to maintain order in this tree map, or</div><div class="line"> * null if it uses the natural ordering of its keys.</div><div class="line"> *</div><div class="line"> * @serial</div><div class="line"> */</div><div class="line">private final Comparator&lt;? super K&gt; comparator;</div><div class="line"></div><div class="line">private transient Entry&lt;K,V&gt; root;</div><div class="line"></div><div class="line">/**</div><div class="line"> * The number of entries in the tree</div><div class="line"> */</div><div class="line">private transient int size = 0;</div><div class="line"></div><div class="line">/**</div><div class="line"> * The number of structural modifications to the tree.</div><div class="line"> */</div><div class="line">private transient int modCount = 0;</div></pre></td></tr></table></figure>
+<ul>
+<li><code>comparator</code>:TreeMap中维护了一个Comparator类型的变量。用来保证TreeMap的有序性。构造时传入该比较器</li>
+<li><code>root</code>：红黑树根节点</li>
+<li><code>size</code>: Entry数量</li>
+<li><code>modCount</code>：结构性修改的次数</li>
+</ul>
+<h1 id="TreeMap的构造函数"><a href="#TreeMap的构造函数" class="headerlink" title="TreeMap的构造函数"></a>TreeMap的构造函数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">public TreeMap() &#123;</div><div class="line">    comparator = null;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">public TreeMap(Comparator&lt;? super K&gt; comparator) &#123;</div><div class="line">    this.comparator = comparator;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">public TreeMap(Map&lt;? extends K, ? extends V&gt; m) &#123;</div><div class="line">    comparator = null;</div><div class="line">    putAll(m);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public TreeMap(SortedMap&lt;K, ? extends V&gt; m) &#123;</div><div class="line">    comparator = m.comparator();</div><div class="line">    try &#123;</div><div class="line">        buildFromSorted(m.size(), m.entrySet().iterator(), null, null);</div><div class="line">    &#125; catch (java.io.IOException cannotHappen) &#123;</div><div class="line">    &#125; catch (ClassNotFoundException cannotHappen) &#123;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>共四个，每个都对其实例维护的Comparator引用进行了赋值。</p>
+<ul>
+<li><code>TreeMap()</code>：无参构造函数规定，插入该有序Map的所有元素的键都必须实现Comparable接口，保证了其的可比较性。进而根据其键的自然排序来生成一个有序Map。</li>
+<li><code>TreeMap(Comparator&lt;? super K&gt; comparator)</code>：参数是<code>Comparator</code>引用的构造函数规定，插入该有序Map的所有元素的键都需要根据该<code>Comparator</code>来进行比较。</li>
+<li><code>TreeMap(Map&lt;? extends K, ? extends V&gt; m)</code>：参数是一个Map映射的构造函数会在其元素基础上构造一个TreeMap。同时该TreeMap规定元素需要满足TreeMap的默认规定，即和无惨构造函数所要求的一样。</li>
+<li><code>TreeMap(SortedMap&lt;K, ? extends V&gt; m)</code>：参数是<code>SortedMap</code>的构造函数会拷贝一份和其相同元素和顺序的TreeMap。线性时间</li>
+</ul>
+<h1 id="TreeMap常见Api解析"><a href="#TreeMap常见Api解析" class="headerlink" title="TreeMap常见Api解析"></a>TreeMap常见Api解析</h1><h2 id="put-K-key-V-value"><a href="#put-K-key-V-value" class="headerlink" title="put(K key, V value)"></a>put(K key, V value)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line">public V put(K key, V value) &#123;</div><div class="line">    Entry&lt;K,V&gt; t = root;</div><div class="line">    // 如果红黑树为空</div><div class="line">    if (t == null) &#123;</div><div class="line">        // key非空检查</div><div class="line">        compare(key, key); // type (and possibly null) check</div><div class="line"></div><div class="line">        root = new Entry&lt;&gt;(key, value, null);</div><div class="line">        size = 1;</div><div class="line">        modCount++;</div><div class="line">        return null;</div><div class="line">    &#125;</div><div class="line">    int cmp;</div><div class="line">    Entry&lt;K,V&gt; parent;</div><div class="line">    // split comparator and comparable paths</div><div class="line">    Comparator&lt;? super K&gt; cpr = comparator;</div><div class="line">    if (cpr != null) &#123;// 根据自定义比较器进行比较</div><div class="line">        // 根据key找到元素在树中应该落点的位置</div><div class="line">        do &#123;</div><div class="line">            parent = t;</div><div class="line">            cmp = cpr.compare(key, t.key);</div><div class="line">            if (cmp &lt; 0)</div><div class="line">                t = t.left;</div><div class="line">            else if (cmp &gt; 0)</div><div class="line">                t = t.right;</div><div class="line">            else</div><div class="line">                return t.setValue(value);</div><div class="line">        &#125; while (t != null);</div><div class="line">    &#125;</div><div class="line">    else &#123;// 根据元素的键实现的Comparable接口进行比较</div><div class="line">        if (key == null)// key不允许为null</div><div class="line">            throw new NullPointerException();</div><div class="line">        @SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">            Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;</div><div class="line">        do &#123;// 根据key找好元素在树的中落点</div><div class="line">            parent = t;</div><div class="line">            cmp = k.compareTo(t.key);</div><div class="line">            if (cmp &lt; 0)</div><div class="line">                t = t.left;</div><div class="line">            else if (cmp &gt; 0)</div><div class="line">                t = t.right;</div><div class="line">            else</div><div class="line">                return t.setValue(value);</div><div class="line">        &#125; while (t != null);</div><div class="line">    &#125;</div><div class="line">    // 循环跳出，parent即元素所在点的父节点。</div><div class="line">    Entry&lt;K,V&gt; e = new Entry&lt;&gt;(key, value, parent);</div><div class="line">    if (cmp &lt; 0)</div><div class="line">        parent.left = e;</div><div class="line">    else</div><div class="line">        parent.right = e;</div><div class="line">    // 调整红黑树</div><div class="line">    fixAfterInsertion(e);</div><div class="line">    size++;</div><div class="line">    modCount++;</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>put函数规定：如果Entry已经存在那么oldValue替换成newValue。如果Entry第一次插入，返回null。</li>
+</ul>
+<p>函数整体逻辑：判断当前红黑树是否为空，key是否为空检查，实例变量的维护。通过Comparable或者Comparator来找元素的落点，然后赋值。最后调整红黑树</p>
+<h2 id="Comparable接口的排序了解一下"><a href="#Comparable接口的排序了解一下" class="headerlink" title="Comparable接口的排序了解一下"></a>Comparable接口的排序了解一下</h2><p>该接口强行对实现它的每个类的对象进行整体排序(隐式的)。这种排序被称为类的自然排序，类的 compareTo 方法被称为它的自然比较方法。</p>
+<p>实现了这个接口的对象的列表或数组可以通过其Collections.sort或Arrays.sort进行自动排序。</p>
+<p>同时实现该接口的对象可以用作有序映射中的键或有序集合中的元素，无需再指定比较器。</p>
+<p>一般的继承该接口的类型比较的时候，我们应该尽量保证其compareTo函数的比较结果与equals函数的比较结果一致。</p>
+<h2 id="Comparator接口的排序了解一下"><a href="#Comparator接口的排序了解一下" class="headerlink" title="Comparator接口的排序了解一下"></a>Comparator接口的排序了解一下</h2><p>强行对某个对象 collection 进行整体排序 的接口。可以将 Comparator 传递给 sort 方法（如 Collections.sort 或 Arrays.sort），从而允许在排序顺序上实现精确控制。还可以使用 Comparator 来控制某些数据结构（如有序 set或有序映射）的顺序，或者为那些没有自然顺序的对象 collection 提供排序。</p>
+<h2 id="Comparable与Comparator接口比较总结"><a href="#Comparable与Comparator接口比较总结" class="headerlink" title="Comparable与Comparator接口比较总结"></a>Comparable与Comparator接口比较总结</h2><p>相比于Comparable接口的比较，Comparator的比较规则则是一种自定义规则的比较。也就意味着，对于实现了Comparable接口的类来说如果要想排序必须实现其compareTo函数，并且只有这一种方式。相比于我们自定义比较器可以有多个实现类的多个比较器的比较方式而言比较单一。并且没有比较器那么自由，可以随意安插。</p>
+<p>Comparator体现了一种策略模式，就是不改变对象自身，而用一个策略对象来改变它的行为。</p>
+<p><strong>总的来说</strong> </p>
+<p>Comparable是自已完成比较，Comparator是外部程序实现比较。</p>
+<p>两种方法各有优劣,用Comparable简单,只要实现Comparable 接口的对象直接就成为一个可以比较的对象,但是需要修改源代码,用Comparator的好处是不需要修改源代码, 而是另外实现一个比较器,当某个自定义的对象需要作比较的时候,把比较器和对象一起传递过去就可以比大小了, 并且在Comparator里面用户可以自己实现复杂的可以通用的逻辑,使其可以匹配一些比较简单的对象,那样就可以节省很多重复劳动了。</p>
+<h2 id="get-Object-key"><a href="#get-Object-key" class="headerlink" title="get(Object key)"></a>get(Object key)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">public V get(Object key) &#123;</div><div class="line">    Entry&lt;K,V&gt; p = getEntry(key);</div><div class="line">    return (p==null ? null : p.value);</div><div class="line">&#125;</div><div class="line"></div><div class="line">final Entry&lt;K,V&gt; getEntry(Object key) &#123;</div><div class="line">    // Offload comparator-based version for sake of performance</div><div class="line">    if (comparator != null)</div><div class="line">        // 自定义比较器存在，那么就调用getEntryUsingComparator函数来从红黑树中来找对应的Entry</div><div class="line">        return getEntryUsingComparator(key);</div><div class="line">    if (key == null)</div><div class="line">        throw new NullPointerException();</div><div class="line">    @SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">        Comparable&lt;? super K&gt; k = (Comparable&lt;? super K&gt;) key;</div><div class="line">    Entry&lt;K,V&gt; p = root;</div><div class="line">    while (p != null) &#123;</div><div class="line">        // 否则通过Comparable接口的compareTo函数来找</div><div class="line">        int cmp = k.compareTo(p.key);</div><div class="line">        if (cmp &lt; 0)</div><div class="line">            p = p.left;</div><div class="line">        else if (cmp &gt; 0)</div><div class="line">            p = p.right;</div><div class="line">        else</div><div class="line">            return p;</div><div class="line">    &#125;</div><div class="line">    return null;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 函数很简单，从红黑树中找到key对应的Entry并返回</div><div class="line">final Entry&lt;K,V&gt; getEntryUsingComparator(Object key) &#123;</div><div class="line">    @SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">        K k = (K) key;</div><div class="line">    Comparator&lt;? super K&gt; cpr = comparator;</div><div class="line">    if (cpr != null) &#123;</div><div class="line">        Entry&lt;K,V&gt; p = root;</div><div class="line">        while (p != null) &#123;</div><div class="line">            int cmp = cpr.compare(k, p.key);</div><div class="line">            if (cmp &lt; 0)</div><div class="line">                p = p.left;</div><div class="line">            else if (cmp &gt; 0)</div><div class="line">                p = p.right;</div><div class="line">            else</div><div class="line">                return p;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="remove-Object-key"><a href="#remove-Object-key" class="headerlink" title="remove(Object key)"></a>remove(Object key)</h2><p>函数的作用：删除该Entry，并返回Entry.value<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">public V remove(Object key) &#123;</div><div class="line">    // 从红黑树中找到对应的Entry</div><div class="line">    Entry&lt;K,V&gt; p = getEntry(key);</div><div class="line">    if (p == null)</div><div class="line">        return null;</div><div class="line"></div><div class="line">    V oldValue = p.value;</div><div class="line">    deleteEntry(p);</div><div class="line">    return oldValue;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面我们分析过了getEntry的函数逻辑。而deleteEntry函数的主要作用则是删除红黑树中该节点并且调整红黑树。设计红黑树的比较复杂这里就不细说了</p>
+<h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Base class for TreeMap Iterators</div><div class="line"> */</div><div class="line">abstract class PrivateEntryIterator&lt;T&gt; implements Iterator&lt;T&gt; &#123;</div><div class="line">    // 下一个要迭代到的元素</div><div class="line">    Entry&lt;K,V&gt; next;</div><div class="line">    // 迭代最后一次所返回的元素</div><div class="line">    Entry&lt;K,V&gt; lastReturned;</div><div class="line">    int expectedModCount;</div><div class="line"></div><div class="line">    PrivateEntryIterator(Entry&lt;K,V&gt; first) &#123;</div><div class="line">        expectedModCount = modCount;</div><div class="line">        lastReturned = null;</div><div class="line">        next = first;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public final boolean hasNext() &#123;</div><div class="line">        return next != null;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    final Entry&lt;K,V&gt; nextEntry() &#123;</div><div class="line">        Entry&lt;K,V&gt; e = next;</div><div class="line">        if (e == null)</div><div class="line">            throw new NoSuchElementException();</div><div class="line">        if (modCount != expectedModCount)</div><div class="line">            throw new ConcurrentModificationException();</div><div class="line">        next = successor(e);</div><div class="line">        lastReturned = e;</div><div class="line">        return e;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    final Entry&lt;K,V&gt; prevEntry() &#123;</div><div class="line">        Entry&lt;K,V&gt; e = next;</div><div class="line">        if (e == null)</div><div class="line">            throw new NoSuchElementException();</div><div class="line">        if (modCount != expectedModCount)</div><div class="line">            throw new ConcurrentModificationException();</div><div class="line">        next = predecessor(e);</div><div class="line">        lastReturned = e;</div><div class="line">        return e;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    public void remove() &#123;</div><div class="line">        if (lastReturned == null)</div><div class="line">            throw new IllegalStateException();</div><div class="line">        if (modCount != expectedModCount)</div><div class="line">            throw new ConcurrentModificationException();</div><div class="line">        // deleted entries are replaced by their successors</div><div class="line">        if (lastReturned.left != null &amp;&amp; lastReturned.right != null)</div><div class="line">            next = lastReturned;</div><div class="line">        deleteEntry(lastReturned);</div><div class="line">        expectedModCount = modCount;</div><div class="line">        lastReturned = null;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 返回下一个要迭代的元素</div><div class="line">static &lt;K,V&gt; TreeMap.Entry&lt;K,V&gt; successor(Entry&lt;K,V&gt; t) &#123;</div><div class="line">    if (t == null)</div><div class="line">        return null;</div><div class="line">    // 如果元素有右子树开始迭代右子树(因为既然遍历到了该元素，左子树肯定遍历完了)</div><div class="line">    else if (t.right != null) &#123;</div><div class="line">        Entry&lt;K,V&gt; p = t.right;</div><div class="line">        // 找右子树中最小的</div><div class="line">        while (p.left != null)</div><div class="line">            p = p.left;</div><div class="line">        return p;</div><div class="line">    &#125; else &#123;</div><div class="line">        // 该返回其父节点了</div><div class="line">        Entry&lt;K,V&gt; p = t.parent;</div><div class="line">        Entry&lt;K,V&gt; ch = t;</div><div class="line">        // 下一个该返回的节点下左右子树全部清空，往上追溯，确认该节点的位置</div><div class="line">        while (p != null &amp;&amp; ch == p.right) &#123;</div><div class="line">            ch = p;</div><div class="line">            p = p.parent;</div><div class="line">        &#125;</div><div class="line">        return p;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对于successor函数我们需要时刻清晰，其迭代顺序是前序遍历的。先左后中后右</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>TreeMap底层是红黑树，能够实现该Map集合有序，很多函数的时间复杂度甚至可以到O(logn)</li>
+<li>key不能为null</li>
+<li>想要自定义比较，在构造方法中传入Comparator对象，否则使用key的自然排序来进行比较</li>
+<li>非同步，除非外部手动同步或者Collections封装。</li>
+</ul>
+<p><strong>该数据结构的精髓</strong>：</p>
+<p>如果在构造方法中传递了Comparator对象，那么就会以Comparator对象的方法进行比较，来排序。否则，则使用Comparable的compareTo(T o)方法来比较排序。</p>
+<p><strong>需要注意的是</strong></p>
+<ul>
+<li>如果TreeMap使用Comparable接口来保证有序，那么使用其compareTo(T o)函数来比较时，key不能为null，并且该key必须实现了Comparable接口。</li>
+<li>相对的如果是使用的是Comparator接口，使用compare函数来比较，key也不能为null，并且必须是Comparator接口支持的泛型类型。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/treemap.html" title="TreeMap了解一下">http://www.jiyongguang.xin/treemap.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java基础/" rel="tag"># Java基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/linkedhashmap.html" rel="next" title="LinkedHashMap了解一下">
+                <i class="fa fa-chevron-left"></i> LinkedHashMap了解一下
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/conCurrentHashMap.html" rel="prev" title="ConCurrentHashMap了解一下">
+                ConCurrentHashMap了解一下 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeMap"><span class="nav-number">2.</span> <span class="nav-text">TreeMap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeMap类继承图"><span class="nav-number">3.</span> <span class="nav-text">TreeMap类继承图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeMap的域"><span class="nav-number">4.</span> <span class="nav-text">TreeMap的域</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeMap的构造函数"><span class="nav-number">5.</span> <span class="nav-text">TreeMap的构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TreeMap常见Api解析"><span class="nav-number">6.</span> <span class="nav-text">TreeMap常见Api解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#put-K-key-V-value"><span class="nav-number">6.1.</span> <span class="nav-text">put(K key, V value)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Comparable接口的排序了解一下"><span class="nav-number">6.2.</span> <span class="nav-text">Comparable接口的排序了解一下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Comparator接口的排序了解一下"><span class="nav-number">6.3.</span> <span class="nav-text">Comparator接口的排序了解一下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Comparable与Comparator接口比较总结"><span class="nav-number">6.4.</span> <span class="nav-text">Comparable与Comparator接口比较总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get-Object-key"><span class="nav-number">6.5.</span> <span class="nav-text">get(Object key)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#remove-Object-key"><span class="nav-number">6.6.</span> <span class="nav-text">remove(Object key)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#遍历"><span class="nav-number">6.7.</span> <span class="nav-text">遍历</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

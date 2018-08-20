@@ -1,0 +1,1407 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java基础," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言首先声明本文使用的是jdk1.8 List 常见实现类根据上篇Collection的文章我们了解了List的几个常见实现类。">
+<meta name="keywords" content="Java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="List集合了解一下">
+<meta property="og:url" content="http://www.jiyongguang.xin/list.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="前言首先声明本文使用的是jdk1.8 List 常见实现类根据上篇Collection的文章我们了解了List的几个常见实现类。">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/62463586.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/36658352.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/9477343.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-831af19e86716f2b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-542091048e8d4ba8?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-dcfb6a236b5ec749?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/43895044.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/15299931.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/27359990.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/52147364.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/86531355.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/85934960.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-7f9c668a5de8b6e8?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/43844940.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/86626913.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-63f2ebc31d406191?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/78641386.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/31870233.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/13712503.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/93260561.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/25567210.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/35517458.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/14468899.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/38073907.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/94973405.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-2ce531d4d7337e55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/84925543.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/68771441.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/9166703.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/59506119.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-7/52544506.jpg">
+<meta property="og:updated_time" content="2018-08-14T00:29:42.475Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="List集合了解一下">
+<meta name="twitter:description" content="前言首先声明本文使用的是jdk1.8 List 常见实现类根据上篇Collection的文章我们了解了List的几个常见实现类。">
+<meta name="twitter:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/62463586.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/list.html"/>
+
+
+
+
+
+  <title> List集合了解一下 | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/list.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                List集合了解一下
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T19:30:39+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-08-14T08:29:42+08:00">
+                2018-08-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/list.html" class="leancloud_visitors" data-flag-title="List集合了解一下">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,755
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  10
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>首先声明本文使用的是jdk1.8</p>
+<h1 id="List-常见实现类"><a href="#List-常见实现类" class="headerlink" title="List 常见实现类"></a>List 常见实现类</h1><p>根据上篇Collection的文章我们了解了List的几个常见实现类。</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/62463586.jpg" alt=""></p>
+<a id="more"></a>
+<ul>
+<li>ArrayList：<br>底层数据结构是数组。线程不安全</li>
+<li>LinkedList：<br>底层数据结构是链表。线程不安全</li>
+<li>Vector：<br>底层数据结构是数组。线程安全</li>
+</ul>
+<h1 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h1><p>ArrayList的实现和继承结构</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/36658352.jpg" alt=""></p>
+<h2 id="ArrayList类特点"><a href="#ArrayList类特点" class="headerlink" title="ArrayList类特点"></a>ArrayList类特点</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/9477343.jpg" alt=""></p>
+<ul>
+<li>可动态的改变数组的大小(数组的拷贝)。</li>
+<li>和Vector类函数实现相似，区别只是线程不安全。</li>
+</ul>
+<p>另外Vector有许多设计上的不足，不建议使用。当多条线程访问ArrayList集合时，程序需要手动保证该集合的同步性，而Vector则是线程安全的。</p>
+<h2 id="ArrayList解析"><a href="#ArrayList解析" class="headerlink" title="ArrayList解析"></a>ArrayList解析</h2><h3 id="ArrayList属性解析"><a href="#ArrayList属性解析" class="headerlink" title="ArrayList属性解析"></a>ArrayList属性解析</h3><p><img src="https://upload-images.jianshu.io/upload_images/5291509-831af19e86716f2b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>其实注释写的都很清晰</p>
+<h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><p><img src="https://upload-images.jianshu.io/upload_images/5291509-542091048e8d4ba8?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>前两种方式十分的简单，需要注意的就是第三种：</p>
+<p>在通过一个Collection来构造ArrayList的时候，其toArray函数可能不能成功返回一个Object[]类型的数组。需要我们再把elementData数组中的元素拷贝到Object[size]类型的数组中并重新赋值给elementData。</p>
+<h3 id="add"><a href="#add" class="headerlink" title="add()"></a>add()</h3><p><img src="https://upload-images.jianshu.io/upload_images/5291509-dcfb6a236b5ec749?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>函数处理步骤：</p>
+<ul>
+<li>检查是否需要扩容</li>
+<li>插入元素</li>
+</ul>
+<p>元素在插入到集合前需要先对ArrayList进行判断是否需要扩容。</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/43895044.jpg" alt=""></p>
+<p><strong>ensureCapacityInternal函数来确定真正的数组最小容量minCapacity</strong></p>
+<p>拿（当前元素个数+1）来进行判断。如果当前容器没有进行初始化。那么取minCapacity和DEFAULT_CAPACITY两个元素中较大的值作为数组的最小容量(也就是需求容量在10以下我们也把数组初始化成了容量为10，防止频繁的扩容操作)。</p>
+<p><strong>ensureExplicitCapacity函数记录容器的更改状态并判断容器是否真的需要扩容</strong></p>
+<p>modCount记录容器被修改过的次数。当通过ensureCapacityInternal函数确定的容器最小容量minCapacity大于数组当前大小时。调用grow函数来对数组进行扩容</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/15299931.jpg" alt=""></p>
+<ul>
+<li>如果扩容1.5倍后还小于需要的最小容量，干脆让数组容量等于minCapacity。</li>
+<li>如果数组要求的最小容量已经大于数组所被允许的最大容量限制。让其容量最大只能等于Integer.MAX_VALUE。</li>
+</ul>
+<hr>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/27359990.jpg" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * The maximum size of array to allocate.</div><div class="line"> * Some VMs reserve some header words in an array.</div><div class="line"> * Attempts to allocate larger arrays may result in</div><div class="line"> * OutOfMemoryError: Requested array size exceeds VM limit</div><div class="line"> */</div><div class="line">private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;</div></pre></td></tr></table></figure>
+<ul>
+<li>根据释义我们可以知道一些虚拟机在数组头会保存一些头元素。</li>
+<li>请求的数组过大的话会出现OOM异常。可能会超出部分VM的限制</li>
+</ul>
+<hr>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/52147364.jpg" alt=""></p>
+<ul>
+<li>源码叙述的很清晰。接着上面的看，对elementData进行拷贝。将该数组元素拷贝到一个也是该数组类型的且容量为newCapacity的数组中。</li>
+</ul>
+<p><strong>总结：</strong></p>
+<ul>
+<li>首先去检查一下数组的容量是否足够<ul>
+<li>足够：直接添加</li>
+<li>不足够：扩容<ul>
+<li>扩容到原来的1.5倍</li>
+<li>第一次扩容后，如果容量还是小于minCapacity，就将容量扩充为minCapacity。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="add-int-index-E-element"><a href="#add-int-index-E-element" class="headerlink" title="add(int index, E element)"></a>add(int index, E element)</h3><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/86531355.jpg" alt=""></p>
+<p>函数处理步骤：</p>
+<ul>
+<li>要插入元素的位置判断。是否小于0或超出当前数组元素</li>
+<li>扩容判断</li>
+<li>数组拷贝</li>
+</ul>
+<p>由于ensureCapacityInternal函数的保障，所以这里数组元素移位即可。<br><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/85934960.jpg" alt=""></p>
+<p>可以发现在ArrayList中由于底层实现是由数组来作为容器。所以与扩容相关的add函数底层其实都是arraycopy()来实现的。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5291509-7f9c668a5de8b6e8?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>而其又是native函数，底层是由C/C++来编写的。但该函数的相比于我们自定义的数组拷贝实现要性能高得多。更有可能得到细致的优化，应该尽可能去使用它。</p>
+<p>参考R大回答：<a href="https://www.zhihu.com/question/53749473" target="_blank" rel="external">https://www.zhihu.com/question/53749473</a></p>
+<h3 id="get-int-index"><a href="#get-int-index" class="headerlink" title="get(int index)"></a>get(int index)</h3><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/43844940.jpg" alt=""></p>
+<p>字面意思</p>
+<h3 id="set-int-index-E-element"><a href="#set-int-index-E-element" class="headerlink" title="set(int index, E element)"></a>set(int index, E element)</h3><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/86626913.jpg" alt=""></p>
+<p>字面意思</p>
+<h3 id="remove-int-index"><a href="#remove-int-index" class="headerlink" title="remove(int index)"></a>remove(int index)</h3><p><img src="https://upload-images.jianshu.io/upload_images/5291509-63f2ebc31d406191?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>正如注释中所述。</p>
+<p>函数处理步骤：</p>
+<ul>
+<li>index索引边界判断</li>
+<li>modCount变量的维护</li>
+<li>取出数组index处元素用于结果返回</li>
+<li>数组元素从index+1处开始依次往前移一位。</li>
+</ul>
+<p>其实看完remove函数之后，我比较疑惑为什么jdk开发人员在设计remove函数的时候不和add函数一样动态的维护数组的大小呢？因为我自己在学习数据结构的时候，设计<a href="https://github.com/JYG0723/play-with-data-structures/blob/master/Array/src/Array.java" target="_blank" rel="external">我的ArrayList集合类</a>的时候其add函数和remove函数都根据数组现有元素数量和数组总容量做了一个系数比，根据系数比动态的维护了其容量。</p>
+<p>后来仔细一想，这么设计也确实很合理。ArrayList作为List接口常用的实现类之一，既然其容量确实到达过一个峰值。即便其后来被降下来了，也很难保证其后续不会再升回去。因为既然原来能到达，那么后续也肯定可以到达。所以既然这样就需要函数体中频繁的判断，频繁的扩容缩容性能上无疑会更大的放大了ArrayList在增删上的劣势。不可取</p>
+<h3 id="trimToSize"><a href="#trimToSize" class="headerlink" title="trimToSize()"></a>trimToSize()</h3><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/78641386.jpg" alt=""></p>
+<p>remove函数由于性能影响在删除元素后既然不能缩容，Java开发人员提供了该函数供开发人员根据自己的需要来对数组缩容。底层依旧调用的是System类的arraycopy函数。</p>
+<h2 id="我设计的ArrayList"><a href="#我设计的ArrayList" class="headerlink" title="我设计的ArrayList"></a>我设计的ArrayList</h2><p>Github地址 - <a href="https://github.com/JYG0723/play-with-data-structures/blob/master/Array/src/Array.java" target="_blank" rel="external">我设计的ArrayList</a></p>
+<p>实现了Arraylist的部分常见功能。</p>
+<h1 id="Vector与ArrayList区别"><a href="#Vector与ArrayList区别" class="headerlink" title="Vector与ArrayList区别"></a>Vector与ArrayList区别</h1><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/31870233.jpg" alt=""></p>
+<p>Java开发人员已经告诉我们了。</p>
+<ul>
+<li>出生于jdk1.0时代，并在jdk1.2的时候被改造为实现List接口。</li>
+<li>底层也是动态数组实现</li>
+<li>它是线程安全的</li>
+<li>如果不需要线程安全的实现，建议使用ArrayList代替Vector(早期设计有些许缺陷)。</li>
+</ul>
+<p>可以从图中很明显的看出，Vector类在很多对其底层数组结构有修改作用的函数上都加上了synchronized关键字来保证其线程安全性。<br><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/13712503.jpg" alt=""></p>
+<p>如果想要ArrayList实现同步，可以使用Collections的方法：<code>List list = Collections.synchronizedList(new ArrayList(...));</code>，就可以实现同步了。</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/93260561.jpg" alt=""></p>
+<p>还有另一个区别：</p>
+<p>ArrayList在底层数组不够用时在原来的基础上扩展0.5倍，而Vector如果未指定其capacityIncrement参数时，其默认初始容量为10，且该参数<strong>容量自动增长值</strong>为0。那么Vector的容量扩展1倍。 </p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/25567210.jpg" alt=""></p>
+<h1 id="LinkedList"><a href="#LinkedList" class="headerlink" title="LinkedList"></a>LinkedList</h1><p>LinkedList的实现和继承结构<br><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/35517458.jpg" alt=""></p>
+<h2 id="LinkedList类特点"><a href="#LinkedList类特点" class="headerlink" title="LinkedList类特点"></a>LinkedList类特点</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/14468899.jpg" alt=""></p>
+<ul>
+<li>LinkedList底层是双向链表</li>
+<li>允许存储NULL</li>
+<li>线程不安全的，解决办法和Arraylist一样，通过Collections工具类来封装一下。并且在迭代的时候需要外部手动锁住该LinkedList的实例</li>
+</ul>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/38073907.jpg" alt=""></p>
+<p>LinkedList 类还为在列表的开头及结尾 get，remove 和 insert 元素提供了统一的命名方法。这些操作允许将链接列表用作堆栈、队列或双端队列。</p>
+<h2 id="LinkedList解析"><a href="#LinkedList解析" class="headerlink" title="LinkedList解析"></a>LinkedList解析</h2><h3 id="LinkedList属性解析"><a href="#LinkedList属性解析" class="headerlink" title="LinkedList属性解析"></a>LinkedList属性解析</h3><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/94973405.jpg" alt=""></p>
+<p>LinkedList的属性和<a href="https://github.com/JYG0723/play-with-data-structures/blob/master/LinkedList/src/LinkedList.java" target="_blank" rel="external">我们自己设计的LinkedList</a>一模一样。</p>
+<p>很简单由于是双向链表就必然有头结点和尾节点两个属性，再加一个size变量指定LinkedList元素数量方便我们维护。</p>
+<h3 id="构造函数-1"><a href="#构造函数-1" class="headerlink" title="构造函数"></a>构造函数</h3><p><img src="https://upload-images.jianshu.io/upload_images/5291509-2ce531d4d7337e55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/84925543.jpg" alt=""></p>
+<p>其实构造思路很简单。第二种无非就是把一个集合迭代的跟到LinkedList实例之后。然后根据一些不同的case进行处理。和我们设计的LinkedList处理思路是一样的，只是可能它设计的更严谨一些。</p>
+<h3 id="add-E-e"><a href="#add-E-e" class="headerlink" title="add(E e)"></a>add(E e)</h3><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/68771441.jpg" alt=""></p>
+<p>我设计的LinkedList是单向链表，所以为了保证add函数的性能选择了头插法。而LinkedList的实现由于是双向链表，所以必然是尾插法才合理。</p>
+<h3 id="remove-Object-o"><a href="#remove-Object-o" class="headerlink" title="remove(Object o)"></a>remove(Object o)</h3><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/9166703.jpg" alt=""></p>
+<ul>
+<li>如注释所述，删除链表中第一次出现和指定元素的item属性equals的元素。</li>
+</ul>
+<p>前提是需要对可能存在的NULL元素做过滤处理。避免空指针异常。</p>
+<p><strong>unlike函数</strong>：</p>
+<ul>
+<li>其实就是具体的负责链表中元素的删除工作。</li>
+<li>modCount变量的维护</li>
+<li>具体逻辑的判断不同case的处理(其实和我们的实现思路一样)</li>
+</ul>
+<p>可以看出unlink函数的局部变量使用了final关键字来修饰。从一定程度上避免了一些由于LinkedList是线程不安全的类所带来的线程安全问题。同时也带来了一些性能上的提升</p>
+<h3 id="get-int-index-1"><a href="#get-int-index-1" class="headerlink" title="get(int index)"></a>get(int index)</h3><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/59506119.jpg" alt=""></p>
+<p>和我们正常获取元素的思路一致。对于LinkedList来说由于底层是双向链表，我们要向获取到指定位置的元素只能通过遍历的方式。但是Java开发人员想的非常周到，首先对index索引进行了大小判断，看时候大于size的一半，直接就是查询范围缩小了一半。更加高效</p>
+<h3 id="set-int-index-E-element-1"><a href="#set-int-index-E-element-1" class="headerlink" title="set(int index, E element)"></a>set(int index, E element)</h3><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-7/52544506.jpg" alt=""></p>
+<p>如同注释描述的一致，没有多余操作，由于关系到index索引，所以按例检查一下。然后进行替换即可。</p>
+<h2 id="我设计的LinkedList"><a href="#我设计的LinkedList" class="headerlink" title="我设计的LinkedList"></a>我设计的LinkedList</h2><p>Github地址 - <a href="https://github.com/JYG0723/play-with-data-structures/blob/master/LinkedList/src/LinkedList.java" target="_blank" rel="external">我设计的ArrayList</a></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="ArrayList-1"><a href="#ArrayList-1" class="headerlink" title="ArrayList"></a>ArrayList</h2><ul>
+<li>ArrayList是基于动态数组实现的，在增删时候，需要调用System类的arraycopy函数进行拷贝复制((navite 函数底层由C/C++实现)。</li>
+<li>ArrayList的默认初始化容量是10，每次扩容时候增加原先容量的一半，也就是变为原来的1.5倍</li>
+<li>删除元素时不会减少容量，若希望减少容量则调用trimToSize()</li>
+<li>它大体上相似Vector，但不是线程安全的。多线程环境下，任何关于ArrayList集合类结构上的更改，为保障线程安全，我们都需要程序内手动的维护</li>
+<li>能存放NULL值，元素可重复，且有序。</li>
+</ul>
+<h2 id="LinkedList-1"><a href="#LinkedList-1" class="headerlink" title="LinkedList"></a>LinkedList</h2><ul>
+<li>LinkedList底层是双向链表(更方便获取指定元素)</li>
+<li>允许存储NULL</li>
+<li>线程不安全的，解决办法和Arraylist一样，通过Collections工具类来封装一下。并且在迭代的时候需要外部手动锁住该LinkedList的实例</li>
+</ul>
+<h2 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h2><ul>
+<li>出生于jdk1.0时代，并在jdk1.2的时候被改造为实现List接口。</li>
+<li>底层也是动态数组实现</li>
+<li>它是函数操作是线程安全的</li>
+<li>现在已少用，被ArrayList替代，原因：<ul>
+<li>Vector所有方法都是同步，函数执行上有性能的损失，并且程序在函数执行前后要加锁和释放锁开销都比较大。</li>
+<li>Vector初始length是10 超过length时，如果未指定扩容大小。以成倍态势增长，相比于ArrayList开销更多内存。</li>
+<li>出生早，设计可能不那么好</li>
+</ul>
+</li>
+</ul>
+<p>并且它唯一的优点，部分函数的线程安全对于我们来说，也不是必须的。</p>
+<p>具体可参考：<a href="https://www.zhihu.com/question/31948523/answer/113357347" target="_blank" rel="external">java数据结构中，什么情况下用Vector,什么情况下用ArrayList呢？
+</a></p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><ul>
+<li>查询多用ArrayList，增删多用LinkedList。</li>
+<li>ArrayList增删慢也是在大数据量的前提下。在我实现的数据结构中进行了测试(10w~),少量数据差别不大</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/list.html" title="List集合了解一下">http://www.jiyongguang.xin/list.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java基础/" rel="tag"># Java基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/collection.html" rel="next" title="Collection 接口详解">
+                <i class="fa fa-chevron-left"></i> Collection 接口详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/map.html" rel="prev" title="Map集合了解一下">
+                Map集合了解一下 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#List-常见实现类"><span class="nav-number">2.</span> <span class="nav-text">List 常见实现类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ArrayList"><span class="nav-number">3.</span> <span class="nav-text">ArrayList</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList类特点"><span class="nav-number">3.1.</span> <span class="nav-text">ArrayList类特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList解析"><span class="nav-number">3.2.</span> <span class="nav-text">ArrayList解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList属性解析"><span class="nav-number">3.2.1.</span> <span class="nav-text">ArrayList属性解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数"><span class="nav-number">3.2.2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#add"><span class="nav-number">3.2.3.</span> <span class="nav-text">add()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#add-int-index-E-element"><span class="nav-number">3.2.4.</span> <span class="nav-text">add(int index, E element)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#get-int-index"><span class="nav-number">3.2.5.</span> <span class="nav-text">get(int index)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set-int-index-E-element"><span class="nav-number">3.2.6.</span> <span class="nav-text">set(int index, E element)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#remove-int-index"><span class="nav-number">3.2.7.</span> <span class="nav-text">remove(int index)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#trimToSize"><span class="nav-number">3.2.8.</span> <span class="nav-text">trimToSize()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我设计的ArrayList"><span class="nav-number">3.3.</span> <span class="nav-text">我设计的ArrayList</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Vector与ArrayList区别"><span class="nav-number">4.</span> <span class="nav-text">Vector与ArrayList区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LinkedList"><span class="nav-number">5.</span> <span class="nav-text">LinkedList</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedList类特点"><span class="nav-number">5.1.</span> <span class="nav-text">LinkedList类特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedList解析"><span class="nav-number">5.2.</span> <span class="nav-text">LinkedList解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#LinkedList属性解析"><span class="nav-number">5.2.1.</span> <span class="nav-text">LinkedList属性解析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数-1"><span class="nav-number">5.2.2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#add-E-e"><span class="nav-number">5.2.3.</span> <span class="nav-text">add(E e)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#remove-Object-o"><span class="nav-number">5.2.4.</span> <span class="nav-text">remove(Object o)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#get-int-index-1"><span class="nav-number">5.2.5.</span> <span class="nav-text">get(int index)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set-int-index-E-element-1"><span class="nav-number">5.2.6.</span> <span class="nav-text">set(int index, E element)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我设计的LinkedList"><span class="nav-number">5.3.</span> <span class="nav-text">我设计的LinkedList</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList-1"><span class="nav-number">6.1.</span> <span class="nav-text">ArrayList</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedList-1"><span class="nav-number">6.2.</span> <span class="nav-text">LinkedList</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vector"><span class="nav-number">6.3.</span> <span class="nav-text">Vector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景"><span class="nav-number">6.4.</span> <span class="nav-text">场景</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

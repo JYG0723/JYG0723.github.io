@@ -1,0 +1,1402 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java基础," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="集合家族 Collection接口Collection接口Api一览">
+<meta name="keywords" content="Java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Collection 接口详解">
+<meta property="og:url" content="http://www.jiyongguang.xin/collection.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="集合家族 Collection接口Collection接口Api一览">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/38347361.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-4/56897332.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-4/36182586.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-4/53225523.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-4/72249396.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-4/26138331.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/51493354.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/82392576.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/37420996.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/77697197.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/63823297.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/62463586.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/63476855.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/30262728.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/74024467.jpg">
+<meta property="og:updated_time" content="2018-05-09T01:47:13.590Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Collection 接口详解">
+<meta name="twitter:description" content="集合家族 Collection接口Collection接口Api一览">
+<meta name="twitter:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-6/38347361.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/collection.html"/>
+
+
+
+
+
+  <title> Collection 接口详解 | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/collection.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Collection 接口详解
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-06T17:06:53+08:00">
+                2018-05-06
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-05-09T09:47:13+08:00">
+                2018-05-09
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/collection.html" class="leancloud_visitors" data-flag-title="Collection 接口详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,298
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  8
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="集合家族"><a href="#集合家族" class="headerlink" title="集合家族"></a>集合家族</h1><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/38347361.jpg" alt=""></p>
+<h1 id="Collection接口"><a href="#Collection接口" class="headerlink" title="Collection接口"></a>Collection接口</h1><h2 id="Collection接口Api一览"><a href="#Collection接口Api一览" class="headerlink" title="Collection接口Api一览"></a>Collection接口Api一览</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-4/56897332.jpg" alt=""></p>
+<a id="more"></a>
+<p>由图中我们可以看出：</p>
+<ul>
+<li>重写了Iterable接口的iterator方法。</li>
+<li>重写了Object类的equals和hashCode方法。</li>
+<li>定义了一系列待实现方法。</li>
+</ul>
+<h2 id="为什么重写Iterable接口的iterator方法"><a href="#为什么重写Iterable接口的iterator方法" class="headerlink" title="为什么重写Iterable接口的iterator方法"></a>为什么重写Iterable接口的iterator方法</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-4/36182586.jpg" alt=""></p>
+<p>很直观。我们一看注释其实就能大概明白Java设计人员的思路，其实Iterable接口可以看成许多容器类共同特性被提取出来做了接口。而相对于不同容器，这个共有特性的具体实现细节又不同。既然不同所以又要自己定义自己系列的迭代器规则，并让所有实现类都遵循这个规则。</p>
+<p>对于Collection接口来说，它规定子接口及其实现类都必须满足它重新设定的规则。</p>
+<blockquote>
+<p>Returns an iterator over the elements in this collection.  There are no guarantees concerning the order in which the elements are returned</p>
+<p>针对于集合中的所有元素返回一个该集合的迭代器。 但是该迭代器无法保证元素间具有顺序性。(除非这个集合是某个具有这一特性的类的实例)</p>
+</blockquote>
+<h2 id="Collection-Api-详解"><a href="#Collection-Api-详解" class="headerlink" title="Collection Api 详解"></a>Collection Api 详解</h2><p>这里大家可以看Api文档，讲的比我自己理解的好很多。这里我只是想顺便锻炼一下自己看英文文献的能力。并且很多不懂的我都是照搬了Api文档</p>
+<ul>
+<li><code>boolean add(E e)</code></li>
+</ul>
+<blockquote>
+<p>向集合中添加一个元素。集合更改则添加成功返回true，如果该集合不允许重复并且已经包含指定的元素。返回false。部分子类的add方法可能会限制添加到集合中的元素类型，或者不会将NULL添加到集合中。</p>
+</blockquote>
+<ul>
+<li><code>boolean addAll(Collection&lt;? extends E&gt; c)</code></li>
+</ul>
+<blockquote>
+<p>将指定集合中的所有元素添加到此集合中。在添加过程中如果被添加的集合发生了更改，addAll方法不具有幂等性。</p>
+</blockquote>
+<ul>
+<li><code>void clear()</code></li>
+</ul>
+<blockquote>
+<p>清空掉集合中的所有元素</p>
+</blockquote>
+<ul>
+<li><code>boolean contains(Object o)</code></li>
+</ul>
+<blockquote>
+<p>如果集合中包含指定元素那么返回true。特别的，如果集合中也包含NULL元素的时候并且要查找的元素也是NULL的时候也返回true。</p>
+</blockquote>
+<ul>
+<li><code>boolean containsAll(Collection&lt;?&gt; c)</code></li>
+</ul>
+<blockquote>
+<p>如果该集合中包含指定集合中的所有元素的时候返回true。</p>
+</blockquote>
+<ul>
+<li><code>boolean isEmpty()</code></li>
+</ul>
+<blockquote>
+<p>如果集合中没有元素返回true。</p>
+</blockquote>
+<ul>
+<li><code>boolean remove(Object o)</code></li>
+</ul>
+<blockquote>
+<p>删除集合中的指定的元素。如果存在NULL，也删除。</p>
+</blockquote>
+<ul>
+<li><code>boolean removeAll(Collection&lt;?&gt; c)</code></li>
+</ul>
+<blockquote>
+<p>删除当前集合中所有等于指定集合中的元素。</p>
+</blockquote>
+<ul>
+<li><code>boolean retainAll(Collection&lt;?&gt; c)</code></li>
+</ul>
+<blockquote>
+<p>仅保留该指定集合中存在的所有元素。其余删除</p>
+</blockquote>
+<ul>
+<li><code>int size()</code></li>
+</ul>
+<blockquote>
+<p>返回该集合中元素的个数。如果超过了Integer.MAX_VALUE，那么返回Integer.MAX_VALUE。</p>
+</blockquote>
+<ul>
+<li><code>Object[] toArray()</code></li>
+</ul>
+<p>这个方法是集合和数组转化的桥梁。</p>
+<blockquote>
+<p>见名知意，返回包含此集合中所有元素的数组。如果这个集合的迭代器保证元素有序，那么该方法与其迭代器中元素顺序一致。并且该方法返回的数组是拷贝出来的(某些集合底层数组实现，区别这个)，可以进行任意的更改。</p>
+</blockquote>
+<ul>
+<li><code>&lt;T&gt; T[] toArray(T[] a)</code></li>
+</ul>
+<p>该方法可以对返回的数组类型进行精确控制。而非像toArray方法一样返回<code>Object[]</code>。</p>
+<blockquote>
+<p>返回集合中所有元素到该数组中。如果这个数组可以容纳下的话，否则返回一个新new的数组，容量和集合中元素数量一致。如果指定的数组容量大于集合中元素个数，数组空闲位置填NULL。如果这个集合的Iterator具有顺序性的话，数组元素顺序与该迭代器一致。</p>
+</blockquote>
+<h2 id="Collection接口在Java8中的函数扩展"><a href="#Collection接口在Java8中的函数扩展" class="headerlink" title="Collection接口在Java8中的函数扩展"></a>Collection接口在Java8中的函数扩展</h2><p>新增抽象方法：<br><img src="http://otsgsfu16.bkt.clouddn.com/18-5-4/53225523.jpg" alt=""></p>
+<p>新增重写方法splIterator以及继承方法forEach。<br><img src="http://otsgsfu16.bkt.clouddn.com/18-5-4/72249396.jpg" alt=""></p>
+<h1 id="Iterator-接口"><a href="#Iterator-接口" class="headerlink" title="Iterator 接口"></a>Iterator 接口</h1><p>从刚才的Colllection接口的结构体中我们可以看出，该Collection接口实现了Iterable接口，说明了Collection接口是可迭代的。而这个Iterable接口又只有一个iterator方法。返回值是Iterator对象。即返回的是对应实现类的迭代器对象。</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-4/26138331.jpg" alt=""></p>
+<p>如图，Iterator接口只有三个抽象函数。</p>
+<p>首先我们先来对Iterator接口了解一下：</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/51493354.jpg" alt=""></p>
+<h2 id="Iterator-Api详解"><a href="#Iterator-Api详解" class="headerlink" title="Iterator Api详解"></a>Iterator Api详解</h2><ul>
+<li><p><code>boolean hasNext()</code></p>
+<blockquote>
+<p>如果迭代器中还有元素那么返回true。</p>
+</blockquote>
+</li>
+<li><p><code>E next()</code></p>
+<blockquote>
+<p>返回迭代器中游标的下一元素</p>
+</blockquote>
+</li>
+<li><p><code>void remove()</code></p>
+<blockquote>
+<p>从迭代器指向的 collection 中移除迭代器返回的最后一个元素。每次调用 next 后只能调用一次此方法。如果进行迭代时用调用此方法之外的其他方式修改了该迭代器所指向的 collection，则迭代器的行为是不确定的。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="ArrayList的自定义迭代器"><a href="#ArrayList的自定义迭代器" class="headerlink" title="ArrayList的自定义迭代器"></a>ArrayList的自定义迭代器</h2><p>我们拿了一个Collection接口的实现类来看了一下。</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/82392576.jpg" alt=""></p>
+<p>ArrayList写了一个内部类Itr来实现Iterator接口作为自己的迭代器。</p>
+<p>变量：</p>
+<ul>
+<li>cursor:迭代器下一个要返回的元素的索引</li>
+<li>lastRet：迭代器最后一个返回的元素的索引</li>
+<li>expectedModCount：期望中ArrayList集合的底层数组容器的修改次数，来和父类AbstractList中设定的变量modCount来进行比较。</li>
+</ul>
+<p>方法：</p>
+<ul>
+<li>hasNext：判断游标是否指到了size即可。因为底层容器是数组所以size位置没有元素当游标指到的时候就是迭代器结束迭代的时候。</li>
+<li>next：首先判断容器是否在Itr初始化之后就已经被其他线程进行了更改。如果是那么就会根据checkForComodification方法的判断规则来跑出一个异常。然后就是通过游标来对容器进行迭代，并动态的修改lastRet的值。</li>
+<li>remove： 因为是更改操作，先判断一下容器是否被动过。然后调用该ArrayList类的实例的remove方法删除掉指定索引处的元素。此时动态的维护cursor和lastRet，expectedModCount变量。此处可有看出Iterator接口的remove方法的解释是什么意思了。</li>
+<li>checkForComodification：该方法就是简单的对expectedModCount变量和AbstractList类中的modCount变量进行判断看是否容器被其他线程更改了。这也就是为什么Iterator接口的remove方法的释义说迭代器的行为是不确定的。这里ArrayList由于是线程不安全的类，所以在其迭代器中设定了如果线程间冲突时的处理规则。</li>
+</ul>
+<h1 id="List-接口"><a href="#List-接口" class="headerlink" title="List 接口"></a>List 接口</h1><h2 id="List接口Api一览"><a href="#List接口Api一览" class="headerlink" title="List接口Api一览"></a>List接口Api一览</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/37420996.jpg" alt=""></p>
+<ul>
+<li>重写了Collection接口的一些列函数。</li>
+<li>继承了add和addAll两个函数的规则。</li>
+<li>新增了一些列函数。</li>
+</ul>
+<h2 id="List集合的特点"><a href="#List集合的特点" class="headerlink" title="List集合的特点"></a>List集合的特点</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/77697197.jpg" alt=""></p>
+<p>和Set集合最大的不同即红框中所述：</p>
+<ul>
+<li>有序</li>
+<li>允许重复元素</li>
+</ul>
+<p>从Api列表中我们可以看到List接口定义了一个listIterator函数，返回一个ListIterator接口。该接口继承自Iterator接口，并提供了更多的函数。</p>
+<h2 id="ListIterator接口"><a href="#ListIterator接口" class="headerlink" title="ListIterator接口"></a>ListIterator接口</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/63823297.jpg" alt=""></p>
+<p>从ListIterator接口的Api描述中总结出的几点就是：</p>
+<ul>
+<li>相比于hasNext函数多了一个对应的hasPrevious函数，来检测游标指向的元素是否具有前驱元素。</li>
+<li>相比于next函数多了一个previous函数，来获取游标指向的元素的前一位元素。</li>
+<li>多了nextIndex和previousIndex函数，用来返回迭代器下一元素和前一迭代过的元素的索引。</li>
+<li>多了set函数和add函数，set函数允许替换掉previous和next函数操作后返回的元素。add函数允许将元素插入到容器中游标前的位置。</li>
+</ul>
+<h2 id="List常见实现类"><a href="#List常见实现类" class="headerlink" title="List常见实现类"></a>List常见实现类</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/62463586.jpg" alt=""></p>
+<ul>
+<li>ArrayList：<br>底层数据结构是数组。线程不安全</li>
+<li>LinkedList：<br>底层数据结构是链表。线程不安全</li>
+<li>Vector：<br>底层数据结构是数组。线程安全</li>
+</ul>
+<h1 id="Set-接口"><a href="#Set-接口" class="headerlink" title="Set 接口"></a>Set 接口</h1><h2 id="Set接口Api一览"><a href="#Set接口Api一览" class="headerlink" title="Set接口Api一览"></a>Set接口Api一览</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/63476855.jpg" alt=""></p>
+<ul>
+<li>并没有新增自己的函数</li>
+<li>重写了Collection接口的部分函数</li>
+<li>继承了add函数和addAll函数</li>
+</ul>
+<h2 id="Set集合特点"><a href="#Set集合特点" class="headerlink" title="Set集合特点"></a>Set集合特点</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/30262728.jpg" alt=""></p>
+<p>相比于List集合最大的区别：</p>
+<ul>
+<li>不包含重复元素。</li>
+</ul>
+<p>这里我们强调一下，有些地方说Set集合是无序的，其实是不严谨的。可以看到jdk注释中是没有指明这一点的，那么List集合的注释中的有序和有些人常说的Set集合是无序的是什么意思呢？</p>
+<hr>
+<p>首先要搞清楚、Java中有序和无序的概念：</p>
+<p>有序指的是存储顺序与添加顺序相同，并且可以通过下标访问，List就是这样。</p>
+<p>无序刚好相反，指的是存储顺序与添加顺序无关，没有下标，当然也不可能通过下标访问，Set就是如此。</p>
+<p>这里需要注意的是，有序、无序中的“序”与我们平常所说的“顺序”无关。</p>
+<p>而TreeSet是无序，但又是排好序的。即添加顺序与存储顺序无关，但是其中的对象实现了排序。</p>
+<hr>
+<h2 id="Set集合常用子类"><a href="#Set集合常用子类" class="headerlink" title="Set集合常用子类"></a>Set集合常用子类</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-6/74024467.jpg" alt=""></p>
+<ul>
+<li>HashSet：底层数据结构是哈希表(是一个元素为链表的数组)</li>
+<li>TreeSet：底层数据结构是红黑树(是一个自平衡的二叉树)。保证元素的排序方式</li>
+<li>LinkedHashSet：底层数据结构由哈希表和链表组成。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/collection.html" title="Collection 接口详解">http://www.jiyongguang.xin/collection.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java基础/" rel="tag"># Java基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/linux-1.html" rel="next" title="每日几个Linux命令，十天了解工作中常用的那些命令(一)">
+                <i class="fa fa-chevron-left"></i> 每日几个Linux命令，十天了解工作中常用的那些命令(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/list.html" rel="prev" title="List集合了解一下">
+                List集合了解一下 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#集合家族"><span class="nav-number">1.</span> <span class="nav-text">集合家族</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Collection接口"><span class="nav-number">2.</span> <span class="nav-text">Collection接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection接口Api一览"><span class="nav-number">2.1.</span> <span class="nav-text">Collection接口Api一览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么重写Iterable接口的iterator方法"><span class="nav-number">2.2.</span> <span class="nav-text">为什么重写Iterable接口的iterator方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection-Api-详解"><span class="nav-number">2.3.</span> <span class="nav-text">Collection Api 详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection接口在Java8中的函数扩展"><span class="nav-number">2.4.</span> <span class="nav-text">Collection接口在Java8中的函数扩展</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Iterator-接口"><span class="nav-number">3.</span> <span class="nav-text">Iterator 接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterator-Api详解"><span class="nav-number">3.1.</span> <span class="nav-text">Iterator Api详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList的自定义迭代器"><span class="nav-number">3.2.</span> <span class="nav-text">ArrayList的自定义迭代器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#List-接口"><span class="nav-number">4.</span> <span class="nav-text">List 接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#List接口Api一览"><span class="nav-number">4.1.</span> <span class="nav-text">List接口Api一览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List集合的特点"><span class="nav-number">4.2.</span> <span class="nav-text">List集合的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ListIterator接口"><span class="nav-number">4.3.</span> <span class="nav-text">ListIterator接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List常见实现类"><span class="nav-number">4.4.</span> <span class="nav-text">List常见实现类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Set-接口"><span class="nav-number">5.</span> <span class="nav-text">Set 接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Set接口Api一览"><span class="nav-number">5.1.</span> <span class="nav-text">Set接口Api一览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set集合特点"><span class="nav-number">5.2.</span> <span class="nav-text">Set集合特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Set集合常用子类"><span class="nav-number">5.3.</span> <span class="nav-text">Set集合常用子类</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

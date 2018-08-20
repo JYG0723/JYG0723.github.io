@@ -1,0 +1,1251 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Synchronized共享内存有两个重要问题，一个是竞态条件，一个是内存可见性。其实一种解决方案则是Synchronized 原理我们首先来看一段synchronized修饰方法和代码块的代码：1234567891011121314public class Main &amp;#123;	//修饰方法    public synchronized void test1()&amp;#123;    &amp;#125;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java编程的逻辑 -- 并发章 -- Synchronized">
+<meta property="og:url" content="http://www.jiyongguang.xin/java-concurrentProgramming-readingNotes-15.2.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="Synchronized共享内存有两个重要问题，一个是竞态条件，一个是内存可见性。其实一种解决方案则是Synchronized 原理我们首先来看一段synchronized修饰方法和代码块的代码：1234567891011121314public class Main &amp;#123;	//修饰方法    public synchronized void test1()&amp;#123;    &amp;#125;">
+<meta property="og:image" content="https://img-blog.csdn.net/20170205213401778?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbnNzeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-6-21/46493932.jpg">
+<meta property="og:updated_time" content="2018-06-22T00:29:20.930Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java编程的逻辑 -- 并发章 -- Synchronized">
+<meta name="twitter:description" content="Synchronized共享内存有两个重要问题，一个是竞态条件，一个是内存可见性。其实一种解决方案则是Synchronized 原理我们首先来看一段synchronized修饰方法和代码块的代码：1234567891011121314public class Main &amp;#123;	//修饰方法    public synchronized void test1()&amp;#123;    &amp;#125;">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20170205213401778?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbnNzeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/java-concurrentProgramming-readingNotes-15.2.html"/>
+
+
+
+
+
+  <title> Java编程的逻辑 -- 并发章 -- Synchronized | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/java-concurrentProgramming-readingNotes-15.2.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java编程的逻辑 -- 并发章 -- Synchronized
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-22T08:26:46+08:00">
+                2018-06-22
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-06-22T08:29:20+08:00">
+                2018-06-22
+              </time>
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/java-concurrentProgramming-readingNotes-15.2.html" class="leancloud_visitors" data-flag-title="Java编程的逻辑 -- 并发章 -- Synchronized">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3,173
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h1><p>共享内存有两个重要问题，一个是<strong>竞态条件</strong>，一个是<strong>内存可见性</strong>。其实一种解决方案则是Synchronized</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>我们首先来看一段synchronized修饰方法和代码块的代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">public class Main &#123;</div><div class="line">	//修饰方法</div><div class="line">    public synchronized void test1()&#123;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">	</div><div class="line">    public void test2()&#123;</div><div class="line">		// 修饰代码块</div><div class="line">        synchronized (this)&#123;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>来反编译看一下：<br><img src="https://img-blog.csdn.net/20170205213401778?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hlbnNzeQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
+<p>从上面可以看出，<strong>同步代码块</strong>是使用monitorenter和monitorexit指令实现的，<strong>同步方法</strong>（在这看不出来需要看JVM底层实现）依靠的是方法修饰符上的ACC_SYNCHRONIZED实现。 </p>
+<p><strong>同步代码块</strong>：monitorenter指令插入到同步代码块的开始位置，monitorexit指令插入到同步代码块的结束位置，JVM需要保证每一个monitorenter都有一个monitorexit与之相对应。任何对象都有一个monitor与之相关联，当一个monitor被持有之后，他将处于锁定状态。线程执行到monitorenter指令时，将会尝试获取对象所对应的monitor所有权，即尝试获取对象的锁。synchronized底层是通过monitor对象，对象有自己的对象头，存储了很多信息，其中一个信息标示是被哪个线程持有。</p>
+<p><strong>同步方法</strong>：synchronized方法则会被翻译成普通的方法调用和返回指令如:invokevirtual、areturn指令，在VM字节码层面并没有任何特别的指令来实现被synchronized修饰的方法，而是在Class文件的方法表中将该方法的access_flags字段中的synchronized标志位置1，表示该方法是同步方法并使用调用该方法的对象或该方法所属的Class在JVM的内部对象表示Klass做为锁对象。(摘自：<a href="http://www.cnblogs.com/javaminer/p/3889023.html" target="_blank" rel="external">http://www.cnblogs.com/javaminer/p/3889023.html</a>)</p>
+<p>具体可参考：</p>
+<ul>
+<li><a href="https://blog.csdn.net/chenssy/article/details/54883355" target="_blank" rel="external">https://blog.csdn.net/chenssy/article/details/54883355</a></li>
+<li><a href="https://blog.csdn.net/u012465296/article/details/53022317" target="_blank" rel="external">https://blog.csdn.net/u012465296/article/details/53022317</a></li>
+</ul>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><h3 id="1-实例方法"><a href="#1-实例方法" class="headerlink" title="1. 实例方法"></a>1. 实例方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class Counter &#123;</div><div class="line">    private int count;</div><div class="line">    public synchronized void incr()&#123;</div><div class="line">        count ++;</div><div class="line">    &#125;</div><div class="line">    public synchronized int getCount() &#123;</div><div class="line">        return count;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Synchronized可以用来修饰实例方法，静态方法，(静态或实例)代码块。</p>
+<p>多个线程可以同时执行一个Synchronized方法，只要他们访问的不是同一个实例对象即可。</p>
+<p><strong>Synchronized实际上保护的是当前实例对象</strong>，而不是它仅描述的那个方法。此时this对象有一个锁和一个等待队列，<strong>锁只能被一个线程持有，</strong> 其他试图获得同样锁的线程需要等待。当前线程不能获得锁的时候，它会加入等待队列，线程的状态会变为<strong>BLOCKED</strong>。</p>
+<hr>
+<p>Thread有一个与其状态对应的枚举类。Thread.State枚举类：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public enum State &#123;</div><div class="line">  NEW,</div><div class="line">  RUNNABLE,</div><div class="line">  BLOCKED,</div><div class="line">  WAITING,</div><div class="line">  TIMED_WAITING,</div><div class="line">  TERMINATED;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>关于这些状态.我们简单解释下：<br>1) <strong>NEW</strong>:没有调用start的线程状态为NEW。<br>2) <strong>TERMINATED</strong>:线程运行结朿后状态为TERMINATED。<br>3) <strong>RUNNABLE</strong>:调用start后线程在执行run方法且没有阻寒时状态为RUNNABLE,不过，<br>RUNNABLE不代表CPU—定在执行该线程的代码，可能正在执行也可能在等待操作系统分配时间片，只<br>是它没有在等待其他条件。</p>
+<h2 id="4-BLOCKED、WAITING、TIMED-WAmNG-都表示线程被阻塞了，在等待一些条件。其中BLOCKED表示当前线程在等待的是CPU的时间片而WAITING、TIMED-WAmNG则等待的是外部条件。"><a href="#4-BLOCKED、WAITING、TIMED-WAmNG-都表示线程被阻塞了，在等待一些条件。其中BLOCKED表示当前线程在等待的是CPU的时间片而WAITING、TIMED-WAmNG则等待的是外部条件。" class="headerlink" title="4) BLOCKED、WAITING、TIMED_WAmNG:都表示线程被阻塞了，在等待一些条件。其中BLOCKED表示当前线程在等待的是CPU的时间片而WAITING、TIMED_WAmNG则等待的是外部条件。"></a>4) <strong>BLOCKED、WAITING、TIMED_WAmNG</strong>:都表示线程被阻塞了，在等待一些条件。其中BLOCKED表示当前线程在等待的是CPU的时间片而WAITING、TIMED_WAmNG则等待的是外部条件。</h2><p><strong>Synchronized保护的是对象而非方法块</strong>，只要访问的是同一个对象的synchronized方法，即使是不同的方法块，也会被同步顺序访问。比如，对于Counter类中的两个同步实例方法get和incr，对同一个Counter对象，一个线程执行get，另一个执行incr,它们是不能同时执行的，会被synchronized同步顺序执行。</p>
+<p>此外，需要说明的是，<strong><strong>synchronized方法不能防止非synchronized方法被同时执行</strong></strong>。比如，如果给Counler类增加一个非synchronized方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public void decr()&#123;</div><div class="line">    count --;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>则该方法可以和synchronized的incr方法同时执行，这通常会出现非期望的结果，所以，<strong>一般在保护变量时，需要在所有访问该变量的方法前加shsynchronizcd(不一定)</strong>。</p>
+<h3 id="2-静态方法"><a href="#2-静态方法" class="headerlink" title="2. 静态方法"></a>2. 静态方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class StaticCounter &#123;</div><div class="line">    private static int count = 0;</div><div class="line">    public static synchronized void incr() &#123;</div><div class="line">        count++;</div><div class="line">    &#125;</div><div class="line">    public static synchronized int getCount() &#123;</div><div class="line">        return count;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对实例方法，synchronized保护的是当前实例对象this,<strong>对静态方法，保护的是类对象</strong>，这里是StaticCounter.class。实际上，每个对象都有一个锁和一个等待队列，Class类对象也不例外。</p>
+<p>synchronized静态方法和synchronized实例方法保护的是不同的对象，不同的两个线程，可以一个执行synchronized静态方法，另一个执行synchronized实例方法。所以他们可以同时运行</p>
+<h3 id="3-代码块"><a href="#3-代码块" class="headerlink" title="3. 代码块"></a>3. 代码块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">public class Counter &#123;</div><div class="line">    private int count;</div><div class="line">    public void incr()&#123;</div><div class="line">    </div><div class="line">        synchronized(this)&#123;</div><div class="line">            count ++;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">    &#125;</div><div class="line">    public int getCount() &#123;</div><div class="line">        synchronized(this)&#123;</div><div class="line">            return count;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>synchronized括号里即保护的对象，对于实例方法而言则是<strong>this</strong>，<code>{}</code>是执行同步的代码。对于上例中的StaticCounter类，等价的代码则是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">public class StaticCounter &#123;</div><div class="line">    private static int count = 0;</div><div class="line">    public static void incr() &#123;</div><div class="line">        synchronized(StaticCounter.class)&#123;</div><div class="line">            count++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    public static int getCount() &#123;</div><div class="line">        synchronized(StaticCounter.class)&#123;</div><div class="line">            return count;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>synchronized同步的对象可以是任意对象，任意对象都有一个锁和等待队列，或者说，任何对象都可以作为锁对象。如下的类成员lock。所以在如下这种情况中，所有的线程中所跑的涉及域lock的方法都会在一个等待队列中排队执行。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">public class Counter &#123;</div><div class="line">    private int count;</div><div class="line">    private Object lock = new Object();</div><div class="line">    public void incr()&#123;</div><div class="line">        synchronized(lock)&#123;</div><div class="line">            count ++;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    public int getCount() &#123;</div><div class="line">        synchronized(lock)&#123;</div><div class="line">            return count;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h2><ul>
+<li>可重入性</li>
+<li>内存可见性</li>
+<li>死锁</li>
+</ul>
+<h3 id="可重入性"><a href="#可重入性" class="headerlink" title="可重入性"></a>可重入性</h3><p>Synchronized是一种可重入锁。</p>
+<p><strong>可重入锁是通过记录锁的持有线程和持有数来实现的</strong>，当调用被synchronized保护的代码时，检查对象是否已被锁，如果是，再检查是否被当前线程锁定，如果是，增加持有数量，如果不是被当前线程锁<br>定，才加入等待队列，当释放锁时，减少持有数量，当数量变为0时才释放整个锁。</p>
+<h3 id="内存可见性"><a href="#内存可见性" class="headerlink" title="内存可见性"></a>内存可见性</h3><p>Synchronized除了可以保证原子性，同时还可以保证内存可见性。在释放锁时，所有的写入都会从寄存器或缓存(工作内存)写回内存，而获得锁后都会从内存中获得最新数据。</p>
+<p>但如果只是为了保证内存可见性，使用synchronized关键字的成本则要高于volatile修饰符的使用。</p>
+<p>如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class Switcher &#123;</div><div class="line">    private boolean on;</div><div class="line">    public boolean isOn() &#123;</div><div class="line">        return on;</div><div class="line">    &#125;</div><div class="line">    public void setOn(boolean on) &#123;</div><div class="line">        this.on = on;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>该代码在并发执行的时候不涉及非原子操作，仅修改变量on的状态，是一个原子操作。所以这里完全不必要用synchronized修饰符来附加在setOn方法上来锁住整个对象。它并不面临原子性问题，而是面临的内存可见性问题，只需要对on变量用volatile来修饰即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public class Switcher &#123;</div><div class="line">    private volatile boolean on;</div><div class="line">    public boolean isOn() &#123;</div><div class="line">        return on;</div><div class="line">    &#125;</div><div class="line">    public void setOn(boolean on) &#123;</div><div class="line">        this.on = on;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><p>经典示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">public class DeadLockDemo &#123;</div><div class="line">    private static Object lockA = new Object();</div><div class="line">    private static Object lockB = new Object();</div><div class="line">    private static void startThreadA() &#123;</div><div class="line">        Thread aThread = new Thread() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                synchronized (lockA) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(1000);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                    &#125;</div><div class="line">                    synchronized (lockB) &#123;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        aThread.start();</div><div class="line">    &#125;</div><div class="line">    private static void startThreadB() &#123;</div><div class="line">        Thread bThread = new Thread() &#123;</div><div class="line">            @Override</div><div class="line">            public void run() &#123;</div><div class="line">                synchronized (lockB) &#123;</div><div class="line">                    try &#123;</div><div class="line">                        Thread.sleep(1000);</div><div class="line">                    &#125; catch (InterruptedException e) &#123;</div><div class="line">                    &#125;</div><div class="line">                    synchronized (lockA) &#123;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;;</div><div class="line">        bThread.start();</div><div class="line">    &#125;</div><div class="line">    public static void main(String[] args) &#123;</div><div class="line">        startThreadA();</div><div class="line">        startThreadB();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行后aThread和bThread陷入了相互等待。怎么解决呢？首先，座该尽量避免在持有一个锁的同时去中请另一个锁，如果确实需要多个锁，所有代码都砹该按照相同的顺序去申请锁。比如，对于上面的例子，可以约定都先申请lockA，再申请lockB，而不是像代码中那样分开申请。</p>
+<p>不过，在复杂的项目代码中，这种约定可能难以做到。还有一种方法是显示锁接口Lock，它支持尝试获取锁（tryLock)和带时间限制的获取锁方法，使用这些方法可以在获取不到锁的时候释放已经持有的锁，然后再次尝试获取锁或干脆放弃，以避免死锁。<br>如采还是出现了死锁，Java不会主动处理，不过借助一些工貝，我们可以发现运行中的死锁，比如，Java自带的<strong>jsiadc命令</strong>会报告发现的死锁。</p>
+<h2 id="同步容器"><a href="#同步容器" class="headerlink" title="同步容器"></a>同步容器</h2><p>类Collections中提供了一些方法，返回线程安全的同步容器。</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-6-21/46493932.jpg" alt=""></p>
+<p>它们是給所有容器方法都加上synchronized来实现线程安全的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">static class SynchronizedCollection&lt;E&gt; implements Collection&lt;E&gt; &#123;</div><div class="line">    final Collection&lt;E&gt; c;  //Backing Collection</div><div class="line">    final Object mutex;     //Object on which to synchronize</div><div class="line">    SynchronizedCollection(Collection&lt;E&gt; c) &#123;</div><div class="line">        if(c==null)</div><div class="line">            throw new NullPointerException();</div><div class="line">        this.c = c;</div><div class="line">        mutex = this;</div><div class="line">    &#125;</div><div class="line">    public int size() &#123;</div><div class="line">        synchronized (mutex) &#123;return c.size();&#125;</div><div class="line">    &#125;</div><div class="line">    public boolean add(E e) &#123;</div><div class="line">        synchronized (mutex) &#123;return c.add(e);&#125;</div><div class="line">    &#125;</div><div class="line">    public boolean remove(Object o) &#123;</div><div class="line">        synchronized (mutex) &#123;return c.remove(o);&#125;</div><div class="line">    &#125;</div><div class="line">   //…</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里的线程安全指的是容器对象，即当多个线程并发访问同一个容器对象时不需要额外的同步操作，也不会出现错误的结果。</p>
+<p>加了synchronized之后所有操作都变成了原子操作，但并不意味着客户端在调用的时候就绝对安全了。以下情况还需注意：</p>
+<ul>
+<li>复合操作，比如先检查后更新</li>
+<li>伪同步</li>
+<li>迭代</li>
+</ul>
+<h3 id="1-复合操作"><a href="#1-复合操作" class="headerlink" title="1. 复合操作"></a>1. 复合操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public class EnhancedMap &lt;K, V&gt; &#123;</div><div class="line">    Map&lt;K, V&gt; map;</div><div class="line">    public EnhancedMap(Map&lt;K,V&gt; map)&#123;</div><div class="line">        this.map = Collections.synchronizedMap(map);</div><div class="line">    &#125;</div><div class="line">    public V putIfAbsent(K key, V value)&#123;</div><div class="line">         V old = map.get(key);</div><div class="line">         if(old!=null)&#123;</div><div class="line">             return old;</div><div class="line">         &#125;</div><div class="line">         return map.put(key, value);</div><div class="line">     &#125;</div><div class="line">    public V put(K key, V value)&#123;</div><div class="line">        return map.put(key, value);</div><div class="line">    &#125;</div><div class="line">    //…</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码中的putIfAbsent方法在多线程下显然是不安全的。如果多个线程都执行这一步则必然会出现竞态条件。</p>
+<h3 id="2-伪同步"><a href="#2-伪同步" class="headerlink" title="2. 伪同步"></a>2. 伪同步</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public synchronized V putIfAbsent(K key, V value)&#123;</div><div class="line">    V old = map.get(key);</div><div class="line">    if(old!=null)&#123;</div><div class="line">        return old;</div><div class="line">    &#125;</div><div class="line">    return map.put(key, value);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如上代码即便加上synchronized关键字修饰也任然是不安全的。因为我们<strong>同步错了对象</strong>，putlfAbsent同步使用的是EnhancedMap对象，而其他方法(如代码中的put方法）使用的是Collections.synchronizedMap返回的对象map、两者是不同的对象。要解决这个问题，<strong>所有方法必须使用相同的锁</strong>，可以使用EnhancedMap的对象锁，也可以使用map对象锁。使用EnhancedMap对象作为锁，则Enhanced-Map中的所有方法都需耍加上synchronized。使用map作为锁，putlfAbsent方法可以改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">public V putIfAbsent(K key, V value)&#123;</div><div class="line">    synchronized(map)&#123;</div><div class="line">         V old = map.get(key);</div><div class="line">         if(old!=null)&#123;</div><div class="line">             return old;</div><div class="line">         &#125;</div><div class="line">         return map.put(key, value);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="3-迭代"><a href="#3-迭代" class="headerlink" title="3. 迭代"></a>3. 迭代</h3><p>对于同步容器虽然单个操作是安全的，但是迭代却不是。如下代码截取自Collections.SynchronizedList类。可以看到函数并不是同步实现的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public ListIterator&lt;E&gt; listIterator() &#123;</div><div class="line">    return list.listIterator(); // Must be manually synched by user</div><div class="line">&#125;</div><div class="line"></div><div class="line">public ListIterator&lt;E&gt; listIterator(int index) &#123;</div><div class="line">    return list.listIterator(index); // Must be manually synched by user</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们通过两个线程来并发的修改和迭代该同步容器则会出现List迭代时规定的并发修改异常。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line">private static void startModifyThread(final List&lt;String&gt; list) &#123;</div><div class="line">    Thread modifyThread = new Thread(new Runnable() &#123;</div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            for(int i = 0; i &lt; 100; i++) &#123;</div><div class="line">                list.add(&quot;item &quot; + i);</div><div class="line">                try &#123;</div><div class="line">                    Thread.sleep((int) (Math.random() * 10));</div><div class="line">                &#125; catch (InterruptedException e) &#123;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    modifyThread.start();</div><div class="line">&#125;</div><div class="line">private static void startIteratorThread(final List&lt;String&gt; list) &#123;</div><div class="line">    Thread iteratorThread = new Thread(new Runnable() &#123;</div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            while (true) &#123;</div><div class="line">                for(String str : list) &#123;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    iteratorThread.start();</div><div class="line">&#125;</div><div class="line">public static void main(String[] args) &#123;</div><div class="line">    final List&lt;String&gt; list = Collections</div><div class="line">            .synchronizedList(new ArrayList&lt;String&gt;());</div><div class="line">    startIteratorThread(list);</div><div class="line">    startModifyThread(list);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Exception in thread &quot;Thread-0&quot; java.util.ConcurrentModificationException</div><div class="line">    at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:859)</div><div class="line">    at java.util.ArrayList$Itr.next(ArrayList.java:831)</div></pre></td></tr></table></figure></p>
+<p>我们知道对于遍历操作而言，如果迭代时容器发生了结构性变化。就会抛出该异常。很显然同步容器并没有解决这个问题，要想避免这个问题则需要在<strong>遍历的时候给整个容器对象加锁。</strong> 即谁无法保证线程安全，方法体中的代码块就锁谁。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">private static void startIteratorThread(final List&lt;String&gt; list) &#123;</div><div class="line">    Thread iteratorThread = new Thread(new Runnable() &#123;</div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            while(true) &#123;</div><div class="line">                synchronized(list)&#123;</div><div class="line">                    for(String str : list) &#123;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="4-并发容器"><a href="#4-并发容器" class="headerlink" title="4. 并发容器"></a>4. 并发容器</h3><p>在使用synchronized的时候除了需要注意以上注意事项，同时同步容器的性能也是比较低的，当并发访问量比较大的时候性能比较差。但Java还为我们提供了很多专为并发设计的容器类。比如：</p>
+<ul>
+<li>CopyOnWriteArrayList</li>
+<li>ConcurrentHashMap</li>
+<li>ConcurrentLinkedQueue</li>
+<li>ConcurrentSkipListSet</li>
+</ul>
+<p>这些容器类都是线程安全的，仍但都没有使用synchronized，没存迭代问题，直接支持一些复合操作，<br>性能也搞得多。</p>
+<h2 id="释放锁的时机"><a href="#释放锁的时机" class="headerlink" title="释放锁的时机"></a>释放锁的时机</h2><ul>
+<li>当方法(代码块)执行完毕后会自动释放锁，不需要做任何的操作。</li>
+<li>当一个线程执行的代码出现异常时，其所持有的锁会自动释放。</li>
+</ul>
+<p>不会由于异常导致出现死锁现象。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/java-concurrentProgramming-readingNotes-15.2.html" title="Java编程的逻辑 -- 并发章 -- Synchronized">http://www.jiyongguang.xin/java-concurrentProgramming-readingNotes-15.2.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/java-concurrent-shizhan.html" rel="next" title="并发编程实战读书笔记">
+                <i class="fa fa-chevron-left"></i> 并发编程实战读书笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/java-concurrentProgramming-readingNotes-15-3.html" rel="prev" title="Java编程的逻辑 -- 并发章 -- 线程的基本协作机制">
+                Java编程的逻辑 -- 并发章 -- 线程的基本协作机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Synchronized"><span class="nav-number">1.</span> <span class="nav-text">Synchronized</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用法"><span class="nav-number">1.2.</span> <span class="nav-text">用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-实例方法"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 实例方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-BLOCKED、WAITING、TIMED-WAmNG-都表示线程被阻塞了，在等待一些条件。其中BLOCKED表示当前线程在等待的是CPU的时间片而WAITING、TIMED-WAmNG则等待的是外部条件。"><span class="nav-number">1.3.</span> <span class="nav-text">4) BLOCKED、WAITING、TIMED_WAmNG:都表示线程被阻塞了，在等待一些条件。其中BLOCKED表示当前线程在等待的是CPU的时间片而WAITING、TIMED_WAmNG则等待的是外部条件。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-静态方法"><span class="nav-number">1.3.1.</span> <span class="nav-text">2. 静态方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-代码块"><span class="nav-number">1.3.2.</span> <span class="nav-text">3. 代码块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特性"><span class="nav-number">1.4.</span> <span class="nav-text">特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#可重入性"><span class="nav-number">1.4.1.</span> <span class="nav-text">可重入性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存可见性"><span class="nav-number">1.4.2.</span> <span class="nav-text">内存可见性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#死锁"><span class="nav-number">1.4.3.</span> <span class="nav-text">死锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同步容器"><span class="nav-number">1.5.</span> <span class="nav-text">同步容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-复合操作"><span class="nav-number">1.5.1.</span> <span class="nav-text">1. 复合操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-伪同步"><span class="nav-number">1.5.2.</span> <span class="nav-text">2. 伪同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-迭代"><span class="nav-number">1.5.3.</span> <span class="nav-text">3. 迭代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-并发容器"><span class="nav-number">1.5.4.</span> <span class="nav-text">4. 并发容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#释放锁的时机"><span class="nav-number">1.6.</span> <span class="nav-text">释放锁的时机</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

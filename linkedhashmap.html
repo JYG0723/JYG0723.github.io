@@ -1,0 +1,1291 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java基础," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言 本文使用用的是jdk1.8  LinkedHashMap类继承图我们先来了解一下LinkedHashMap的继承实现图吧。">
+<meta name="keywords" content="Java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LinkedHashMap了解一下">
+<meta property="og:url" content="http://www.jiyongguang.xin/linkedhashmap.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="前言 本文使用用的是jdk1.8  LinkedHashMap类继承图我们先来了解一下LinkedHashMap的继承实现图吧。">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-7525505d4c417d19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-fa510d8a2278bd4f.png">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-11/19083193.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-11/66466608.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-3da23a2440badf4d?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-11/22305226.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-11/51112402.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-11/34039053.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-11/67747173.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-1f9b4dc26dd7fbdb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:updated_time" content="2018-05-11T16:16:04.263Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LinkedHashMap了解一下">
+<meta name="twitter:description" content="前言 本文使用用的是jdk1.8  LinkedHashMap类继承图我们先来了解一下LinkedHashMap的继承实现图吧。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5291509-7525505d4c417d19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/linkedhashmap.html"/>
+
+
+
+
+
+  <title> LinkedHashMap了解一下 | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/linkedhashmap.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                LinkedHashMap了解一下
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-11T19:08:26+08:00">
+                2018-05-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-05-12T00:16:04+08:00">
+                2018-05-12
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/linkedhashmap.html" class="leancloud_visitors" data-flag-title="LinkedHashMap了解一下">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,822
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>本文使用用的是jdk1.8</p>
+</blockquote>
+<h1 id="LinkedHashMap类继承图"><a href="#LinkedHashMap类继承图" class="headerlink" title="LinkedHashMap类继承图"></a>LinkedHashMap类继承图</h1><p>我们先来了解一下LinkedHashMap的继承实现图吧。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5291509-7525505d4c417d19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<a id="more"></a>
+<h1 id="LinkedHashMap简述"><a href="#LinkedHashMap简述" class="headerlink" title="LinkedHashMap简述"></a>LinkedHashMap简述</h1><p><img src="https://upload-images.jianshu.io/upload_images/5291509-fa510d8a2278bd4f.png" alt=""></p>
+<p>归纳整理一下：</p>
+<ul>
+<li>底层实现是散列表和双向链表。其实LinkedHashMap就是HashMap和LinkedList结合。底层还是HashMap，只是各节点Entry另外的还添加了两个属性before和after，通过双向列表来链接。</li>
+<li>迭代有序。默认就是链表的元素插入顺序，可通过accessOrder变量修改迭代顺序，是插入顺序还是访问顺序。</li>
+<li>当映射中已经存在key对应的一组Entry。再来一组key对应的Entry插入，会替换掉原来的Entry。元素顺序不受影响。</li>
+<li>使用LinkedHashMap可以不用像HashMap一样元素杂乱无序，而保证元素一定的有序性，做到TreeMap的功能却不用TreeMap的成本。</li>
+<li>提供了<code>LinkedHashMap(int initialCapacity,float loadFactor,boolean accessOrder)</code>这个构造函数来构建LinkedHashMap，这样的LinkedHashMap的元素迭代顺序是从最近访问最少到最多(LRU算法)。</li>
+<li>和HashMap一样允许键值为NULL的元素。</li>
+<li>由于增加了双向链表的维护，大多数情况下其性能很可能比 HashMap 稍逊一筹。不过有一点例外的是LinkedHashMap 的 元素集迭代所需时间与映射Entry的数量 成比例，因为其迭代的时候是对其维护的双向列表进行迭代，有几个Entry迭代几次，而不是迭代其桶数。HashMap 迭代时间很可能开支较大，因为它所需要的时间与其容量成比例。</li>
+<li>和HashMap一样有两个重要参数影响它的性能，初始容量和加载因子。为初始容量选择非常高的值对LinkedHashMap的影响比对 HashMap 要小，因为此类的迭代时间不受容量的影响，所以影响程度减少一些，但其他方面还是会有影响。</li>
+<li>该类是非同步的。如果要使用该映射需要外部手动同步。或者在其初始化的时候外部封装<code>Map m = Collections.synchronizedMap(new LinkedHashMap(...))</code>。</li>
+<li>在按<strong>插入顺序组成</strong>的LinkedHashMap中，修改Entry的key对应的value不是结构修改。<ul>
+<li>在按<strong>访问顺序组成</strong>的LinkedHashMap中，仅通过get函数访问元素就已经算结构修改了。</li>
+</ul>
+</li>
+</ul>
+<h1 id="LinkedHashMap的属性"><a href="#LinkedHashMap的属性" class="headerlink" title="LinkedHashMap的属性"></a>LinkedHashMap的属性</h1><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-11/19083193.jpg" alt=""></p>
+<p>注释给出的解释很清楚，和LinkedHashMap继承HashMap一样，我们知道HashMap维护的是一个单链表。而LinkedHasshMap对其的扩展就是保证了元素的有序性，其维护的是一个双向链表。即图中Entry，其多了两个属性before和after即双向链表中节点的前驱指针后后继指针。</p>
+<p>更多的它还维护了两个节点变量即head和tail，即双向链表的头尾指针，保证了迭代的时候性能。这一点和LinkedList的实现一致。所以说根本上LinkedHashMap就是LinkedList和HashMap的一种结合实现。有HashMap存取增删时的性能，同时规避了HashMap迭代时性能的缺陷，有LinkedList迭代时的性能优势。</p>
+<p>accessOrder属性则代表着LinkedHashMap的迭代顺序。该变量默认情况下是false，即代表插入顺序。为true的时候代表LinkedHashMap的迭代顺序是访问顺序(最近最久未使用优先)。在LinkedHashMap构造的时候统一赋值。</p>
+<h1 id="LinkedHashMap的构造函数"><a href="#LinkedHashMap的构造函数" class="headerlink" title="LinkedHashMap的构造函数"></a>LinkedHashMap的构造函数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">public LinkedHashMap(int initialCapacity, float loadFactor) &#123;</div><div class="line">        super(initialCapacity, loadFactor);</div><div class="line">        accessOrder = false;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public LinkedHashMap(int initialCapacity) &#123;</div><div class="line">    super(initialCapacity);</div><div class="line">    accessOrder = false;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public LinkedHashMap() &#123;</div><div class="line">    super();</div><div class="line">    accessOrder = false;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public LinkedHashMap(Map&lt;? extends K, ? extends V&gt; m) &#123;</div><div class="line">    super();</div><div class="line">    accessOrder = false;</div><div class="line">    putMapEntries(m, false);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public LinkedHashMap(int initialCapacity,</div><div class="line">                     float loadFactor,</div><div class="line">                     boolean accessOrder) &#123;</div><div class="line">    super(initialCapacity, loadFactor);</div><div class="line">    this.accessOrder = accessOrder;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>LinkedHashMap有5个构造函数，根本上都是调用了其父类HashMap的构造函数，唯一不同的就是多了一个accessOrder变量的赋值。上面我们已经对accessOrder进行了解读</p>
+<h1 id="LinkedHashMap常见Api解析"><a href="#LinkedHashMap常见Api解析" class="headerlink" title="LinkedHashMap常见Api解析"></a>LinkedHashMap常见Api解析</h1><h2 id="put-K-key-V-value"><a href="#put-K-key-V-value" class="headerlink" title="put(K key, V value)"></a>put(K key, V value)</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-11/66466608.jpg" alt=""></p>
+<p>可以从类结构图中看出。LinkdeHashMap的所有put函数都是继承自自己的父类HashMap，AbstractMap以及实现的Map接口。</p>
+<p>我们知道HashMap的put函数的具体逻辑最后都封装到了putVal函数中。而putVal函数中节点的创建则落在了newNode函数中。由于LinkedHashMap重写了newNode函数，所以新创的节点链接在内部双向链表的尾部。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5291509-3da23a2440badf4d?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<h2 id="get-Object-key"><a href="#get-Object-key" class="headerlink" title="get(Object key)"></a>get(Object key)</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-11/22305226.jpg" alt=""></p>
+<p>可以从LinkedHashMap类结构图看出其重写了HashMap的get函数和getOrDefault函数，继承了getNode函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">public V get(Object key) &#123;</div><div class="line">    Node&lt;K,V&gt; e;</div><div class="line">    if ((e = getNode(hash(key), key)) == null)</div><div class="line">        return null;</div><div class="line">    if (accessOrder)</div><div class="line">        afterNodeAccess(e);</div><div class="line">    return e.value;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public V getOrDefault(Object key, V defaultValue) &#123;</div><div class="line">   Node&lt;K,V&gt; e;</div><div class="line">   if ((e = getNode(hash(key), key)) == null)</div><div class="line">       return defaultValue;</div><div class="line">   if (accessOrder)</div><div class="line">       afterNodeAccess(e);</div><div class="line">   return e.value;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>LinkedHashMap重写了get()和getOrDefault()函数。调用继承自HashMap的getNode函数来找到哈希表中key对应的Entry。</p>
+<p>对比HashMap中的实现,LinkedHashMap只是增加了在成员变量(构造函数时赋值)accessOrder为true的情况下，要去回调<code>afterNodeAccess(Node&lt;K,V&gt; e)</code>函数的判断。</p>
+<p>HashMap的实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">public V get(Object key) &#123;</div><div class="line">    Node&lt;K,V&gt; e;</div><div class="line">    return (e = getNode(hash(key), key)) == null ? null : e.value;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在<code>afterNodeAccess()</code>函数中，会将当前被访问到的节点e，移动至内部的双向链表的尾部。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">void afterNodeAccess(Node&lt;K,V&gt; e) &#123; // move node to last</div><div class="line">    LinkedHashMap.Entry&lt;K,V&gt; last;//原尾节点</div><div class="line">    // 如果accessOrder 是true ，且原尾节点不等于e</div><div class="line">    if (accessOrder &amp;&amp; (last = tail) != e) &#123;</div><div class="line">        // 节点e强转成双向链表节点p</div><div class="line">        LinkedHashMap.Entry&lt;K,V&gt; p =</div><div class="line">            (LinkedHashMap.Entry&lt;K,V&gt;)e, b = p.before, a = p.after;</div><div class="line">        // p现在是尾节点， 后置节点一定是null</div><div class="line">        p.after = null;</div><div class="line">        // 如果p的前置节点是null，则p以前是头结点，所以更新现在的头结点是p的后置节点a</div><div class="line">        if (b == null)</div><div class="line">            head = a;</div><div class="line">        else // 否则更新p的前直接点b的后置节点为 a</div><div class="line">            b.after = a;</div><div class="line">        // 如果p的后置节点不是null，则更新后置节点a的前置节点为b</div><div class="line">        if (a != null)</div><div class="line">            a.before = b;</div><div class="line">        else // 如果原本p的后置节点是null，则p就是尾节点。 此时 更新last的引用为 p的前置节点b</div><div class="line">            last = b;</div><div class="line">        if (last == null) // 原本尾节点是null  则，链表中就一个节点</div><div class="line">            head = p;</div><div class="line">        else &#123; // 否则 更新 当前节点p的前置节点为 原尾节点last， last的后置节点是p</div><div class="line">            p.before = last;</div><div class="line">            last.after = p;</div><div class="line">        &#125;</div><div class="line">        // 尾节点的引用赋值成p</div><div class="line">        tail = p;</div><div class="line">        // 修改modCount。</div><div class="line">        ++modCount;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>需要注意的是：</p>
+<p>afterNodeAccess()函数中，会修改<code>modCount变量</code>,因此当你正在accessOrder=true的模式下,迭代LinkedHashMap时，如果同时查询访问数据，也会导致fail-fast，因为迭代的顺序已经改变。</p>
+<h2 id="remove-Object-key"><a href="#remove-Object-key" class="headerlink" title="remove(Object key)"></a>remove(Object key)</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-11/51112402.jpg" alt=""></p>
+<p>LinkedHashMap也没有重写remove()方法，因为它的删除逻辑和HashMap并无区别。</p>
+<p>在remove函数中无论是节点的查找时的逻辑判断以及真正的节点删除时的逻辑处理在单链表以及双向链表中的逻辑都是一致的，</p>
+<p>但它重写了<code>afterNodeRemoval()</code>这个回调方法。该方法会在真正封装了删除逻辑的<code>Node&lt;K,V&gt; removeNode(int hash, Object key, Object value,
+boolean matchValue, boolean movable)</code>方法中回调，用来保证双向链表的结构性。并且该remove函数(5参)会在所有涉及到删除节点的方法中被调用因为其是删除节点操作的真正执行者。</p>
+<h2 id="containsValue-Object-value"><a href="#containsValue-Object-value" class="headerlink" title="containsValue(Object value)"></a>containsValue(Object value)</h2><p>它重写了该方法，相比HashMap的实现，更为高效。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">public boolean containsValue(Object value) &#123;</div><div class="line">    for (LinkedHashMap.Entry&lt;K,V&gt; e = head; e != null; e = e.after) &#123;</div><div class="line">        V v = e.value;</div><div class="line">        if (v == value || (value != null &amp;&amp; value.equals(v)))</div><div class="line">            return true;</div><div class="line">    &#125;</div><div class="line">    return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>遍历一遍链表，去比较有没有value相等的节点，并返回</p>
+<p>HashMap实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> public boolean containsValue(Object value) &#123;</div><div class="line">    Node&lt;K,V&gt;[] tab; V v;</div><div class="line">    if ((tab = table) != null &amp;&amp; size &gt; 0) &#123;</div><div class="line">        for (int i = 0; i &lt; tab.length; ++i) &#123;</div><div class="line">            for (Node&lt;K,V&gt; e = tab[i]; e != null; e = e.next) &#123;</div><div class="line">                if ((v = e.value) == value ||</div><div class="line">                    (value != null &amp;&amp; value.equals(v)))</div><div class="line">                    return true;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>双重for循环。相对低效</p>
+<p>LinkedHashMap只重写了HashMap的<code>containsValue</code>函数并没有重写其<code>containsKey</code>函数。是因为如果按containsValue的重写逻辑来做，需要遍历整个KeySet来找。</p>
+<p>而HashMap的实现是通过hash算法来找的。效率要高很多<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public boolean containsKey(Object key) &#123;</div><div class="line">    return getNode(hash(key), key) != null;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="afterNode"><a href="#afterNode" class="headerlink" title="afterNode *()"></a>afterNode *()</h2><p>我们在看HashMap源码的时候就曾看到这些函数的存在。注释也给的很清楚，专门为LinkedHashMap准备的回调函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// Callbacks to allow LinkedHashMap post-actions</div><div class="line">void afterNodeAccess(Node&lt;K,V&gt; p) &#123; &#125;</div><div class="line">void afterNodeInsertion(boolean evict) &#123; &#125;</div><div class="line">void afterNodeRemoval(Node&lt;K,V&gt; p) &#123; &#125;</div></pre></td></tr></table></figure></p>
+<p>从LinkedHashMap中也可以看出也确实重写了这三个函数。分别作用在函数的访问，插入和删除后的回调。</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-11/34039053.jpg" alt=""></p>
+<p><code>afterNodeAccess</code>函数在LinkedHashMap指定迭代顺序是访问顺序的时候获取元素时会回调。来保证双向链表的顺序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">void afterNodeInsertion(boolean evict) &#123; // possibly remove eldest</div><div class="line">    LinkedHashMap.Entry&lt;K,V&gt; first;</div><div class="line">    if (evict &amp;&amp; (first = head) != null &amp;&amp; removeEldestEntry(first)) &#123;</div><div class="line">        K key = first.key;</div><div class="line">        removeNode(hash(key), key, null, false, true);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">protected boolean removeEldestEntry(Map.Entry&lt;K,V&gt; eldest) &#123;</div><div class="line">    return false;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><code>afterNodeInsertion</code>：回调函数，新节点插入之后回调，根据evict来 判断是否需要删除最早插入的节点。如果实现LruCache会用到这个方法。</li>
+<li><code>removeEldestEntry</code>：LinkedHashMap中默认返回false 则不删除最早节点。 返回true 代表要删除最早的节点。通常构建一个LruCache会在达到Cache的上限时返回true</li>
+</ul>
+<p><code>afterNodeInsertion(boolean evict)</code>以及<code>removeEldestEntry(Map.Entry&lt;K,V&gt; eldest)</code>是构建LruCache需要的回调，在LinkedHashMap里可以忽略它们。</p>
+<h2 id="LinkedHashIterator"><a href="#LinkedHashIterator" class="headerlink" title="LinkedHashIterator()"></a>LinkedHashIterator()</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-11/67747173.jpg" alt=""></p>
+<p>从图中可以看出HashMap的迭代规则是遍历哈希表。从第一个桶存在元素的桶开始遍历。所以当初始容量大了之后，桶数也会上去。迭代的时候数据量就会上去</p>
+<p>而LinkedHashMap迭代时是迭代的双向链表。从head节点开始一直到tail结束。并不是遍历每个桶，只是遍历双向链表的每个节点。所以受初始容量影响小。</p>
+<p>LinkedHashMap 示意图；<br><img src="https://upload-images.jianshu.io/upload_images/5291509-1f9b4dc26dd7fbdb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>LinkedHashMap继承了HashMap，相比于HashMap仅重写了几个方法，以改变它迭代遍历时的顺序。这也是其与HashMap相比最大的不同。 </p>
+<p>在每次插入数据，或者访问、修改数据时，会增加节点、或者调整链表的节点顺序。以决定迭代时输出的顺序。</p>
+<ul>
+<li>accessOrder ,默认是false，则迭代时输出的顺序是插入节点的顺序。若为true，则输出的顺序是按照访问节点的顺序。为true时，可以在这基础之上构建一个LruCache.</li>
+<li>LinkedHashMap并没有重写任何put方法。但是其重写了构建新节点的newNode()方法.在每次构建新节点时，将新节点链接在内部双向链表的尾部</li>
+<li>accessOrder=true的模式下,在afterNodeAccess()函数中，会将当前被访问到的节点e，移动至内部的双向链表的尾部。值得注意的是，afterNodeAccess()函数中，会修改modCount,因此当你正在accessOrder=true的模式下,迭代LinkedHashMap时，如果同时查询访问数据，也会导致fail-fast，因为迭代的顺序已经改变。</li>
+<li>nextNode() 就是迭代器里的next()方法 。<br>该方法的实现可以看出，迭代LinkedHashMap，就是从内部维护的双链表的表头开始循环输出。<br>而双链表节点的顺序在LinkedHashMap的增、删、改、查时都会更新。以满足按照插入顺序输出，还是访问顺序输出。</li>
+<li>它与HashMap比，还有一个小小的优化，重写了containsValue()方法，直接遍历内部链表去比对value值是否相等。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/linkedhashmap.html" title="LinkedHashMap了解一下">http://www.jiyongguang.xin/linkedhashmap.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java基础/" rel="tag"># Java基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/hashmap.html" rel="next" title="HashMap了解一下">
+                <i class="fa fa-chevron-left"></i> HashMap了解一下
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/treemap.html" rel="prev" title="TreeMap了解一下">
+                TreeMap了解一下 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LinkedHashMap类继承图"><span class="nav-number">2.</span> <span class="nav-text">LinkedHashMap类继承图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LinkedHashMap简述"><span class="nav-number">3.</span> <span class="nav-text">LinkedHashMap简述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LinkedHashMap的属性"><span class="nav-number">4.</span> <span class="nav-text">LinkedHashMap的属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LinkedHashMap的构造函数"><span class="nav-number">5.</span> <span class="nav-text">LinkedHashMap的构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LinkedHashMap常见Api解析"><span class="nav-number">6.</span> <span class="nav-text">LinkedHashMap常见Api解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#put-K-key-V-value"><span class="nav-number">6.1.</span> <span class="nav-text">put(K key, V value)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get-Object-key"><span class="nav-number">6.2.</span> <span class="nav-text">get(Object key)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#remove-Object-key"><span class="nav-number">6.3.</span> <span class="nav-text">remove(Object key)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#containsValue-Object-value"><span class="nav-number">6.4.</span> <span class="nav-text">containsValue(Object value)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#afterNode"><span class="nav-number">6.5.</span> <span class="nav-text">afterNode *()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LinkedHashIterator"><span class="nav-number">6.6.</span> <span class="nav-text">LinkedHashIterator()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

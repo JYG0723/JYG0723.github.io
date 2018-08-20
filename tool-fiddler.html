@@ -1,0 +1,1697 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Fiddler," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="什么是 FiddlerFiddler是一个好用的抓包工具，可以将网络传输发送与接受的数据包进行截获、重发、编辑、转存等操作。  Fiddler 抓包简介Fiddler是位于客户端和服务器端的HTTP代理，也是目前最常用的http抓包工具之一 。 它能够记录客户端和服务器之间的所有 HTTP请求，可以针对特定的HTTP请求，分析请求数据、设置断点、修改请求的数据，甚至可以修改服务器返回的数据，功能非">
+<meta name="keywords" content="Fiddler">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fiddler抓包">
+<meta property="og:url" content="http://www.jiyongguang.xin/tool-fiddler.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="什么是 FiddlerFiddler是一个好用的抓包工具，可以将网络传输发送与接受的数据包进行截获、重发、编辑、转存等操作。  Fiddler 抓包简介Fiddler是位于客户端和服务器端的HTTP代理，也是目前最常用的http抓包工具之一 。 它能够记录客户端和服务器之间的所有 HTTP请求，可以针对特定的HTTP请求，分析请求数据、设置断点、修改请求的数据，甚至可以修改服务器返回的数据，功能非">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/436758/201606/436758-20160601151920102-396399833.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234158609-143657944.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234159140-1640771885.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234159765-1592382397.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234201172-824376071.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234201843-109931155.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234202609-1251165508.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234203187-464520892.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234204156-849270471.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234205078-161726095.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234205906-1953449875.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234206453-344992441.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234207218-1611954438.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234208015-685482882.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234209140-529820079.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234209937-1106065906.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234210453-1729183371.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234210906-1149932156.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234211547-791281288.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234213922-1389767841.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234214422-971819227.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234215125-2125019877.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234215718-1165848356.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234216265-1959007927.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234216781-677826292.gif">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160119000324093-1538967179.gif">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhzlt59wq3j30ly0phjwv.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhzmvgsws3j30nr0m2q7t.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhzn5nktwrj30ll0istak.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhzneuam1aj30qy0dk0u6.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhznv4zvspj30x90icq8b.jpg">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160120125401968-22426265.png">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhzo42qxxxj30xa0i4jx4.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhzog113oij30b705cabb.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhzobk8u0rj30qw0didhc.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhzpkxii6jj31490m8qbm.jpg">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/626593/201601/626593-20160120125424047-1175695668.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/658251/201608/658251-20160818164959781-107980991.png">
+<meta property="og:image" content="http://images2015.cnblogs.com/blog/658251/201608/658251-20160818165806015-608943885.png">
+<meta property="og:updated_time" content="2017-09-26T14:28:54.156Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Fiddler抓包">
+<meta name="twitter:description" content="什么是 FiddlerFiddler是一个好用的抓包工具，可以将网络传输发送与接受的数据包进行截获、重发、编辑、转存等操作。  Fiddler 抓包简介Fiddler是位于客户端和服务器端的HTTP代理，也是目前最常用的http抓包工具之一 。 它能够记录客户端和服务器之间的所有 HTTP请求，可以针对特定的HTTP请求，分析请求数据、设置断点、修改请求的数据，甚至可以修改服务器返回的数据，功能非">
+<meta name="twitter:image" content="http://images2015.cnblogs.com/blog/436758/201606/436758-20160601151920102-396399833.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/tool-fiddler.html"/>
+
+
+
+
+
+  <title> Fiddler抓包 | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/tool-fiddler.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Fiddler抓包
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-28T13:20:24+08:00">
+                2017-07-28
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-09-26T22:28:54+08:00">
+                2017-09-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/tool-fiddler.html" class="leancloud_visitors" data-flag-title="Fiddler抓包">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,550
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="什么是-Fiddler"><a href="#什么是-Fiddler" class="headerlink" title="什么是 Fiddler"></a>什么是 Fiddler</h3><p>Fiddler是一个好用的抓包工具，可以将网络传输发送与接受的数据包进行截获、重发、编辑、转存等操作。</p>
+<hr>
+<h3 id="Fiddler-抓包简介"><a href="#Fiddler-抓包简介" class="headerlink" title="Fiddler 抓包简介"></a>Fiddler 抓包简介</h3><p>Fiddler是位于客户端和服务器端的HTTP代理，也是目前最常用的http抓包工具之一 。 它能够记录客户端和服务器之间的所有 HTTP请求，可以针对特定的HTTP请求，分析请求数据、设置断点、修改请求的数据，甚至可以修改服务器返回的数据，功能非常强大，是web调试的利器。</p>
+<p>既然是代理，也就是说：客户端的所有请求都要先经过Fiddler，然后转发到相应的服务器，反之，服务器端的所有响应，也都会先经过Fiddler然后发送到客户端。使用了Fiddler之后，web客户端和服务器的请求如下所示：</p>
+<a id="more"></a>
+<p><img src="http://images2015.cnblogs.com/blog/436758/201606/436758-20160601151920102-396399833.png" alt=""></p>
+<p>在打开Fiddler的那一瞬间，它就已经设置好了浏览器的代理了。当你关闭的时候，它又帮你把代理还原了</p>
+<hr>
+<h3 id="字段说明"><a href="#字段说明" class="headerlink" title="字段说明"></a>字段说明</h3><h4 id="Capture-Traffic-开启"><a href="#Capture-Traffic-开启" class="headerlink" title="Capture Traffic 开启"></a>Capture Traffic 开启</h4><p>Fiddler想要抓到数据包，要确保Capture Traffic是开启，在 File –&gt; Capture Traffic。开启后再左下角会有显示，也可以直接点击左下角的图标来关闭/开启抓包功能。</p>
+<hr>
+<h4 id="请求字段及图标含义解析"><a href="#请求字段及图标含义解析" class="headerlink" title="请求字段及图标含义解析"></a>请求字段及图标含义解析</h4><p>Fiddler开始工作了，抓到的数据包就会显示在列表里面，下面总结了这些都是什么意思：</p>
+<p><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234158609-143657944.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><strong>名称</strong></th>
+<th style="text-align:center"><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">#</td>
+<td style="text-align:center">抓取HTTP Request的顺序，从1开始，以此递增</td>
+</tr>
+<tr>
+<td style="text-align:center">Result</td>
+<td style="text-align:center">HTTP状态码</td>
+</tr>
+<tr>
+<td style="text-align:center">Protocol</td>
+<td style="text-align:center">请求使用的协议，如HTTP/HTTPS/FTP等</td>
+</tr>
+<tr>
+<td style="text-align:center">Host</td>
+<td style="text-align:center">请求地址的主机名</td>
+</tr>
+<tr>
+<td style="text-align:center">URL</td>
+<td style="text-align:center">请求资源的位置</td>
+</tr>
+<tr>
+<td style="text-align:center">Body</td>
+<td style="text-align:center">该请求的大小</td>
+</tr>
+<tr>
+<td style="text-align:center">Caching</td>
+<td style="text-align:center">请求的缓存过期时间或者缓存控制值</td>
+</tr>
+<tr>
+<td style="text-align:center">Content-Type</td>
+<td style="text-align:center">请求响应的类型</td>
+</tr>
+<tr>
+<td style="text-align:center">Process</td>
+<td style="text-align:center">发送此请求的进程：进程ID</td>
+</tr>
+<tr>
+<td style="text-align:center">Comments</td>
+<td style="text-align:center">允许用户为此回话添加备注</td>
+</tr>
+<tr>
+<td style="text-align:center">Custom</td>
+<td style="text-align:center">允许用户设置自定义值</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>图标</strong></td>
+<td style="text-align:center"><strong>含义</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234159140-1640771885.gif" alt=""></td>
+<td style="text-align:center">请求已经发往服务器</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234159765-1592382397.gif" alt=""></td>
+<td style="text-align:center">已从服务器下载响应结果</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234201172-824376071.gif" alt=""></td>
+<td style="text-align:center">请求从断点处暂停</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234201843-109931155.gif" alt=""></td>
+<td style="text-align:center">响应从断点处暂停</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234202609-1251165508.gif" alt=""></td>
+<td style="text-align:center">请求使用 HTTP 的 HEAD 方法，即响应没有内容（Body）</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234203187-464520892.png" alt=""></td>
+<td style="text-align:center">请求使用 HTTP 的 POST 方法</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234204156-849270471.gif" alt=""></td>
+<td style="text-align:center">请求使用 HTTP 的 CONNECT 方法，使用 HTTPS 协议建立连接隧道</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234205078-161726095.gif" alt=""></td>
+<td style="text-align:center">响应是 HTML 格式</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234205906-1953449875.gif" alt=""></td>
+<td style="text-align:center">响应是一张图片</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234206453-344992441.gif" alt=""></td>
+<td style="text-align:center">响应是脚本格式</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234207218-1611954438.gif" alt=""></td>
+<td style="text-align:center">响应是 CSS 格式</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234208015-685482882.gif" alt=""></td>
+<td style="text-align:center">响应是 XML 格式</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234209140-529820079.png" alt=""></td>
+<td style="text-align:center">响应是 JSON 格式</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234209937-1106065906.png" alt=""></td>
+<td style="text-align:center">响应是一个音频文件</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234210453-1729183371.png" alt=""></td>
+<td style="text-align:center">响应是一个视频文件</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234210906-1149932156.png" alt=""></td>
+<td style="text-align:center">响应是一个 SilverLight</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234211547-791281288.png" alt=""></td>
+<td style="text-align:center">响应是一个 FLASH</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234213922-1389767841.png" alt=""></td>
+<td style="text-align:center">响应是一个字体</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234214422-971819227.gif" alt=""></td>
+<td style="text-align:center">普通响应成功</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234215125-2125019877.gif" alt=""></td>
+<td style="text-align:center">响应是 HTTP/300、301、302、303 或 307 重定向</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234215718-1165848356.gif" alt=""></td>
+<td style="text-align:center">响应是 HTTP/304（无变更）：使用缓存文件</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234216265-1959007927.gif" alt=""></td>
+<td style="text-align:center">响应需要客户端证书验证</td>
+</tr>
+<tr>
+<td style="text-align:center"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160118234216781-677826292.gif" alt=""></td>
+<td style="text-align:center">服务端错误</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://images2015.cnblogs.com/blog/626593/201601/626593-20160119000323687-304487615.gif" target="_blank" rel="external"><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160119000324093-1538967179.gif" alt="clip_image0244"></a></td>
+<td style="text-align:center">会话被客户端、Fiddler 或者服务端终止</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="Statistics-请求的性能数据分析"><a href="#Statistics-请求的性能数据分析" class="headerlink" title="Statistics 请求的性能数据分析"></a>Statistics 请求的性能数据分析</h4><p>随意点击一个请求，就可以看到<code>Statistics</code>关于<code>HTTP</code>请求的性能以及数据分析了。</p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhzlt59wq3j30ly0phjwv.jpg" alt=""></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Request Count</td>
+<td style="text-align:center">选中的session数</td>
+</tr>
+<tr>
+<td style="text-align:center">Unique Hosts</td>
+<td style="text-align:center">流量流向的独立目标主机数。如果所有选中的流量都发送到相同的服务器上，则不会显示该字段</td>
+</tr>
+<tr>
+<td style="text-align:center">Bytes sent</td>
+<td style="text-align:center">HTTP请求头和请求体中向外发送的字节总数。后面括号中分别给出了头和body各自的字节数</td>
+</tr>
+<tr>
+<td style="text-align:center">Bytes received</td>
+<td style="text-align:center">HTTP请求头和请求体中接收到的所有字节数。在全部计数后面的括号中给出了请求头和请求体各自的字节数</td>
+</tr>
+<tr>
+<td style="text-align:center">Requests started at</td>
+<td style="text-align:center">Fiddler接收到的第一个请求的第一个字节的时间点</td>
+</tr>
+<tr>
+<td style="text-align:center">Responses completed at</td>
+<td style="text-align:center">Fiddler发送到客户端的最后一个响应的最后一个字节的时间点</td>
+</tr>
+<tr>
+<td style="text-align:center">Sequence(clock) duration</td>
+<td style="text-align:center">第一个请求开始到最后一个响应结束之间的 “时钟时间”</td>
+</tr>
+<tr>
+<td style="text-align:center">Aggregate session duration</td>
+<td style="text-align:center">所有选中的session从请求到响应之间的时间的和</td>
+</tr>
+<tr>
+<td style="text-align:center">DNS Lookup time</td>
+<td style="text-align:center">所有选中的session解析DNS所花费的时间的总和</td>
+</tr>
+<tr>
+<td style="text-align:center">TCP/IP Connect duration</td>
+<td style="text-align:center">所有选中session建立TCP/IP连接所花费的时间总和</td>
+</tr>
+<tr>
+<td style="text-align:center">HTTPS Handshake duration</td>
+<td style="text-align:center">所有选中session在HTTPS握手上所花费的时间总和</td>
+</tr>
+<tr>
+<td style="text-align:center">Response Codes</td>
+<td style="text-align:center">选中session中各个HTTP响应码的计数</td>
+</tr>
+<tr>
+<td style="text-align:center">Response Bytes by content-type</td>
+<td style="text-align:center">选中session中响应的各个Content-Type的字节数</td>
+</tr>
+<tr>
+<td style="text-align:center">Estimated Performance</td>
+<td style="text-align:center">选中的流量在不同语种(local)地区和连接方式下所需时间的初步估计</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h4 id="Inspectors-查看数据内容"><a href="#Inspectors-查看数据内容" class="headerlink" title="Inspectors 查看数据内容"></a>Inspectors 查看数据内容</h4><p>Inspectors是用于查看会话的内容，可以详细查看请求的 Headers、Cookies，并且可以对请求体格式化，以 WebForms、JSON、Raw 等方式查看。具体每种方式的区别可以自己感受一下。一般来说，想要查看请求的参数的话，WebForms 的方式就挺直观的。点击Raw就能看到原始的请求头部信息。上半部分是请求的内容，下半部分是响应的内容：</p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhzmvgsws3j30nr0m2q7t.jpg" alt=""></p>
+<hr>
+<h4 id="AutoResponder-允许拦截指定规则的请求"><a href="#AutoResponder-允许拦截指定规则的请求" class="headerlink" title="AutoResponder 允许拦截指定规则的请求"></a>AutoResponder 允许拦截指定规则的请求</h4><p>AutoResponder允许你拦截指定规则的请求，并返回本地资源或Fiddler资源，从而代替服务器响应。</p>
+<ol>
+<li>字符串匹配（默认）：只要包含指定字符串（不区分大小写），全部认为是匹配</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字符串匹配（baidu）</th>
+<th style="text-align:center">是否匹配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="http://www.baidu.com/" target="_blank" rel="external">http://www.baidu.com</a></td>
+<td style="text-align:center">匹配</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://pan.baidu.com/" target="_blank" rel="external">http://pan.baidu.com</a></td>
+<td style="text-align:center">匹配</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://tieba.baidu.com/" target="_blank" rel="external">http://tieba.baidu.com</a></td>
+<td style="text-align:center">匹配</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>正则表达式匹配：以“regex:”开头，使用正则表达式来匹配，这个是区分大小写的</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字符串匹配（regex:.+.(jpg \</th>
+<th style="text-align:center">gif \</th>
+<th>bmp ) $）</th>
+<th>是否匹配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="http://bbs.fishc.com/Path1/query=example.bmp" target="_blank" rel="external">http://bbs.fishc.com/Path1/query=foo.bmp&amp;bar</a></td>
+<td style="text-align:center">不匹配</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://bbs.fishc.com/Path1/query=example.gif" target="_blank" rel="external">http://bbs.fishc.com/Path1/query=example.gif</a></td>
+<td style="text-align:center">匹配</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://bbs.fishc.com/Path1/query=example.bmp" target="_blank" rel="external">http://bbs.fishc.com/Path1/query=example.bmp</a></td>
+<td style="text-align:center">匹配</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://bbs.fishc.com/Path1/query=example.Gif" target="_blank" rel="external">http://bbs.fishc.com/Path1/query=example.Gif</a></td>
+<td style="text-align:center">不匹配</td>
+</tr>
+</tbody>
+</table>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhzn5nktwrj30ll0istak.jpg" alt=""></p>
+<p>这样在Fiddler中设置拦截规则之后，再访问<code>baidu</code>就会被劫持。这里需要注意的是，当我访问<code>www.baidu.com</code>的时候，该网站是基于https协议的。所以看不到请求报文，要想看到需要在fiddler上进行一些配置。这里我为了简单直接访问了<code>http://tieba.baidu.com</code>。还有就是，测试完之后记得将该拦截规则关闭。</p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhzneuam1aj30qy0dk0u6.jpg" alt=""></p>
+<p>反向代理参考：<a href="http://www.cnblogs.com/chenshaoping/p/5785010.html" target="_blank" rel="external">反向代理参考</a></p>
+<hr>
+<h4 id="Composer-自定义请求发送服务器"><a href="#Composer-自定义请求发送服务器" class="headerlink" title="Composer 自定义请求发送服务器"></a>Composer 自定义请求发送服务器</h4><ul>
+<li><p>Composer允许自定义请求发送到服务器，可以手动创建一个新的请求，也可以在会话表中，拖拽一个现有的请求</p>
+</li>
+<li><p>Parsed模式下你只需要提供简单的<code>URL</code>地址即可（如下图，也可以在<code>RequestBody</code>定制一些属性，如模拟浏览器<code>User-Agent</code>）</p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhznv4zvspj30x90icq8b.jpg" alt=""></p>
+</li>
+</ul>
+<hr>
+<h4 id="Filters-请求过滤规则"><a href="#Filters-请求过滤规则" class="headerlink" title="Filters 请求过滤规则"></a>Filters 请求过滤规则</h4><p>Fiters 是过滤请求用的，左边的窗口不断的更新，当你想看你系统的请求的时候，你刷新一下浏览器，一大片不知道哪来请求，看着碍眼，它还一直刷新你的屏幕。这个时候可以通过过滤规则来过滤掉那些不想看到的请求。</p>
+<p><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160120125401968-22426265.png" alt=""></p>
+<p>勾选左上角的Use Filters开启过滤器，这里有两个最常用的过滤条件：<code>Zone</code>和<code>Host</code></p>
+<blockquote>
+<ul>
+<li>Zone 指定只显示内网（Intranet）或互联网（Internet）的内容：</li>
+<li>Host 指定显示某个域名下的会话：</li>
+</ul>
+</blockquote>
+<h4 id="Timeline-请求响应时间"><a href="#Timeline-请求响应时间" class="headerlink" title="Timeline 请求响应时间"></a>Timeline 请求响应时间</h4><p>在左侧会话窗口点击一个或多个请求，Timeline 便会显示指定内容从服务端传输到客户端的时间：</p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhzo42qxxxj30xa0i4jx4.jpg" alt=""></p>
+<hr>
+<h4 id="Fiddler-设置解密HTTPS的网络数据"><a href="#Fiddler-设置解密HTTPS的网络数据" class="headerlink" title="Fiddler 设置解密HTTPS的网络数据"></a>Fiddler 设置解密HTTPS的网络数据</h4><p>Fiddler可以通过伪造CA证书来欺骗浏览器和服务器。大概原理就是在浏览器面前Fiddler伪装成一个HTTPS服务器，而在真正的HTTPS服务器面前Fiddler又装成浏览器，从而实现解密HTTPS数据包的目的。</p>
+<p>解密HTTPS需要手动开启：</p>
+<blockquote>
+<p>Tools - Fiddler Options - HTTPS - Decrypt HTTPS Traffic。一路 ok，yes 下来</p>
+</blockquote>
+<p>此时基于HTTPS协议的请求我们就可以拦截到了，并且我们刚才设置劫持的含有<code>baidu</code>关键字的网站<code>https://www.baidu.com/</code>，也可以访问了。</p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhzog113oij30b705cabb.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhzobk8u0rj30qw0didhc.jpg" alt=""></p>
+<hr>
+<h4 id="Fiddler-内置命令与断点"><a href="#Fiddler-内置命令与断点" class="headerlink" title="Fiddler 内置命令与断点"></a>Fiddler 内置命令与断点</h4><p>FIddler断点功能就是将请求截获下来，但是不发送，这个时候你可以干很多事情，比如说，把包改了，再发送给服务器君。等等 ~</p>
+<p>当茫茫多请求存在在请求列表中时如何快速检索你想要的命令呢。</p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhzpkxii6jj31490m8qbm.jpg" alt=""></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><strong>命令</strong></th>
+<th style="text-align:center"><strong>对应请求项</strong></th>
+<th style="text-align:center"><strong>介绍</strong></th>
+<th style="text-align:center"><strong>示例</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:center">All</td>
+<td style="text-align:center">问号后边跟一个字符串，可以匹配出包含这个字符串的请求</td>
+<td style="text-align:center">?imooc</td>
+</tr>
+<tr>
+<td style="text-align:center">&gt;</td>
+<td style="text-align:center">Body</td>
+<td style="text-align:center">大于号后面跟一个数字，可以匹配出请求大小，大于这个数字请求</td>
+<td style="text-align:center">&gt;1000</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;</td>
+<td style="text-align:center">Body</td>
+<td style="text-align:center">小于号跟大于号相反，匹配出请求大小，小于这个数字的请求</td>
+<td style="text-align:center">&lt;100</td>
+</tr>
+<tr>
+<td style="text-align:center">=</td>
+<td style="text-align:center">Result</td>
+<td style="text-align:center">等于号后面跟数字，可以匹配HTTP返回码</td>
+<td style="text-align:center">=200</td>
+</tr>
+<tr>
+<td style="text-align:center">@</td>
+<td style="text-align:center">Host</td>
+<td style="text-align:center">@后面跟Host，可以匹配域名</td>
+<td style="text-align:center">@www.baidu.com</td>
+</tr>
+<tr>
+<td style="text-align:center">select</td>
+<td style="text-align:center">Content-Type</td>
+<td style="text-align:center">select后面跟响应类型，可以匹配到相关的类型</td>
+<td style="text-align:center">select image</td>
+</tr>
+<tr>
+<td style="text-align:center">cls</td>
+<td style="text-align:center">All</td>
+<td style="text-align:center">清空当前所有请求</td>
+<td style="text-align:center">cls</td>
+</tr>
+<tr>
+<td style="text-align:center">dump</td>
+<td style="text-align:center">All</td>
+<td style="text-align:center">将所有请求打包成saz压缩包，保存到“我的文档\Fiddler2\Captures”目录下</td>
+<td style="text-align:center">dump</td>
+</tr>
+<tr>
+<td style="text-align:center">start</td>
+<td style="text-align:center">All</td>
+<td style="text-align:center">开始监听请求</td>
+<td style="text-align:center">start</td>
+</tr>
+<tr>
+<td style="text-align:center">stop</td>
+<td style="text-align:center">All</td>
+<td style="text-align:center">停止监听请求</td>
+<td style="text-align:center">stop</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"><strong>断点命令</strong></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">bpafter</td>
+<td style="text-align:center">All</td>
+<td style="text-align:center">bpafter后边跟一个字符串，表示中断所有包含该字符串的请求</td>
+<td style="text-align:center">bpafter baidu（输入bpafter解除断点）</td>
+</tr>
+<tr>
+<td style="text-align:center">bpu</td>
+<td style="text-align:center">All</td>
+<td style="text-align:center">跟bpafter差不多，只不过这个是收到请求了，但是中断响应</td>
+<td style="text-align:center">bpu baidu（输入bpu解除断点）</td>
+</tr>
+<tr>
+<td style="text-align:center">bps</td>
+<td style="text-align:center">Result</td>
+<td style="text-align:center">后面跟状态吗，表示中断所有是这个状态码的请求</td>
+<td style="text-align:center">bps 200（输入bps解除断点）</td>
+</tr>
+<tr>
+<td style="text-align:center">bpv / bpm</td>
+<td style="text-align:center">HTTP方法</td>
+<td style="text-align:center">只中断HTTP方法的命令，HTTP方法如POST、GET</td>
+<td style="text-align:center">bpv get（输入bpv解除断点）</td>
+</tr>
+<tr>
+<td style="text-align:center">g / <a href="http://lib.csdn.net/base/go" target="_blank" rel="external">Go</a></td>
+<td style="text-align:center">All</td>
+<td style="text-align:center">放行所有中断下来的请求</td>
+<td style="text-align:center">g</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><a href="http://docs.telerik.com/fiddler/KnowledgeBase/QuickExec" target="_blank" rel="external">QuickExec 官网介绍</a></p>
+<p>输入<code>help</code>会带你到命令行的帮助页，上面列举了所有可用的命令。不是很多，而且都很直观。</p>
+</blockquote>
+<p>断点可以直接点击Fiddler下图的图标位置，就可以设置全部请求的断点，断点的命令可以精确设置需要截获那些请求。如下示例：</p>
+<p><img src="http://images2015.cnblogs.com/blog/626593/201601/626593-20160120125424047-1175695668.png" alt=""></p>
+<hr>
+<h4 id="Response乱码时的处理方法"><a href="#Response乱码时的处理方法" class="headerlink" title="Response乱码时的处理方法"></a>Response乱码时的处理方法</h4><p>有时候看到Response中的HTML是乱码的， 这是因为HTML被压缩了，可以通过两种方法去解压缩。</p>
+<p>方法一：点击红框内容“Response body is encouded.Click to decode.”</p>
+<p><img src="http://images2015.cnblogs.com/blog/658251/201608/658251-20160818164959781-107980991.png" alt=""></p>
+<p>方法二：选中工具栏中的”Decode”。这样会自动解压缩。</p>
+<p><img src="http://images2015.cnblogs.com/blog/658251/201608/658251-20160818165806015-608943885.png" alt=""></p>
+<hr>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/tool-fiddler.html" title="Fiddler抓包">http://www.jiyongguang.xin/tool-fiddler.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Fiddler/" rel="tag"># Fiddler</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/java-web-get-post.html" rel="next" title="HTPP请求方法Get与Post解析">
+                <i class="fa fa-chevron-left"></i> HTPP请求方法Get与Post解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/tool-json.html" rel="prev" title="Json解析">
+                Json解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-Fiddler"><span class="nav-number">1.</span> <span class="nav-text">什么是 Fiddler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fiddler-抓包简介"><span class="nav-number">2.</span> <span class="nav-text">Fiddler 抓包简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字段说明"><span class="nav-number">3.</span> <span class="nav-text">字段说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Capture-Traffic-开启"><span class="nav-number">3.1.</span> <span class="nav-text">Capture Traffic 开启</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#请求字段及图标含义解析"><span class="nav-number">3.2.</span> <span class="nav-text">请求字段及图标含义解析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Statistics-请求的性能数据分析"><span class="nav-number">3.3.</span> <span class="nav-text">Statistics 请求的性能数据分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Inspectors-查看数据内容"><span class="nav-number">3.4.</span> <span class="nav-text">Inspectors 查看数据内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AutoResponder-允许拦截指定规则的请求"><span class="nav-number">3.5.</span> <span class="nav-text">AutoResponder 允许拦截指定规则的请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Composer-自定义请求发送服务器"><span class="nav-number">3.6.</span> <span class="nav-text">Composer 自定义请求发送服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filters-请求过滤规则"><span class="nav-number">3.7.</span> <span class="nav-text">Filters 请求过滤规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Timeline-请求响应时间"><span class="nav-number">3.8.</span> <span class="nav-text">Timeline 请求响应时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fiddler-设置解密HTTPS的网络数据"><span class="nav-number">3.9.</span> <span class="nav-text">Fiddler 设置解密HTTPS的网络数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fiddler-内置命令与断点"><span class="nav-number">3.10.</span> <span class="nav-text">Fiddler 内置命令与断点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Response乱码时的处理方法"><span class="nav-number">3.11.</span> <span class="nav-text">Response乱码时的处理方法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

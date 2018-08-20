@@ -1,0 +1,1303 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Thymeleaf,SpringBoot," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="spring-boot-starter-webSpring Boot提供了spring-boot-starter-web为Web开发予以支持，spring-boot-starter-web为我们提供了嵌入的Tomcat以及Spring MVC的依赖。  Spring MVC自动配置Spring Boot为Spring MVC提供适用于多数应用的自动配置功能。在Spring默认基础上，自动配置添加了">
+<meta name="keywords" content="Thymeleaf,SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot开发Web应用集成Thymeleaf(官方推荐)">
+<meta property="og:url" content="http://www.jiyongguang.xin/frame-springboot-thymeleaf.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="spring-boot-starter-webSpring Boot提供了spring-boot-starter-web为Web开发予以支持，spring-boot-starter-web为我们提供了嵌入的Tomcat以及Spring MVC的依赖。  Spring MVC自动配置Spring Boot为Spring MVC提供适用于多数应用的自动配置功能。在Spring默认基础上，自动配置添加了">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhl1cm0xfyj30j905bwg5.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhrrrlfwk1j30cr07zjt6.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhm9aqo67pj30kl03gmye.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhqxj382vij31ha063jrj.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhqxj3826kj31hc079glq.jpg">
+<meta property="og:updated_time" content="2017-09-26T14:21:33.471Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot开发Web应用集成Thymeleaf(官方推荐)">
+<meta name="twitter:description" content="spring-boot-starter-webSpring Boot提供了spring-boot-starter-web为Web开发予以支持，spring-boot-starter-web为我们提供了嵌入的Tomcat以及Spring MVC的依赖。  Spring MVC自动配置Spring Boot为Spring MVC提供适用于多数应用的自动配置功能。在Spring默认基础上，自动配置添加了">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006gmCthly1fhl1cm0xfyj30j905bwg5.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/frame-springboot-thymeleaf.html"/>
+
+
+
+
+
+  <title> SpringBoot开发Web应用集成Thymeleaf(官方推荐) | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/frame-springboot-thymeleaf.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                SpringBoot开发Web应用集成Thymeleaf(官方推荐)
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-16T00:27:54+08:00">
+                2017-07-16
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-09-26T22:21:33+08:00">
+                2017-09-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学习/" itemprop="url" rel="index">
+                    <span itemprop="name">学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/frame-springboot-thymeleaf.html" class="leancloud_visitors" data-flag-title="SpringBoot开发Web应用集成Thymeleaf(官方推荐)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,150
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="spring-boot-starter-web"><a href="#spring-boot-starter-web" class="headerlink" title="spring-boot-starter-web"></a>spring-boot-starter-web</h3><p>Spring Boot提供了spring-boot-starter-web为Web开发予以支持，spring-boot-starter-web为我们提供了嵌入的Tomcat以及Spring MVC的依赖。</p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhl1cm0xfyj30j905bwg5.jpg" alt=""></p>
+<h3 id="Spring-MVC自动配置"><a href="#Spring-MVC自动配置" class="headerlink" title="Spring MVC自动配置"></a>Spring MVC自动配置</h3><p>Spring Boot为Spring MVC提供适用于多数应用的自动配置功能。在Spring默认基础上，自动配置添加了以下特性：</p>
+<ol>
+<li>引入<a href="http://blog.csdn.net/z69183787/article/details/41654603" target="_blank" rel="external">ContentNegotiatingViewResolver</a>和BeanNameViewResolver beans。</li>
+<li>对静态资源的支持，包括对WebJars的支持。</li>
+<li>自动注册Converter，GenericConverter，Formatter beans。</li>
+<li>对HttpMessageConverters的支持。</li>
+<li>自动注册MessageCodeResolver。</li>
+<li>对静态index.html的支持。</li>
+<li>对自定义Favicon的支持。</li>
+</ol>
+<a id="more"></a>
+<p>如果想要自己完全控制WebMVC配置，就需要在@Configuration注解的配置类上增加@EnableWebMvc注解。增加该注解以后WebMvcAutoConfiguration中配置就不会生效，你需要自己来配置需要的每一项。这种情况下的配置还是要多看一下WebMvcAutoConfiguration类(上面7个默认配置就在此处设定)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@EnableWebMvc</span></div><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestMvc</span> </span>&#123;</div><div class="line">    ···</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果想保留Spring Boot MVC的特性(应用默认配置)，并只是添加自定义的MVC配置(拦截器，formatters，视图控制器等)，你可以自定义一个配置类并继承WebMvcConfigurerAdapter类。在类中通过配置@Bean方法来注册自己想要的bean甚至是自定义的bean。或重写父类某一方法实现自己的处理逻辑</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomizeWebMvcConfiguration</span> <span class="keyword">extends</span> <span class="title">WebMvcConfigurerAdapter</span> </span>&#123;</div><div class="line">		···</div><div class="line">	<span class="meta">@Bean</span></div><div class="line">	<span class="function"><span class="keyword">public</span> BeanNameViewResolver <span class="title">beanNameViewResolver</span> <span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span>  <span class="keyword">new</span> BeanNameViewResolver(); <span class="comment">// 示例代码</span></div><div class="line">	&#125;</div><div class="line">  </div><div class="line">   <span class="comment">/* 一个道理</span></div><div class="line">   &lt;bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;</div><div class="line">        &lt;property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/&gt;</div><div class="line">        &lt;property name="prefix" value="/WEB-INF/jsp/"/&gt;</div><div class="line">        &lt;property name="suffix" value=".jsp"/&gt;</div><div class="line">   &lt;/bean&gt;</div><div class="line">   */</div><div class="line">  </div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</div><div class="line">       registry.addResourceHandler(<span class="string">"/webjar/**"</span>).addResourceLocations(<span class="string">"classpath:/webjar/"</span>);</div><div class="line">        <span class="keyword">super</span>.addResourceHandlers(registry);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">		···</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>当你使用@EnableWebMvc来配置spring mvc时，会把WebMvcConfigurationSupport当成配置文件来用，将其中所有标识有@Bean注解的方法配置成bean，这就成了Spring mvc的默认配置</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebMvcConfigurationSupport</span> <span class="keyword">implements</span> <span class="title">ApplicationContextAware</span>, <span class="title">ServletContextAware</span> </span>&#123;</div><div class="line">		····</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>各个组件都是可以定制化的，在WebMvcConfigurationSupport是通过模板方法模式来实现的，在各个发布成Bean的方法中(@Bean)，都调用了自定义组件的抽象方法，所以可以在其在子类中对这些组件进行覆盖，如：</p>
+<ul>
+<li><p>对HandlerAdapter组件，有addInterceptors(InterceptorRegistry registry)可以添加自己的拦截器；</p>
+</li>
+<li><p>对conversionService组件，有addFormatters(FormatterRegistry registry)可以添加自己的类型转换器；</p>
+<p>···</p>
+</li>
+</ul>
+<p>从而实现定制化。</p>
+<p>上面提到子类，Spring mvc提供的默认实现是DelegatingWebMvcConfiguration，覆盖父类的方法之前，它会寻找容器中所有的WebMvcConfigurer实现类，将所有WebMvcConfigurer实现类中的配置组合起来，组成一个超级配置，再对WebMvcConfigurationSupport中对应的发布成Bean的方法进行覆盖。这样，WebMvcConfigurationSupport中的bean配置发布时，就会把这所有自定义配置都带上了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DelegatingWebMvcConfiguration</span> <span class="keyword">extends</span> <span class="title">WebMvcConfigurationSupport</span> </span>&#123;</div><div class="line">		···</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>总的来说就是，WebMvcConfigurationSupport负责bean的发布。分派自己的子类DelegatingWebMvcConfiguration去寻找用户所有实现了WebMvcConfigurer接口的实现类。并将用户所有发布成Bean的方法组合起来。交还给WebMvcConfigurationSupport统一发布并配置。</p>
+<p>参考：<a href="http://hahalq.iteye.com/blog/1738599" target="_blank" rel="external">Spring mvc注解配置的背后</a></p>
+<h3 id="静态文件"><a href="#静态文件" class="headerlink" title="静态文件"></a>静态文件</h3><p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhrrrlfwk1j30cr07zjt6.jpg" alt=""></p>
+<p>默认情况下，Spring Boot从classpath下一个叫/static（/public，/resources或/META-INF/resources）的文件夹或从ServletContext根目录提供静态内容。(这几个都是静态资源的映射路径，优先级顺序为：META-INF/resources &gt; resources &gt; static &gt; public)</p>
+<p>对应的配置文件配置如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 默认映射，默认值为 /**</div><div class="line">spring.mvc.static-path-pattern=</div><div class="line"># 默认值为 classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/</div><div class="line">spring.resources.static-locations=这里设置要指向的路径，多个使用英文逗号隔开</div></pre></td></tr></table></figure>
+<p>可以通过修改spring.mvc.static-path-pattern来修改默认的映射，例如改成/thymeleaf/**,那运行的时候访问 <a href="http://lcoalhost:8080/thymeleaf/index.html" target="_blank" rel="external">http://lcoalhost:8080/thymeleaf/index.html</a> 才对应到index.html页面。</p>
+<p>这使用了Spring MVC的ResourceHttpRequestHandler，所以你可以通过添加自己的WebMvcConfigurerAdapter并覆写addResourceHandlers方法来改变这个行为（加载静态文件）。</p>
+<p>在一个单独的web应用中，容器默认的servlet是开启的，如果Spring决定不处理某些请求，默认的servlet作为一个回退（降级）将从ServletContext根目录加载内容。大多数时候，这不会发生（除非你修改默认的MVC配置），因为Spring总能够通过DispatcherServlet处理请求。</p>
+<p>此外，上述标准的静态资源位置有个例外情况是<a href="http://www.webjars.org/" target="_blank" rel="external">Webjars内容</a>。任何在/webjars/**路径下的资源都将从jar文件中提供，只要它们以Webjars的格式打包。</p>
+<p><strong>注</strong>：如果你的应用将被打包成jar，那就不要使用src/main/webapp文件夹。尽管该文件夹是一个共同的标准，但它仅在打包成war的情况下起作用，并且如果产生一个jar，多数构建工具都会静悄悄的忽略它</p>
+<p>默认实现类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">WebMvcConfigurerComposite</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</div><div class="line">				···</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</div><div class="line">		<span class="keyword">for</span> (WebMvcConfigurer delegate : <span class="keyword">this</span>.delegates) &#123;</div><div class="line">			delegate.addResourceHandlers(registry);</div><div class="line">	&#125;</div><div class="line">				···</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebMvcConfigurationSupport</span> <span class="keyword">implements</span> <span class="title">ApplicationContextAware</span>, <span class="title">ServletContextAware</span> </span>&#123;</div><div class="line">  			···</div><div class="line">	<span class="meta">@Bean</span></div><div class="line">	<span class="function"><span class="keyword">public</span> HandlerMapping <span class="title">resourceHandlerMapping</span><span class="params">()</span> </span>&#123;</div><div class="line">		ResourceHandlerRegistry registry = <span class="keyword">new</span> ResourceHandlerRegistry(<span class="keyword">this</span>.applicationContext,</div><div class="line">				<span class="keyword">this</span>.servletContext, mvcContentNegotiationManager());</div><div class="line">     	 <span class="comment">// 关键代码</span></div><div class="line">		addResourceHandlers(registry); </div><div class="line">      </div><div class="line">		AbstractHandlerMapping handlerMapping = registry.getHandlerMapping();</div><div class="line">		<span class="keyword">if</span> (handlerMapping != <span class="keyword">null</span>) &#123;</div><div class="line">			handlerMapping.setPathMatcher(mvcPathMatcher());</div><div class="line">			handlerMapping.setUrlPathHelper(mvcUrlPathHelper());</div><div class="line">			handlerMapping.setInterceptors(<span class="keyword">new</span> ResourceUrlProviderExposingInterceptor(mvcResourceUrlProvider()));</div><div class="line">			handlerMapping.setCorsConfigurations(getCorsConfigurations());</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span> &#123;</div><div class="line">			handlerMapping = <span class="keyword">new</span> EmptyHandlerMapping();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> handlerMapping;</div><div class="line">	&#125;</div><div class="line">  				···</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>扩展类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">WebMvcConfigurerAdapter</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</div><div class="line">				···</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</div><div class="line">	&#125;</div><div class="line">				···</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="模板引擎"><a href="#模板引擎" class="headerlink" title="模板引擎"></a>模板引擎</h3><p>Spring Boot支持多种模版引擎包括：</p>
+<ul>
+<li>FreeMarker</li>
+<li>Groovy</li>
+<li>Thymeleaf(官方推荐)</li>
+</ul>
+<p>JSP技术Spring Boot官方是不推荐的：</p>
+<ol>
+<li>Tomcat 只支持war的打包方式，不支持可执行的jar。</li>
+<li>Jetty 嵌套的容器不支持jsp</li>
+<li>Undertow</li>
+<li>创建自定义error.jsp页面不会覆盖错误处理的默认视图，而应该使用自定义错误页面</li>
+</ol>
+<p>当你使用上述模板引擎中的任何一个，它们默认的模板配置路径为：<code>src/main/resources/templates</code>。</p>
+<h3 id="Thymeleaf模板引擎"><a href="#Thymeleaf模板引擎" class="headerlink" title="Thymeleaf模板引擎"></a>Thymeleaf模板引擎</h3><p><a href="http://blog.csdn.net/mlin_123/article/details/51816533" target="_blank" rel="external">Thymeleaf</a>是一款用于渲染XML/XHTML/HTML5内容的模板引擎。类似JSP，Velocity，FreeMaker等，它也可以轻易的与Spring MVC等Web框架进行集成作为Web应用的模板引擎。与其它模板引擎相比，Thymeleaf最大的特点是能够直接在浏览器中打开并正确显示模板页面，而不需要启动整个Web应用。它的功能特性如下：</p>
+<ul>
+<li>Spring MVC中@Controller中的方法可以直接返回模板名称，接下来Thymeleaf模板引擎会自动进行渲染</li>
+<li>模板中的表达式支持Spring表达式语言（<a href="http://blog.csdn.net/keda8997110/article/details/52767087" target="_blank" rel="external">Spring EL</a>)</li>
+<li>表单支持，并兼容<a href="http://blog.csdn.net/a67474506/article/details/46363795" target="_blank" rel="external">Spring MVC的数据绑定与验证机制</a></li>
+<li><a href="http://blog.csdn.net/zhoudaxia/article/details/37536195" target="_blank" rel="external">国际化支持</a></li>
+</ul>
+<hr>
+<h3 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--thymeleaf模板引擎 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>需要注意的是：</p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhm9aqo67pj30kl03gmye.jpg" alt=""></p>
+<p>spring-boot-starter-thymeleaf会自动包含spring-boot-starter-web，所以我们就不需要单独引入web依赖了。</p>
+<h3 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Data</span></div><div class="line"><span class="meta">@AllArgsConstructor</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> String username;</div><div class="line">    <span class="keyword">private</span> String password;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/thymeleaf"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThymeleafController</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@RequestMapping</span>(path = <span class="string">"/"</span>, method = RequestMethod.GET)</div><div class="line">    <span class="function"><span class="keyword">public</span> ModelAndView <span class="title">index</span><span class="params">()</span> </span>&#123;</div><div class="line">        List&lt;User&gt; userList = <span class="keyword">new</span> ArrayList&lt;User&gt;();</div><div class="line">        User user = <span class="keyword">new</span> User(<span class="string">"jyg"</span>, <span class="string">"jyg"</span>);</div><div class="line">        userList.add(user);</div><div class="line">        user = <span class="keyword">new</span> User(<span class="string">"lyn"</span>, <span class="string">"lyn"</span>);</div><div class="line">        userList.add(user);</div><div class="line">        ModelAndView modelAndView = <span class="keyword">new</span> ModelAndView(<span class="string">"index.html"</span>);</div><div class="line">        modelAndView.addObject(<span class="string">"userList"</span>, userList);</div><div class="line">        <span class="keyword">return</span> modelAndView;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Html"><a href="#Html" class="headerlink" title="Html"></a>Html</h3><ol>
+<li>首先通过xmlns:th=”<a href="http://www.thymeleaf.org/" target="_blank" rel="external">http://www.thymeleaf.org</a>“ 命名 thymeleaf 空间，将静态页面转换为动态的视图，需要进行动态处理的元素将使用“th:”前缀。</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xmlns:th="http://www.thymeleaf.org"</div></pre></td></tr></table></figure>
+<ol>
+<li><p>代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Thymeleaf<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">hr</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table table-striped table-bordered table-hover"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span> <span class="attr">class</span>=<span class="string">"info"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>用户名<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span>&gt;</span>密码<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--/*@thymesVar id="userList" type=""*/--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"user : $&#123;userList&#125;"</span> <span class="attr">class</span>=<span class="string">"success"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.username&#125;"</span>&gt;</span>冀永光<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;user.password&#125;"</span>&gt;</span>jiyongguang.<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="Thymeleaf-做到了什么"><a href="#Thymeleaf-做到了什么" class="headerlink" title="Thymeleaf 做到了什么"></a>Thymeleaf 做到了什么</h3><p>直接访问 index.html ：</p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhqxj382vij31ha063jrj.jpg" alt=""></p>
+<p>访问 <a href="http://localhost:8080/thymeleaf/：" target="_blank" rel="external">http://localhost:8080/thymeleaf/：</a></p>
+<p><img src="http://ww1.sinaimg.cn/large/006gmCthly1fhqxj3826kj31hc079glq.jpg" alt=""></p>
+<p>Thymeleaf 做到了不破坏 Html 自身内容的数据逻辑分离。</p>
+<h3 id="Thymeleaf的默认参数配置"><a href="#Thymeleaf的默认参数配置" class="headerlink" title="Thymeleaf的默认参数配置"></a>Thymeleaf的默认参数配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"># THYMELEAF (ThymeleafAutoConfiguration)</div><div class="line">#开启模板缓存（默认值：true）</div><div class="line">spring.thymeleaf.cache=true </div><div class="line">#Check that the template exists before rendering it.</div><div class="line">spring.thymeleaf.check-template=true </div><div class="line">#检查模板位置是否正确（默认值:true）</div><div class="line">spring.thymeleaf.check-template-location=true</div><div class="line">#Content-Type的值（默认值：text/html）</div><div class="line">spring.thymeleaf.content-type=text/html</div><div class="line">#开启MVC Thymeleaf视图解析（默认值：true）</div><div class="line">spring.thymeleaf.enabled=true</div><div class="line">#模板编码</div><div class="line">spring.thymeleaf.encoding=UTF-8</div><div class="line">#要被排除在解析之外的视图名称列表，用逗号分隔</div><div class="line">spring.thymeleaf.excluded-view-names=</div><div class="line">#要运用于模板之上的模板模式。另见StandardTemplate-ModeHandlers(默认值：HTML5)</div><div class="line">spring.thymeleaf.mode=HTML5</div><div class="line">#在构建URL时添加到视图名称前的前缀（默认值：classpath:/templates/）</div><div class="line">spring.thymeleaf.prefix=classpath:/templates/</div><div class="line">#在构建URL时添加到视图名称后的后缀（默认值：.html）</div><div class="line">spring.thymeleaf.suffix=.html</div><div class="line">#Thymeleaf模板解析器在解析器链中的顺序。默认情况下，它排第一位。顺序从1开始，只有在定义了额外的TemplateResolver Bean时才需要设置这个属性。</div><div class="line">spring.thymeleaf.template-resolver-order=</div><div class="line">#可解析的视图名称列表，用逗号分隔</div><div class="line">spring.thymeleaf.view-names=</div></pre></td></tr></table></figure>
+<hr>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/frame-springboot-thymeleaf.html" title="SpringBoot开发Web应用集成Thymeleaf(官方推荐)">http://www.jiyongguang.xin/frame-springboot-thymeleaf.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Thymeleaf/" rel="tag"># Thymeleaf</a>
+          
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/java-keywords-static.html" rel="next" title="Java中static关键字详解">
+                <i class="fa fa-chevron-left"></i> Java中static关键字详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/java-keywords-set.html" rel="prev" title="Java中专业词汇">
+                Java中专业词汇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-boot-starter-web"><span class="nav-number">1.</span> <span class="nav-text">spring-boot-starter-web</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring-MVC自动配置"><span class="nav-number">2.</span> <span class="nav-text">Spring MVC自动配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态文件"><span class="nav-number">3.</span> <span class="nav-text">静态文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模板引擎"><span class="nav-number">4.</span> <span class="nav-text">模板引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thymeleaf模板引擎"><span class="nav-number">5.</span> <span class="nav-text">Thymeleaf模板引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入依赖"><span class="nav-number">6.</span> <span class="nav-text">引入依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model"><span class="nav-number">7.</span> <span class="nav-text">Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller"><span class="nav-number">8.</span> <span class="nav-text">Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Html"><span class="nav-number">9.</span> <span class="nav-text">Html</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thymeleaf-做到了什么"><span class="nav-number">10.</span> <span class="nav-text">Thymeleaf 做到了什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thymeleaf的默认参数配置"><span class="nav-number">11.</span> <span class="nav-text">Thymeleaf的默认参数配置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

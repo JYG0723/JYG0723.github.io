@@ -1,0 +1,2585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-final.html</loc>
+    <lastmod>2018-08-14T11:00:43.076Z</lastmod>
+    <data>
+        <display>
+        <title>Java中final关键字详解</title>
+        <pubTime>2017-07-13T16:43:36.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-transient.html</loc>
+    <lastmod>2018-08-14T00:50:20.046Z</lastmod>
+    <data>
+        <display>
+        <title>Java中transient关键字</title>
+        <pubTime>2017-09-23T06:50:34.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/list.html</loc>
+    <lastmod>2018-08-14T00:29:42.475Z</lastmod>
+    <data>
+        <display>
+        <title>List集合了解一下</title>
+        <pubTime>2018-05-07T11:30:39.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-concurrentProgramming-readingNotes-15-4.html</loc>
+    <lastmod>2018-06-25T09:45:04.028Z</lastmod>
+    <data>
+        <display>
+        <title>Java编程的逻辑 -- 并发章 -- 线程的中断</title>
+        <pubTime>2018-06-25T09:43:58.000Z</pubTime>
+        
+        <tag>并发</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-concurrentProgramming-readingNotes-15-3.html</loc>
+    <lastmod>2018-06-22T12:21:13.639Z</lastmod>
+    <data>
+        <display>
+        <title>Java编程的逻辑 -- 并发章 -- 线程的基本协作机制</title>
+        <pubTime>2018-06-22T12:20:06.000Z</pubTime>
+        
+        <tag>并发</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-concurrentProgramming-readingNotes-15.2.html</loc>
+    <lastmod>2018-06-22T00:29:20.930Z</lastmod>
+    <data>
+        <display>
+        <title>Java编程的逻辑 -- 并发章 -- Synchronized</title>
+        <pubTime>2018-06-22T00:26:46.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-concurrent-shizhan.html</loc>
+    <lastmod>2018-06-22T00:28:34.354Z</lastmod>
+    <data>
+        <display>
+        <title>并发编程实战读书笔记</title>
+        <pubTime>2018-06-15T09:06:41.000Z</pubTime>
+        
+        <tag>并发</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-thread.html</loc>
+    <lastmod>2018-06-11T03:12:26.875Z</lastmod>
+    <data>
+        <display>
+        <title>Thread类源码剖析</title>
+        <pubTime>2018-06-11T03:10:18.000Z</pubTime>
+        
+        <tag>并发</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-protected.html</loc>
+    <lastmod>2018-06-09T03:24:20.499Z</lastmod>
+    <data>
+        <display>
+        <title>Java中权限修饰符protected</title>
+        <pubTime>2017-09-17T04:04:45.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/templateEngine-thymeleaf.html</loc>
+    <lastmod>2018-06-08T13:03:09.361Z</lastmod>
+    <data>
+        <display>
+        <title>thymeleaf渲染视图失败</title>
+        <pubTime>2018-06-08T12:58:52.000Z</pubTime>
+        
+        <tag>模板引擎</tag>
+         
+         
+           
+             
+              <breadCrumb title="框架" url="http://www.jiyongguang.xin/categories/%E6%A1%86%E6%9E%B6/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/springboot-thymeleaf-404.html</loc>
+    <lastmod>2018-06-08T13:03:09.358Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot 对resources-templates目录下的View视图文件访问404问题</title>
+        <pubTime>2018-06-08T12:57:28.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+         
+           
+             
+              <breadCrumb title="框架" url="http://www.jiyongguang.xin/categories/%E6%A1%86%E6%9E%B6/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/net-error.html</loc>
+    <lastmod>2018-06-08T13:03:09.355Z</lastmod>
+    <data>
+        <display>
+        <title>net--error</title>
+        <pubTime>2018-06-08T12:55:54.000Z</pubTime>
+        
+        <tag>前台</tag>
+         
+         
+           
+             
+              <breadCrumb title="前台" url="http://www.jiyongguang.xin/categories/%E5%89%8D%E5%8F%B0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keyword-static.html</loc>
+    <lastmod>2018-06-08T13:03:09.352Z</lastmod>
+    <data>
+        <display>
+        <title>Java中的static关键字解析</title>
+        <pubTime>2018-06-08T12:51:52.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/multi-threading.html</loc>
+    <lastmod>2018-06-08T12:26:43.501Z</lastmod>
+    <data>
+        <display>
+        <title>多线程简单了解一下</title>
+        <pubTime>2018-06-08T12:25:07.000Z</pubTime>
+        
+        <tag>并发</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/reference.html</loc>
+    <lastmod>2018-06-07T08:32:37.278Z</lastmod>
+    <data>
+        <display>
+        <title>Java 如何有效地避免OOM：善于利用软引用和弱引用</title>
+        <pubTime>2018-06-07T08:31:35.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-volatile.html</loc>
+    <lastmod>2018-06-07T07:15:29.954Z</lastmod>
+    <data>
+        <display>
+        <title>Java中volatile关键字详解</title>
+        <pubTime>2017-09-16T05:50:15.000Z</pubTime>
+        
+        <tag>并发</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/threadlocal.html</loc>
+    <lastmod>2018-06-07T07:08:55.435Z</lastmod>
+    <data>
+        <display>
+        <title>Java并发编程：深入剖析ThreadLocal</title>
+        <pubTime>2018-06-07T07:04:54.000Z</pubTime>
+        
+        <tag>并发</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/collection-summary.html</loc>
+    <lastmod>2018-06-04T10:41:46.063Z</lastmod>
+    <data>
+        <display>
+        <title>Java集合考点总结</title>
+        <pubTime>2018-06-02T13:46:10.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/set.html</loc>
+    <lastmod>2018-05-24T09:53:22.402Z</lastmod>
+    <data>
+        <display>
+        <title>Set集合了解一下</title>
+        <pubTime>2018-05-24T09:52:00.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/conCurrentHashMap.html</loc>
+    <lastmod>2018-05-18T04:45:39.560Z</lastmod>
+    <data>
+        <display>
+        <title>ConCurrentHashMap了解一下</title>
+        <pubTime>2018-05-18T04:43:31.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/treemap.html</loc>
+    <lastmod>2018-05-13T11:02:19.711Z</lastmod>
+    <data>
+        <display>
+        <title>TreeMap了解一下</title>
+        <pubTime>2018-05-13T10:59:26.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/linkedhashmap.html</loc>
+    <lastmod>2018-05-11T16:16:04.263Z</lastmod>
+    <data>
+        <display>
+        <title>LinkedHashMap了解一下</title>
+        <pubTime>2018-05-11T11:08:26.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/hashmap.html</loc>
+    <lastmod>2018-05-10T09:16:00.043Z</lastmod>
+    <data>
+        <display>
+        <title>HashMap了解一下</title>
+        <pubTime>2018-05-10T09:12:27.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/map.html</loc>
+    <lastmod>2018-05-09T01:47:28.329Z</lastmod>
+    <data>
+        <display>
+        <title>Map集合了解一下</title>
+        <pubTime>2018-05-09T01:44:51.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/collection.html</loc>
+    <lastmod>2018-05-09T01:47:13.590Z</lastmod>
+    <data>
+        <display>
+        <title>Collection 接口详解</title>
+        <pubTime>2018-05-06T09:06:53.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/linxu-command.html</loc>
+    <lastmod>2018-04-12T06:08:30.010Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 基础命令</title>
+        <pubTime>2017-09-30T16:07:35.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux 学习" url="http://www.jiyongguang.xin/categories/Linux-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/datastructure.html</loc>
+    <lastmod>2018-04-10T08:00:03.617Z</lastmod>
+    <data>
+        <display>
+        <title>大话数据结构 你需要了解的那些常识</title>
+        <pubTime>2018-03-29T00:14:50.000Z</pubTime>
+        
+        <tag>数据结构</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据结构" url="http://www.jiyongguang.xin/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-jvm-String.html</loc>
+    <lastmod>2018-04-10T02:28:21.507Z</lastmod>
+    <data>
+        <display>
+        <title>String s = new String("xyz") 创建了多少个String实例</title>
+        <pubTime>2017-11-05T05:13:46.000Z</pubTime>
+        
+        <tag>JVM</tag>
+         
+         
+           
+             
+              <breadCrumb title="JVM 学习" url="http://www.jiyongguang.xin/categories/JVM-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/linux-1.html</loc>
+    <lastmod>2018-03-30T10:22:45.322Z</lastmod>
+    <data>
+        <display>
+        <title>每日几个Linux命令，十天了解工作中常用的那些命令(一)</title>
+        <pubTime>2018-03-30T10:18:24.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux" url="http://www.jiyongguang.xin/categories/Linux/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/longlongdouble.html</loc>
+    <lastmod>2018-03-29T07:05:55.217Z</lastmod>
+    <data>
+        <display>
+        <title>数据类型范围</title>
+        <pubTime>2018-03-29T01:16:11.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据类型" url="http://www.jiyongguang.xin/categories/%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-bigdecimal.html</loc>
+    <lastmod>2018-03-29T05:52:13.370Z</lastmod>
+    <data>
+        <display>
+        <title>Java中的BigDecimal类你了解多少？</title>
+        <pubTime>2018-03-29T02:54:17.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/mysql-optimistic-pessimistic-lock.html</loc>
+    <lastmod>2018-03-27T14:55:43.373Z</lastmod>
+    <data>
+        <display>
+        <title>乐观锁，悲观锁详解</title>
+        <pubTime>2018-03-27T13:08:16.000Z</pubTime>
+        
+        <tag>MySQL</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据库" url="http://www.jiyongguang.xin/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/mysql-lock.html</loc>
+    <lastmod>2018-03-27T14:55:31.839Z</lastmod>
+    <data>
+        <display>
+        <title>MySQL 锁</title>
+        <pubTime>2018-03-27T13:17:45.000Z</pubTime>
+        
+        <tag>MySQL</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据库" url="http://www.jiyongguang.xin/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/mysql-index-literacy.html</loc>
+    <lastmod>2018-03-27T14:55:20.420Z</lastmod>
+    <data>
+        <display>
+        <title>索引扫盲</title>
+        <pubTime>2018-03-27T13:16:32.000Z</pubTime>
+        
+        <tag>MySQL</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据库" url="http://www.jiyongguang.xin/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/mysql-implementationprocess.html</loc>
+    <lastmod>2018-03-27T14:55:05.754Z</lastmod>
+    <data>
+        <display>
+        <title>MySQL 查询执行流程，SQL解析顺序</title>
+        <pubTime>2018-03-27T13:14:35.000Z</pubTime>
+        
+        <tag>MySQL</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据库" url="http://www.jiyongguang.xin/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/mysql-bizhibihui-knowledgepoint.html</loc>
+    <lastmod>2018-03-27T14:54:36.738Z</lastmod>
+    <data>
+        <display>
+        <title>MySQL 必知必会知识点</title>
+        <pubTime>2018-03-27T13:12:19.000Z</pubTime>
+        
+        <tag>MySQL</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据库" url="http://www.jiyongguang.xin/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/maven-aggregationandinheritance.html</loc>
+    <lastmod>2018-03-27T14:54:22.551Z</lastmod>
+    <data>
+        <display>
+        <title>Maven 聚合和继承</title>
+        <pubTime>2018-03-27T13:21:44.000Z</pubTime>
+        
+        <tag>Maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="Maven" url="http://www.jiyongguang.xin/categories/Maven/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/maven-label.html</loc>
+    <lastmod>2018-03-27T14:54:05.476Z</lastmod>
+    <data>
+        <display>
+        <title>Maven 标签</title>
+        <pubTime>2018-03-27T13:19:06.000Z</pubTime>
+        
+        <tag>Maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="Maven" url="http://www.jiyongguang.xin/categories/Maven/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/maven-lifecycle.html</loc>
+    <lastmod>2018-03-27T14:53:33.077Z</lastmod>
+    <data>
+        <display>
+        <title>Maven 生命周期</title>
+        <pubTime>2018-03-27T13:20:11.000Z</pubTime>
+        
+        <tag>Maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="Maven" url="http://www.jiyongguang.xin/categories/Maven/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-java8-lambda.html</loc>
+    <lastmod>2018-03-27T14:53:05.436Z</lastmod>
+    <data>
+        <display>
+        <title>Java8 lambda快速上手</title>
+        <pubTime>2018-03-27T13:27:34.000Z</pubTime>
+        
+        <tag>Java8</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://www.jiyongguang.xin/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/stand-up.html</loc>
+    <lastmod>2018-03-27T13:32:32.311Z</lastmod>
+    <data>
+        <display>
+        <title>马云热血励志演讲《最伟大的成功》</title>
+        <pubTime>2017-11-03T01:31:33.000Z</pubTime>
+        
+        <tag>励志</tag>
+         
+         
+           
+             
+              <breadCrumb title="励志" url="http://www.jiyongguang.xin/categories/%E5%8A%B1%E5%BF%97/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-jvm-ram-ware.html</loc>
+    <lastmod>2018-03-09T10:03:48.767Z</lastmod>
+    <data>
+        <display>
+        <title>深入理解Java虚拟机读书笔记 - Java运行时数据区域</title>
+        <pubTime>2017-09-29T04:42:09.000Z</pubTime>
+        
+        <tag>JVM</tag>
+         
+         
+           
+             
+              <breadCrumb title="JVM 学习" url="http://www.jiyongguang.xin/categories/JVM-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-MariaDB.html</loc>
+    <lastmod>2018-01-07T02:59:40.859Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot + MariaDB</title>
+        <pubTime>2017-03-22T14:30:14.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>MariaDB</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-struts2-depth.html</loc>
+    <lastmod>2018-01-02T04:03:11.212Z</lastmod>
+    <data>
+        <display>
+        <title>Struts2 学习笔记 (二)</title>
+        <pubTime>2017-09-11T14:36:14.000Z</pubTime>
+        
+        <tag>Struts2</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-UUID.html</loc>
+    <lastmod>2017-12-09T10:27:50.118Z</lastmod>
+    <data>
+        <display>
+        <title>JAVA UUID 生成唯一标识</title>
+        <pubTime>2017-11-14T11:00:09.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-Integer-cache.html</loc>
+    <lastmod>2017-12-06T14:07:06.931Z</lastmod>
+    <data>
+        <display>
+        <title>理解Java Integer的缓存策略</title>
+        <pubTime>2017-11-26T03:18:55.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-equals_%E2%80%98==%E2%80%99.html</loc>
+    <lastmod>2017-12-04T00:42:35.311Z</lastmod>
+    <data>
+        <display>
+        <title>浅谈Java中的equals和==</title>
+        <pubTime>2017-09-20T17:08:57.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-integer-int.html</loc>
+    <lastmod>2017-11-26T03:16:28.023Z</lastmod>
+    <data>
+        <display>
+        <title>Integer与int的种种比较你知道多少？</title>
+        <pubTime>2017-09-20T16:37:26.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/spring-annoation.html</loc>
+    <lastmod>2017-11-25T16:52:37.540Z</lastmod>
+    <data>
+        <display>
+        <title>Spring 配置文件中的那些标签该如何正确使用(持续更新)</title>
+        <pubTime>2017-11-21T23:47:19.000Z</pubTime>
+        
+        <tag>Spring</tag>
+         
+         
+           
+             
+              <breadCrumb title="Spring 学习" url="http://www.jiyongguang.xin/categories/Spring-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/spring-annoation-%E3%80%8Acontext-annoation-config%E3%80%8B.html</loc>
+    <lastmod>2017-11-24T11:07:57.886Z</lastmod>
+    <data>
+        <display>
+        <title>Spring标签<context:annotation-config/>的探索</title>
+        <pubTime>2017-11-22T01:39:44.000Z</pubTime>
+        
+        <tag>Spring</tag>
+         
+         
+           
+             
+              <breadCrumb title="Spring 学习" url="http://www.jiyongguang.xin/categories/Spring-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-const.html</loc>
+    <lastmod>2017-11-17T12:16:32.584Z</lastmod>
+    <data>
+        <display>
+        <title>常量应该封装到常量类，常量接口，还是枚举类中？</title>
+        <pubTime>2017-11-17T02:51:06.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/ide-intellij-java.html</loc>
+    <lastmod>2017-11-06T07:14:55.272Z</lastmod>
+    <data>
+        <display>
+        <title>IntelliJ IDEA 源值1.5已过时，将在未来所有版本中删除</title>
+        <pubTime>2017-08-30T00:59:21.000Z</pubTime>
+        
+        <tag>IDEA</tag>
+         
+        <tag>ERROR</tag>
+         
+        <tag>JAVA</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/tool-git.html</loc>
+    <lastmod>2017-11-05T17:39:11.183Z</lastmod>
+    <data>
+        <display>
+        <title>Git 学习笔记</title>
+        <pubTime>2017-09-05T23:40:19.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-webjar.html</loc>
+    <lastmod>2017-11-05T17:19:44.219Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot集成Webjar管理前端文件</title>
+        <pubTime>2017-07-20T00:13:32.000Z</pubTime>
+        
+        <tag>BootStrap</tag>
+         
+        <tag>SpringBoot</tag>
+         
+        <tag>CSS</tag>
+         
+        <tag>JavaScript</tag>
+         
+        <tag>JQuery</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-spring-aop-annoation.html</loc>
+    <lastmod>2017-11-05T10:23:53.654Z</lastmod>
+    <data>
+        <display>
+        <title>Spring Aop的注解</title>
+        <pubTime>2017-09-16T03:10:07.000Z</pubTime>
+        
+        <tag>Spring,Aop</tag>
+         
+         
+           
+             
+              <breadCrumb title="Spring 学习" url="http://www.jiyongguang.xin/categories/Spring-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-jvm-garbage-collector.html</loc>
+    <lastmod>2017-11-05T09:20:13.980Z</lastmod>
+    <data>
+        <display>
+        <title>垃圾收集算法</title>
+        <pubTime>2017-11-04T16:56:15.000Z</pubTime>
+        
+        <tag>JVM</tag>
+         
+         
+           
+             
+              <breadCrumb title="JVM 学习" url="http://www.jiyongguang.xin/categories/JVM-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/nginx.html</loc>
+    <lastmod>2017-11-04T16:32:23.381Z</lastmod>
+    <data>
+        <display>
+        <title>Nginx速识</title>
+        <pubTime>2017-10-31T17:04:04.000Z</pubTime>
+        
+        <tag>Nginx</tag>
+         
+         
+           
+             
+              <breadCrumb title="Web服务器" url="http://www.jiyongguang.xin/categories/Web%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/linux-connection.html</loc>
+    <lastmod>2017-10-26T00:20:45.767Z</lastmod>
+    <data>
+        <display>
+        <title>防火墙设置：虚拟机ping不通主机，但是主机可以ping通虚拟机（转载）</title>
+        <pubTime>2017-10-24T10:12:41.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux 学习" url="http://www.jiyongguang.xin/categories/Linux-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/linux-centOS-bridging.html</loc>
+    <lastmod>2017-10-13T11:30:52.117Z</lastmod>
+    <data>
+        <display>
+        <title>CentOS_7 桥接</title>
+        <pubTime>2017-10-13T10:48:08.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux 学习" url="http://www.jiyongguang.xin/categories/Linux-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/linux-bug.html</loc>
+    <lastmod>2017-10-13T10:56:13.839Z</lastmod>
+    <data>
+        <display>
+        <title>VMware下Ubuntu16.04LTS.64位不能上网的问题</title>
+        <pubTime>2017-09-23T11:45:59.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux 学习" url="http://www.jiyongguang.xin/categories/Linux-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/linux-command-1.html</loc>
+    <lastmod>2017-10-13T10:55:48.348Z</lastmod>
+    <data>
+        <display>
+        <title>Linux 常用命令</title>
+        <pubTime>2017-10-03T06:59:04.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux 学习" url="http://www.jiyongguang.xin/categories/Linux-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-jvm.html</loc>
+    <lastmod>2017-10-07T15:44:23.571Z</lastmod>
+    <data>
+        <display>
+        <title>深入理解JVM(推荐)</title>
+        <pubTime>2017-10-02T17:09:41.000Z</pubTime>
+        
+        <tag>JVM</tag>
+         
+         
+           
+             
+              <breadCrumb title="JVM 学习" url="http://www.jiyongguang.xin/categories/JVM-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/linux-vim-command.html</loc>
+    <lastmod>2017-10-02T10:08:27.984Z</lastmod>
+    <data>
+        <display>
+        <title>Linux vi/vim 复制剪切粘贴以及常用命令</title>
+        <pubTime>2017-09-30T17:43:17.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux 学习" url="http://www.jiyongguang.xin/categories/Linux-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/tool-git-pushError.html</loc>
+    <lastmod>2017-10-02T10:05:51.418Z</lastmod>
+    <data>
+        <display>
+        <title>hexo d部署时报GIT错误 Connection timed out</title>
+        <pubTime>2017-09-25T03:36:37.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/linux-error.html</loc>
+    <lastmod>2017-09-30T17:45:17.117Z</lastmod>
+    <data>
+        <display>
+        <title>Ubuntu:The System is running in low-graphics mode 解决办法</title>
+        <pubTime>2017-09-25T10:20:39.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux 学习" url="http://www.jiyongguang.xin/categories/Linux-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/linux-VMware.html</loc>
+    <lastmod>2017-09-30T17:44:30.422Z</lastmod>
+    <data>
+        <display>
+        <title>VMwareTools 安装过程中遇到的Bug(安装正在进行)</title>
+        <pubTime>2017-09-24T08:05:52.000Z</pubTime>
+        
+        <tag>Linux</tag>
+         
+         
+           
+             
+              <breadCrumb title="Linux 学习" url="http://www.jiyongguang.xin/categories/Linux-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/TemplateEngine-Thymeleaf-grammar.html</loc>
+    <lastmod>2017-09-26T14:31:28.116Z</lastmod>
+    <data>
+        <display>
+        <title>Thymeleaf 语法 (持续更新)</title>
+        <pubTime>2017-09-11T00:56:59.000Z</pubTime>
+        
+        <tag>Thymeleaf</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/Illuos1ion-singleton.html</loc>
+    <lastmod>2017-09-26T14:31:13.749Z</lastmod>
+    <data>
+        <display>
+        <title>Typora</title>
+        <pubTime>2017-12-13T12:42:12.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="个人感悟" url="http://www.jiyongguang.xin/categories/%E4%B8%AA%E4%BA%BA%E6%84%9F%E6%82%9F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/designPatterns-Factory.html</loc>
+    <lastmod>2017-09-26T14:30:42.813Z</lastmod>
+    <data>
+        <display>
+        <title>Java 工厂模式</title>
+        <pubTime>2017-03-30T11:56:52.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/designPatterns-abstractFactory.html</loc>
+    <lastmod>2017-09-26T14:30:31.725Z</lastmod>
+    <data>
+        <display>
+        <title>Java 抽象工厂模式</title>
+        <pubTime>2017-03-30T12:10:34.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/tool-json.html</loc>
+    <lastmod>2017-09-26T14:30:20.339Z</lastmod>
+    <data>
+        <display>
+        <title>Json解析</title>
+        <pubTime>2017-07-29T04:38:05.000Z</pubTime>
+        
+        <tag>Json</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/tool-idea-moudel.html</loc>
+    <lastmod>2017-09-26T14:30:08.227Z</lastmod>
+    <data>
+        <display>
+        <title>IDEA 下如何创建多Moudle工程</title>
+        <pubTime>2017-09-21T08:50:18.000Z</pubTime>
+        
+        <tag>IDEA</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/tool-fiddler.html</loc>
+    <lastmod>2017-09-26T14:28:54.156Z</lastmod>
+    <data>
+        <display>
+        <title>Fiddler抓包</title>
+        <pubTime>2017-07-28T05:20:24.000Z</pubTime>
+        
+        <tag>Fiddler</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-web-get-post.html</loc>
+    <lastmod>2017-09-26T14:28:16.693Z</lastmod>
+    <data>
+        <display>
+        <title>HTPP请求方法Get与Post解析</title>
+        <pubTime>2017-07-26T16:38:18.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+        <tag>Web</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-web-cookie-session.html</loc>
+    <lastmod>2017-09-26T14:28:06.885Z</lastmod>
+    <data>
+        <display>
+        <title>Cookie和Session有什么区别？</title>
+        <pubTime>2017-07-11T04:51:14.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+        <tag>Web</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-structure-hashtable.html</loc>
+    <lastmod>2017-09-26T14:27:55.684Z</lastmod>
+    <data>
+        <display>
+        <title>Hash表</title>
+        <pubTime>2017-09-21T07:17:58.000Z</pubTime>
+        
+        <tag>数据结构</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-problem.html</loc>
+    <lastmod>2017-09-26T14:27:45.697Z</lastmod>
+    <data>
+        <display>
+        <title>常见的错误</title>
+        <pubTime>2017-07-13T08:50:12.000Z</pubTime>
+        
+        <tag>常见</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-objectConcept.html</loc>
+    <lastmod>2017-09-26T14:27:34.654Z</lastmod>
+    <data>
+        <display>
+        <title>Java 中 VO、 PO、DO、DTO、 BO、 QO、DAO、POJO 的概念</title>
+        <pubTime>2017-09-13T14:23:20.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-static.html</loc>
+    <lastmod>2017-09-26T14:26:41.951Z</lastmod>
+    <data>
+        <display>
+        <title>Java中static关键字详解</title>
+        <pubTime>2017-07-13T18:20:11.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-set.html</loc>
+    <lastmod>2017-09-26T14:26:32.027Z</lastmod>
+    <data>
+        <display>
+        <title>Java中专业词汇</title>
+        <pubTime>2017-07-17T08:46:14.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-serializa.html</loc>
+    <lastmod>2017-09-26T14:26:22.515Z</lastmod>
+    <data>
+        <display>
+        <title>Java对象的序列化和反序列化</title>
+        <pubTime>2017-09-22T17:49:00.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-reference.html</loc>
+    <lastmod>2017-09-26T14:26:10.310Z</lastmod>
+    <data>
+        <display>
+        <title>Java 如何有效地避免OOM：善于利用软引用和弱引用</title>
+        <pubTime>2017-09-17T04:17:00.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-native.html</loc>
+    <lastmod>2017-09-26T14:25:44.253Z</lastmod>
+    <data>
+        <display>
+        <title>Java中native关键字</title>
+        <pubTime>2017-09-20T15:31:47.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-hashcode-0.html</loc>
+    <lastmod>2017-09-26T14:25:22.543Z</lastmod>
+    <data>
+        <display>
+        <title>浅谈Java中的hashcode方法</title>
+        <pubTime>2017-09-21T08:03:51.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-keywords-copy.html</loc>
+    <lastmod>2017-09-26T14:24:46.511Z</lastmod>
+    <data>
+        <display>
+        <title>Java的深拷贝与浅拷贝</title>
+        <pubTime>2017-09-23T05:26:08.000Z</pubTime>
+        
+        <tag>Java基础</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/java-idea-maven.html</loc>
+    <lastmod>2017-09-26T14:24:34.986Z</lastmod>
+    <data>
+        <display>
+        <title>IDEA下maven的正确使用</title>
+        <pubTime>2017-07-12T05:33:27.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>IDEA</tag>
+         
+        <tag>Java</tag>
+         
+        <tag>Maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/ide-heidisql-field.html</loc>
+    <lastmod>2017-09-26T14:24:12.473Z</lastmod>
+    <data>
+        <display>
+        <title>Heidisql 建表字段</title>
+        <pubTime>2017-08-31T08:11:22.000Z</pubTime>
+        
+        <tag>MariaDB</tag>
+         
+        <tag>HeidiSQL</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-struts2-principle.html</loc>
+    <lastmod>2017-09-26T14:24:02.900Z</lastmod>
+    <data>
+        <display>
+        <title>Struts2 学习笔记 (一)</title>
+        <pubTime>2017-09-11T11:00:32.000Z</pubTime>
+        
+        <tag>Struts2</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-struts2-interceptor.html</loc>
+    <lastmod>2017-09-26T14:23:47.553Z</lastmod>
+    <data>
+        <display>
+        <title>Struts2 + Interceptor</title>
+        <pubTime>2017-09-12T11:32:45.000Z</pubTime>
+        
+        <tag>Struts2</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-struts2-initCode.html</loc>
+    <lastmod>2017-09-26T14:23:36.635Z</lastmod>
+    <data>
+        <display>
+        <title>Struts InitCode</title>
+        <pubTime>2017-09-11T15:07:59.000Z</pubTime>
+        
+        <tag>Struts2</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-struts2-configFile.html</loc>
+    <lastmod>2017-09-26T14:23:08.439Z</lastmod>
+    <data>
+        <display>
+        <title>Struts2 的 xml 及 properties 配置文件</title>
+        <pubTime>2017-09-11T14:40:13.000Z</pubTime>
+        
+        <tag>Struts2</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springmvc-modelattribute.html</loc>
+    <lastmod>2017-09-26T14:22:56.643Z</lastmod>
+    <data>
+        <display>
+        <title>SpringMVC 的 @ModelAttribute 注解</title>
+        <pubTime>2017-08-31T16:45:10.000Z</pubTime>
+        
+        <tag>SpringMVC</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springmvc-demo-4.html</loc>
+    <lastmod>2017-09-26T14:22:46.531Z</lastmod>
+    <data>
+        <display>
+        <title>SpringMVC Demo(四) 博文管理</title>
+        <pubTime>2017-09-04T00:06:47.000Z</pubTime>
+        
+        <tag>BootStrap</tag>
+         
+        <tag>AJAX</tag>
+         
+        <tag>Restful</tag>
+         
+        <tag>MariaDB</tag>
+         
+        <tag>Project</tag>
+         
+        <tag>SpringMVC</tag>
+         
+        <tag>Spring</tag>
+         
+        <tag>Spring Data JPA</tag>
+         
+        <tag>Hibernate</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springmvc-demo-3.html</loc>
+    <lastmod>2017-09-26T14:22:31.775Z</lastmod>
+    <data>
+        <display>
+        <title>SpringMVC Demo(三) 用户管理</title>
+        <pubTime>2017-08-31T10:58:56.000Z</pubTime>
+        
+        <tag>BootStrap</tag>
+         
+        <tag>AJAX</tag>
+         
+        <tag>Restful</tag>
+         
+        <tag>MariaDB</tag>
+         
+        <tag>Project</tag>
+         
+        <tag>SpringMVC</tag>
+         
+        <tag>Spring</tag>
+         
+        <tag>Spring Data JPA</tag>
+         
+        <tag>Hibernate</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springmvc-demo-2.html</loc>
+    <lastmod>2017-09-26T14:22:14.270Z</lastmod>
+    <data>
+        <display>
+        <title>SpringMVC Demo(二) 数据库配置</title>
+        <pubTime>2017-08-30T01:14:08.000Z</pubTime>
+        
+        <tag>BootStrap</tag>
+         
+        <tag>AJAX</tag>
+         
+        <tag>Restful</tag>
+         
+        <tag>MariaDB</tag>
+         
+        <tag>Project</tag>
+         
+        <tag>SpringMVC</tag>
+         
+        <tag>Spring</tag>
+         
+        <tag>Spring Data JPA</tag>
+         
+        <tag>Hibernate</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springmvc-demo-1.html</loc>
+    <lastmod>2017-09-26T14:22:05.108Z</lastmod>
+    <data>
+        <display>
+        <title>SpringMVC Demo(一) 框架搭建</title>
+        <pubTime>2017-08-30T00:23:21.000Z</pubTime>
+        
+        <tag>BootStrap</tag>
+         
+        <tag>AJAX</tag>
+         
+        <tag>Restful</tag>
+         
+        <tag>MariaDB</tag>
+         
+        <tag>Project</tag>
+         
+        <tag>SpringMVC</tag>
+         
+        <tag>Spring</tag>
+         
+        <tag>Spring Data JPA</tag>
+         
+        <tag>Hibernate</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-undertow.html</loc>
+    <lastmod>2017-09-26T14:21:43.752Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot + Untertow</title>
+        <pubTime>2017-09-08T15:30:00.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>Untertow</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-thymeleaf.html</loc>
+    <lastmod>2017-09-26T14:21:33.471Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot开发Web应用集成Thymeleaf(官方推荐)</title>
+        <pubTime>2017-07-15T16:27:54.000Z</pubTime>
+        
+        <tag>Thymeleaf</tag>
+         
+        <tag>SpringBoot</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-test.html</loc>
+    <lastmod>2017-09-26T14:21:22.061Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBootTest[1.4+]</title>
+        <pubTime>2017-08-27T13:48:04.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>MockMvc</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-swagger2.html</loc>
+    <lastmod>2017-09-26T14:21:10.739Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot + Swagger2</title>
+        <pubTime>2017-09-10T02:05:06.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>Swagger2</tag>
+         
+         
+           
+             
+              <breadCrumb title="SpringBoot 学习" url="http://www.jiyongguang.xin/categories/SpringBoot-%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-staticAndInterceptor.html</loc>
+    <lastmod>2017-09-26T14:20:59.836Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot自定义配置以及拦截器配置</title>
+        <pubTime>2017-07-21T12:26:29.000Z</pubTime>
+        
+        <tag>AJAX</tag>
+         
+        <tag>SpringBoot</tag>
+         
+        <tag>Interceptor</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-starter.html</loc>
+    <lastmod>2017-09-26T14:20:45.629Z</lastmod>
+    <data>
+        <display>
+        <title>解析 SpringBoot 项目的 pom.xml</title>
+        <pubTime>2017-07-12T05:33:27.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-springsecurity.html</loc>
+    <lastmod>2017-09-26T14:20:35.388Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot + SpringSecurity</title>
+        <pubTime>2017-09-18T09:59:20.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>SpringSecurity</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-run.html</loc>
+    <lastmod>2017-09-26T14:20:24.768Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot启动原理解析</title>
+        <pubTime>2017-03-22T14:30:14.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-redis.html</loc>
+    <lastmod>2017-09-26T14:20:08.485Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot + Redis</title>
+        <pubTime>2017-09-20T11:21:43.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>Redis</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-ProjectNotes.html</loc>
+    <lastmod>2017-09-26T14:19:56.297Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot 之 小项目大思想</title>
+        <pubTime>2017-09-14T15:31:49.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>Aop</tag>
+         
+        <tag>Project</tag>
+         
+        <tag>MockMvc</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-mybatis.html</loc>
+    <lastmod>2017-09-26T14:19:35.487Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot + Mybatis</title>
+        <pubTime>2017-08-22T15:20:43.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>HikariCP</tag>
+         
+        <tag>MariaDB</tag>
+         
+        <tag>Mybatis</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-lombok.html</loc>
+    <lastmod>2017-09-26T14:19:13.565Z</lastmod>
+    <data>
+        <display>
+        <title>Spring Boot集成lombok让代码更简洁</title>
+        <pubTime>2017-07-13T03:22:56.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-log4j2.html</loc>
+    <lastmod>2017-09-26T14:19:01.256Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot + log4j2</title>
+        <pubTime>2017-03-22T11:41:14.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>Log</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-log.html</loc>
+    <lastmod>2017-09-26T14:18:50.741Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot默认日志logback配置解析</title>
+        <pubTime>2017-07-29T05:59:13.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>Log</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-jdbctemplate.html</loc>
+    <lastmod>2017-09-26T14:18:36.955Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot + JdbcTemplate</title>
+        <pubTime>2017-08-01T11:51:28.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>HikariCP</tag>
+         
+        <tag>MariaDB</tag>
+         
+        <tag>JdbcTemplate</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-HiKariCP.html</loc>
+    <lastmod>2017-09-26T14:17:00.450Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot + HiKariCP</title>
+        <pubTime>2017-03-23T08:48:25.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+        <tag>HikariCP</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-devtools.html</loc>
+    <lastmod>2017-09-26T14:16:50.418Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot + Devtools(热部署)</title>
+        <pubTime>2017-03-21T05:07:13.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot-data-binding.html</loc>
+    <lastmod>2017-09-26T14:16:39.154Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot 中的表单验证</title>
+        <pubTime>2017-09-13T15:30:10.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-springboot.html</loc>
+    <lastmod>2017-09-26T14:16:28.027Z</lastmod>
+    <data>
+        <display>
+        <title>SpringBoot</title>
+        <pubTime>2017-03-20T02:25:52.000Z</pubTime>
+        
+        <tag>SpringBoot</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-rest-put.html</loc>
+    <lastmod>2017-09-26T14:15:57.228Z</lastmod>
+    <data>
+        <display>
+        <title>REST架构中的PUT、DELETE请求如何实现?</title>
+        <pubTime>2017-09-02T07:08:10.000Z</pubTime>
+        
+        <tag>Restful</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-jquery-ajax.html</loc>
+    <lastmod>2017-09-26T14:15:38.828Z</lastmod>
+    <data>
+        <display>
+        <title>jQuery ajax - ajax() 方法</title>
+        <pubTime>2017-07-25T10:54:26.000Z</pubTime>
+        
+        <tag>Jquery</tag>
+         
+        <tag>AJAX</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-jquery.html</loc>
+    <lastmod>2017-09-26T14:15:10.201Z</lastmod>
+    <data>
+        <display>
+        <title>jQuery 与 AJAX</title>
+        <pubTime>2017-07-25T05:21:19.000Z</pubTime>
+        
+        <tag>Jquery</tag>
+         
+        <tag>AJAX</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-bootstrap-data.html</loc>
+    <lastmod>2017-09-26T14:14:54.930Z</lastmod>
+    <data>
+        <display>
+        <title>Bootstrap中data-toggle与data-target</title>
+        <pubTime>2017-07-19T08:58:17.000Z</pubTime>
+        
+        <tag>BootStrap</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/frame-annotation.html</loc>
+    <lastmod>2017-09-26T14:14:44.239Z</lastmod>
+    <data>
+        <display>
+        <title>常见注解，Bean 解析</title>
+        <pubTime>2017-09-09T16:16:40.000Z</pubTime>
+        
+        <tag>常见</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/designPatterns-singleton.html</loc>
+    <lastmod>2017-09-26T14:14:30.325Z</lastmod>
+    <data>
+        <display>
+        <title>Java 单例模式</title>
+        <pubTime>2017-03-30T12:25:52.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="学习" url="http://www.jiyongguang.xin/categories/%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/Illuos1ion-picture-nan.html</loc>
+    <lastmod>2017-09-26T10:21:15.951Z</lastmod>
+    <data>
+        <display>
+        <title>Illuos1ion-picture-nan</title>
+        <pubTime>2017-07-10T12:03:44.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.jiyongguang.xin/Illuos1ion-picture.html</loc>
+    <lastmod>2017-09-26T10:21:15.940Z</lastmod>
+    <data>
+        <display>
+        <title>Illuos1ion-picture</title>
+        <pubTime>2017-07-10T12:03:44.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+    
+</urlset>

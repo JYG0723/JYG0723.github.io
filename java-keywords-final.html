@@ -1,0 +1,1304 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java基础," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言今天在看BlockingQueue的一段演示代码的时候看到了这样一段代码：123456public static void main(String[] args) &amp;#123;   final BlockingQueue queue = new ArrayBlockingQueue(3);       for(int i=0;i&amp;lt;2;i++)&amp;#123;          new Thr">
+<meta name="keywords" content="Java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java中final关键字详解">
+<meta property="og:url" content="http://www.jiyongguang.xin/java-keywords-final.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="前言今天在看BlockingQueue的一段演示代码的时候看到了这样一段代码：123456public static void main(String[] args) &amp;#123;   final BlockingQueue queue = new ArrayBlockingQueue(3);       for(int i=0;i&amp;lt;2;i++)&amp;#123;          new Thr">
+<meta property="og:image" content="https://images0.cnblogs.com/i/288799/201407/091032249893721.jpg">
+<meta property="og:image" content="https://images0.cnblogs.com/i/288799/201407/091114508325258.jpg">
+<meta property="og:image" content="https://images0.cnblogs.com/i/288799/201407/091522525043726.jpg">
+<meta property="og:updated_time" content="2018-08-14T11:00:43.076Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java中final关键字详解">
+<meta name="twitter:description" content="前言今天在看BlockingQueue的一段演示代码的时候看到了这样一段代码：123456public static void main(String[] args) &amp;#123;   final BlockingQueue queue = new ArrayBlockingQueue(3);       for(int i=0;i&amp;lt;2;i++)&amp;#123;          new Thr">
+<meta name="twitter:image" content="https://images0.cnblogs.com/i/288799/201407/091032249893721.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/java-keywords-final.html"/>
+
+
+
+
+
+  <title> Java中final关键字详解 | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/java-keywords-final.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java中final关键字详解
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-14T00:43:36+08:00">
+                2017-07-14
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-08-14T19:00:43+08:00">
+                2018-08-14
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/java-keywords-final.html" class="leancloud_visitors" data-flag-title="Java中final关键字详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3,501
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天在看BlockingQueue的一段演示代码的时候看到了这样一段代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">   <span class="keyword">final</span> BlockingQueue queue = <span class="keyword">new</span> ArrayBlockingQueue(<span class="number">3</span>);</div><div class="line">       <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">2</span>;i++)&#123;</div><div class="line">          <span class="keyword">new</span> Thread()&#123;</div><div class="line">          &#125;</div><div class="line">          ······ 省略后序代码</div></pre></td></tr></table></figure></p>
+<p><code>final BlockingQueue queue = new ArrayBlockingQueue(3);</code></p>
+<p>对这里初始化的<code>BlockingQueue</code>对象不太清楚为什么要用<code>final</code>关键字来进行修饰。看来自己对final关键字的认识还是不够。所以去研究了一下</p>
+<a id="more"></a>
+<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><blockquote>
+<p>当final关键字用于修饰变量时表示该变量的值不可变；静态变量、实例成员变量、形式参数和局部变量都可以被final修饰。 修饰变量的final关键字可以为两种： 1. final修饰基本类型变量：表示该变量的值不能改变，即不能重新赋值，是“编译时常量”（compile-time constant） 2. final修饰引用类型：表示该变量的引用地址不能改变，而引用地址里的内容可以变，是“运行时不变量”（runtime immutable variable）</p>
+</blockquote>
+<h1 id="海子的文章"><a href="#海子的文章" class="headerlink" title="海子的文章"></a>海子的文章</h1><ul>
+<li>海子：<a href="https://www.cnblogs.com/dolphin0520/p/3736238.html" target="_blank" rel="external">浅析Java中的final关键字</a></li>
+</ul>
+<p>谈到final关键字，想必很多人都不陌生，在使用匿名内部类的时候可能会经常用到final关键字。另外，Java中的String类就是一个final类，那么今天我们就来了解final这个关键字的用法。下面是本文的目录大纲：</p>
+<ol>
+<li>final关键字的基本用法</li>
+<li>深入理解final关键字</li>
+</ol>
+<h2 id="final关键字的基本用法"><a href="#final关键字的基本用法" class="headerlink" title="final关键字的基本用法"></a>final关键字的基本用法</h2><p>在Java中，final关键字可以用来修饰类、方法和变量（包括成员变量和局部变量），甚至参数。下面就从这几个方面来了解一下final关键字的基本用法。</p>
+<h3 id="final修饰类"><a href="#final修饰类" class="headerlink" title="final修饰类"></a>final修饰类</h3><p>当用final修饰一个类时，表明这个类不能被继承。也就是说，如果一个类你永远不会让他被继承，就可以用final进行修饰。final类中的成员变量可以根据需要设为final，<strong>但是要注意final类中的所有成员方法都会被隐式地指定为final方法</strong>。</p>
+<p><img src="https://images0.cnblogs.com/i/288799/201407/091032249893721.jpg" alt=""></p>
+<p>在使用final修饰类的时候，要注意谨慎选择，<strong>除非这个类真的在以后不会用来继承或者出于安全的考虑，尽量不要将类设计为final类</strong>。</p>
+<h3 id="final修饰方法"><a href="#final修饰方法" class="headerlink" title="final修饰方法"></a>final修饰方法</h3><p>下面这段话摘自《Java编程思想》第四版第143页：</p>
+<blockquote>
+<p>“使用final方法的原因有两个。第一个原因是把方法锁定，以防任何继承类修改它的含义；第二个原因是效率。在早期的Java实现版本中，会将final方法转为内嵌调用。但是如果方法过于庞大，可能看不到内嵌调用带来的任何性能提升。在最近的Java版本中，不需要使用final方法进行这些优化了。“</p>
+</blockquote>
+<p>我们对过往final修饰方法的优势大概了解一下。</p>
+<p>因此，如果只有在想明确禁止该方法在子类中被覆盖的情况下才将方法设置为final的。</p>
+<blockquote>
+<p>注：类的private方法会隐式地被指定为final方法。</p>
+</blockquote>
+<h3 id="修饰变量"><a href="#修饰变量" class="headerlink" title="修饰变量"></a>修饰变量</h3><p>修饰变量是final用得最多的地方，也是本文接下来要重点阐述的内容。首先了解一下final变量的基本语法：</p>
+<p>对于一个final变量，如果是基本数据类型的变量，则其数值一旦在初始化之后便不能更改；如果是引用类型的变量，则在对其初始化之后便不能再让其指向另一个对象。</p>
+<p>举个例子：</p>
+<p><img src="https://images0.cnblogs.com/i/288799/201407/091114508325258.jpg" alt=""></p>
+<p>上面的一段代码中，对变量i和obj的重新赋值都报错了。</p>
+<h2 id="深入理解final关键字"><a href="#深入理解final关键字" class="headerlink" title="深入理解final关键字"></a>深入理解final关键字</h2><p>在了解了final关键字的基本用法之后，这一节我们来看一下final关键字容易混淆的地方。</p>
+<h3 id="类的final变量和普通变量有什么区别？"><a href="#类的final变量和普通变量有什么区别？" class="headerlink" title="类的final变量和普通变量有什么区别？"></a>类的final变量和普通变量有什么区别？</h3><p>当用final作用于类的成员变量时，成员变量（注意是类的成员变量，局部变量只需要保证在使用之前被初始化赋值即可）<strong>必须在定义时或者构造器中进行初始化赋值，而且final变量一旦被初始化赋值之后，就不能再被赋值了</strong>。</p>
+<p>那么final变量和普通变量到底有何区别呢？下面请看一个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>  </span>&#123;</div><div class="line">        String a = <span class="string">"hello2"</span>; </div><div class="line">        <span class="keyword">final</span> String b = <span class="string">"hello"</span>;</div><div class="line">        String d = <span class="string">"hello"</span>;</div><div class="line">        String c = b + <span class="number">2</span>; </div><div class="line">        String e = d + <span class="number">2</span>;</div><div class="line">        System.out.println((a == c));</div><div class="line">        System.out.println((a == e));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>结果:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">true</span></div><div class="line"><span class="keyword">false</span></div></pre></td></tr></table></figure></p>
+<p>大家可以先想一下这道题的输出结果。为什么第一个比较结果为true，而第二个比较结果为fasle。这里面就是final变量和普通变量的区别了，当final变量是基本数据类型以及String类型时，<strong>如果在编译期间能知道它的确切值，则编译器会把它当做编译期常量使用。</strong> 也就是说在用到该final变量的地方，相当于直接访问的这个常量，不需要在运行时确定。这种和C语言中的宏替换有点像。因此在上面的一段代码中，由于变量b被final修饰，因此会被当做编译器常量，所以在使用到b的地方会直接将变量b 替换为它的  值。而对于变量d的访问却需要在运行时通过链接来进行。想必其中的区别大家应该明白了，不过要注意，<strong>只有在编译期间能确切知道final变量值的情况下，编译器才会进行这样的优化</strong> ，比如下面的这段代码就不会进行优化：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>  </span>&#123;</div><div class="line">        String a = <span class="string">"hello2"</span>; </div><div class="line">        <span class="keyword">final</span> String b = getHello();<span class="comment">// 函数经过掉过才能知道确切的返回值</span></div><div class="line">        String c = b + <span class="number">2</span>; </div><div class="line">        System.out.println((a == c));</div><div class="line"> </div><div class="line">    &#125;</div><div class="line">     </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getHello</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"hello"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这段代码的输出结果为false。因为getHello函数的返回值只有在经过调用才能确定。</p>
+<h3 id="被final修饰的引用变量指向的对象内容可变吗？"><a href="#被final修饰的引用变量指向的对象内容可变吗？" class="headerlink" title="被final修饰的引用变量指向的对象内容可变吗？"></a>被final修饰的引用变量指向的对象内容可变吗？</h3><p>在上面提到被final修饰的引用变量一旦初始化赋值之后就不能再指向其他的对象，那么该引用变量指向的对象的内容可变吗？看下面这个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>  </span>&#123;</div><div class="line">        <span class="keyword">final</span> MyClass myClass = <span class="keyword">new</span> MyClass();</div><div class="line">        System.out.println(++myClass.i);</div><div class="line"> </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这段代码可以顺利编译通过并且有输出结果，输出结果为1。这说明引用变量被final修饰之后，虽然不能再指向其他对象，但是它指向的对象的内容是可变的。</p>
+<h3 id="final和static"><a href="#final和static" class="headerlink" title="final和static"></a>final和static</h3><p>很多时候会容易把static和final关键字混淆，static作用于成员变量用来表示只保存一份副本，而final的作用是用来保证变量不可变。看下面这个例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>  </span>&#123;</div><div class="line">        MyClass myClass1 = <span class="keyword">new</span> MyClass();</div><div class="line">        MyClass myClass2 = <span class="keyword">new</span> MyClass();</div><div class="line">        System.out.println(myClass1.i);</div><div class="line">        System.out.println(myClass1.j);</div><div class="line">        System.out.println(myClass2.i);</div><div class="line">        System.out.println(myClass2.j);</div><div class="line"> </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">double</span> i = Math.random();</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> j = Math.random();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运行这段代码就会发现，每次打印的两个j值都是一样的，而i的值却是不同的。从这里就可以知道final和static变量的区别了。</p>
+<h3 id="匿名内部类中使用的外部局部变量为什么只能是final变量？"><a href="#匿名内部类中使用的外部局部变量为什么只能是final变量？" class="headerlink" title="匿名内部类中使用的外部局部变量为什么只能是final变量？"></a>匿名内部类中使用的外部局部变量为什么只能是final变量？</h3><p>这个问题请参见上一篇博文中《Java内部类详解》中的解释，在此处不再赘述。</p>
+<h3 id="关于final参数的问题"><a href="#关于final参数的问题" class="headerlink" title="关于final参数的问题"></a>关于final参数的问题</h3><p>关于网上流传的”当你在方法中不需要改变作为参数的对象变量时，明确使用final进行声明，会防止你无意的修改而影响到调用方法外的变量“这句话，我个人理解这样说是不恰当的。</p>
+<p>因为无论参数是基本数据类型的变量还是引用类型的变量，使用final声明都不会达到上面所说的效果。</p>
+<p>看这个例子就清楚了：</p>
+<p><img src="https://images0.cnblogs.com/i/288799/201407/091522525043726.jpg" alt=""></p>
+<p>上面这段代码好像让人觉得用final修饰之后，就不能在方法中更改变量i的值了。殊不知，方法changeValue和main方法中的变量i根本就不是一个变量，因为java参数传递采用的是值传递，对于基本类型的变量，相当于直接将变量进行了拷贝。所以即使没有final修饰的情况下，在方法内部改变了变量i的值也不会影响方法外的i。</p>
+<p>再看下面这段代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span>  </span>&#123;</div><div class="line">        MyClass myClass = <span class="keyword">new</span> MyClass();</div><div class="line">        StringBuffer buffer = <span class="keyword">new</span> StringBuffer(<span class="string">"hello"</span>);</div><div class="line">        myClass.changeValue(buffer);</div><div class="line">        System.out.println(buffer.toString());</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</div><div class="line">     </div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">changeValue</span><span class="params">(<span class="keyword">final</span> StringBuffer buffer)</span> </span>&#123;</div><div class="line">        buffer.append(<span class="string">"world"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行这段代码就会发现输出结果为helloworld。很显然，用final进行修饰并没有阻止在changeValue中改变buffer指向的对象的内容。有人说假如把final去掉了，万一在changeValue中让buffer指向了其他对象怎么办。有这种想法的朋友可以自己动手写代码试一下这样的结果是什么，如果把final去掉了，然后在changeValue中让buffer指向了其他对象，也不会影响到main方法中的buffer，原因在于java采用的是值传递，对于引用变量，传递的是引用的值，也就是说让实参和形参同时指向了同一个对象，因此让形参重新指向另一个对象对实参并没有任何影响。</p>
+<p>所以关于网上流传的final参数的说法，我个人不是很赞同。</p>
+<p><strong>重点：</strong></p>
+<p>Java值传递。</p>
+<p>至于方法形参上用final修饰的作用就是防止形参变量指向在函数内发生更改。可参考：</p>
+<p><a href="https://blog.csdn.net/cadi2011/article/details/51615514" target="_blank" rel="external">浅谈方法中参数加上final</a></p>
+<h1 id="hebaodan的文章-更清晰"><a href="#hebaodan的文章-更清晰" class="headerlink" title="hebaodan的文章 - 更清晰"></a>hebaodan的文章 - 更清晰</h1><p>hebaodan：<a href="https://my.oschina.net/hebaodan/blog/898964" target="_blank" rel="external">Java关键字final理解</a></p>
+<ul>
+<li>修饰类时：表示该类不允许被继承</li>
+<li>修饰方法时：表示该方法在派生类里不允许被覆写（override） </li>
+<li>修饰变量时表示该变量的值不可变；静态变量、实例成员变量、形式参数和局部变量都可以被final修饰。修饰变量的final关键字可以为两种:<ul>
+<li>修饰基本类型变量：表示该变量的值不能改变，即不能重新赋值，是“编译时常量”</li>
+<li>修饰引用类型：表示该变量的引用地址不能改变，而引用地址里的内容可以变，是“运行时不变量”</li>
+</ul>
+</li>
+</ul>
+<h2 id="编译时常量"><a href="#编译时常量" class="headerlink" title="编译时常量"></a>编译时常量</h2><blockquote>
+<p>编译时常量：在编译阶段已经可以确定其值的变量</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * <span class="doctag">@author</span> chenxin</div><div class="line"> * <span class="doctag">@time</span> 2017-05-06-11:25</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FinalTest</span> </span>&#123;</div><div class="line">   <span class="keyword">public</span>  <span class="keyword">final</span> <span class="keyword">int</span> a = <span class="number">1</span>;  <span class="comment">// 编译时常量</span></div><div class="line">    </div><div class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> b = <span class="number">2</span>; <span class="comment">// 编译时常量</span></div><div class="line"></div><div class="line">   <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Integer c = <span class="number">3</span>; <span class="comment">// 非编译时常量</span></div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Type TYPE = Type.D;  <span class="comment">// 非编译时常量</span></div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> j;  <span class="comment">// 非编译时常量</span></div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> k = b - <span class="number">1</span>; <span class="comment">// 编译时常量</span></div><div class="line"></div><div class="line">    FinalTest(<span class="keyword">int</span> j)&#123;</div><div class="line">        <span class="keyword">this</span>.j = j;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">static</span>&#123;</div><div class="line">        System.out.println(<span class="string">"触发类初始化"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>解释<br>在上述代码中，变量c,TYPE不是基本类型，变量j需要在对象实例化的时候初始化值，为运行时不变量。 实验：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FinalMain</span> </span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        System.out.println(FinalTest.b);</div><div class="line"></div><div class="line">        System.out.println(FinalTest.k);</div><div class="line"></div><div class="line">        System.out.println(FinalTest.c);</div><div class="line"></div><div class="line">        System.out.println(FinalTest.TYPE);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">运行结果：</div><div class="line"></div><div class="line"><span class="number">2</span></div><div class="line"><span class="number">1</span></div><div class="line">触发类初始化</div><div class="line"><span class="number">3</span></div><div class="line">D</div></pre></td></tr></table></figure></p>
+<p>说明：由程序执行结果看，<strong>在访问变量c,TYPE时触发了类的初始化</strong>，验证它们不是编译时常量。</p>
+<p><strong>问题</strong>：为什么触发类的初始化就不是编译时常量呢，那变量a为何又是呢？(重点)</p>
+<ol>
+<li>先看变量a，它虽然没有被static修饰，但通过javap -c FinalTest查看字节码，常量1已经赋值给a了。然而，这么写代码是不优雅的，因为a作为成员变量，每次实例化对象都会在常量池分配内存，导致浪费。所以 <strong>：对于编译时常量，它就需要使用 static 关键字修饰</strong>，这样就是类的所有实例共享了。</li>
+<li>为何触发类的初始化就不是编译时常量呢？因为编译时常量存在于常量池，也会直接把值嵌入在字节码中,也就是Java虚拟机会将常量直接保存到类文件中。访问时是不需要进行类的初始化(下文解释)的。</li>
+<li>编译时常量只有可能是基本类型和String类型，而不可能是任何的引用类型，包括枚举，基本类型的包装类型(因为引用类型如果要做编译时常量必然需要运行时动态确定其引用。而这又与其是编译时常量相矛盾，所以只能是运行时常量)</li>
+</ol>
+<p>小测试</p>
+<p><code>public static final int m = new Random().nextInt();</code> 属于编译时常量吗？</p>
+<p>不属于，值在编译时无法确定。对方法调用获得的值不属于编译时常量。</p>
+<h2 id="为什么使用final"><a href="#为什么使用final" class="headerlink" title="为什么使用final"></a>为什么使用final</h2><ol>
+<li>定义为常量，在多线程环境下进行<strong>共享</strong>，一定程度上解决某些并发安全问题。切记需要与static连用</li>
+<li>JVM对常量有缓存</li>
+<li><p>方法内部类连本方法的成员变量都不可访问，它只能访问本方法的final型成员,一个典型的示例就是用Spring的<code>transactionTemplate.execute</code>，如下：b,c在方法内必须定义为final类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">final</span> Object b = <span class="keyword">new</span> Object;</div><div class="line">    <span class="keyword">final</span> Object c = <span class="keyword">new</span> Object;</div><div class="line">    transactionTemplate.execute(<span class="keyword">new</span> TransactionCallbackWithoutResult() &#123;</div><div class="line">            <span class="meta">@Override</span> </div><div class="line">            <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doInTransactionWithoutResult</span><span class="params">(TransactionStatus transactionStatus)</span> </span>&#123;</div><div class="line">                a.update(b);</div><div class="line">                a.update(c);</div><div class="line">            &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>对编译时常量的运算JIT会进行<strong>常量折叠</strong>，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">foo2</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> a = <span class="number">2</span>; <span class="comment">// 声明常量a</span></div><div class="line">    <span class="keyword">final</span> <span class="keyword">int</span> b = <span class="number">3</span>; <span class="comment">// 声明常量b</span></div><div class="line">    <span class="keyword">return</span> a + b;    <span class="comment">// 常量表达式</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>实际代码编译后运行的效果如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">foo3</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="number">5</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="JAVA局部变量加final修饰的好处"><a href="#JAVA局部变量加final修饰的好处" class="headerlink" title="JAVA局部变量加final修饰的好处"></a>JAVA局部变量加final修饰的好处</h2><p>参考：<a href="https://blog.csdn.net/gdscp/article/details/72901063" target="_blank" rel="external">https://blog.csdn.net/gdscp/article/details/72901063</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/java-keywords-final.html" title="Java中final关键字详解">http://www.jiyongguang.xin/java-keywords-final.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java基础/" rel="tag"># Java基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/java-problem.html" rel="next" title="常见的错误">
+                <i class="fa fa-chevron-left"></i> 常见的错误
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/java-keywords-static.html" rel="prev" title="Java中static关键字详解">
+                Java中static关键字详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本概念"><span class="nav-number">2.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#海子的文章"><span class="nav-number">3.</span> <span class="nav-text">海子的文章</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#final关键字的基本用法"><span class="nav-number">3.1.</span> <span class="nav-text">final关键字的基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#final修饰类"><span class="nav-number">3.1.1.</span> <span class="nav-text">final修饰类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final修饰方法"><span class="nav-number">3.1.2.</span> <span class="nav-text">final修饰方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修饰变量"><span class="nav-number">3.1.3.</span> <span class="nav-text">修饰变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深入理解final关键字"><span class="nav-number">3.2.</span> <span class="nav-text">深入理解final关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类的final变量和普通变量有什么区别？"><span class="nav-number">3.2.1.</span> <span class="nav-text">类的final变量和普通变量有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#被final修饰的引用变量指向的对象内容可变吗？"><span class="nav-number">3.2.2.</span> <span class="nav-text">被final修饰的引用变量指向的对象内容可变吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#final和static"><span class="nav-number">3.2.3.</span> <span class="nav-text">final和static</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匿名内部类中使用的外部局部变量为什么只能是final变量？"><span class="nav-number">3.2.4.</span> <span class="nav-text">匿名内部类中使用的外部局部变量为什么只能是final变量？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于final参数的问题"><span class="nav-number">3.2.5.</span> <span class="nav-text">关于final参数的问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#hebaodan的文章-更清晰"><span class="nav-number">4.</span> <span class="nav-text">hebaodan的文章 - 更清晰</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译时常量"><span class="nav-number">4.1.</span> <span class="nav-text">编译时常量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用final"><span class="nav-number">4.2.</span> <span class="nav-text">为什么使用final</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA局部变量加final修饰的好处"><span class="nav-number">4.3.</span> <span class="nav-text">JAVA局部变量加final修饰的好处</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

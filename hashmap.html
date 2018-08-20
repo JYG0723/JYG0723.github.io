@@ -1,0 +1,1447 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java基础," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言 本文基于jdk1.8  HashMap先来看一下Java官方描述">
+<meta name="keywords" content="Java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HashMap了解一下">
+<meta property="og:url" content="http://www.jiyongguang.xin/hashmap.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="前言 本文基于jdk1.8  HashMap先来看一下Java官方描述">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-1c64f473d364b951?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-39d36773be4fdbce?imageMogr2/auto-orient/strip%7CimageView2/2/w/653">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-9/51511736.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-c9471705807fb759?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-9/624891.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-9/96671008.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-4f153b37d6a712a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-9/28415970.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-9/34793006.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-52448d3f9cf423aa?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-9/67028212.jpg">
+<meta property="og:image" content="https://img-blog.csdn.net/20160408155045341">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-5-10/96013331.jpg">
+<meta property="og:image" content="https://img-blog.csdn.net/20160408155102734">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-9c35a69f5a70edab?imageMogr2/auto-orient/">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-4973a9573bbef4b7">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-e238bca1afa95fde?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-633aa4ef3fdf45b4?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-fe3fa865a5159edf?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:updated_time" content="2018-05-10T09:16:00.043Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HashMap了解一下">
+<meta name="twitter:description" content="前言 本文基于jdk1.8  HashMap先来看一下Java官方描述">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5291509-1c64f473d364b951?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/hashmap.html"/>
+
+
+
+
+
+  <title> HashMap了解一下 | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/hashmap.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                HashMap了解一下
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T17:12:27+08:00">
+                2018-05-10
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-05-10T17:16:00+08:00">
+                2018-05-10
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/hashmap.html" class="leancloud_visitors" data-flag-title="HashMap了解一下">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  5,265
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  20
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>本文基于jdk1.8</p>
+</blockquote>
+<h1 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h1><p>先来看一下Java官方描述</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5291509-1c64f473d364b951?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<a id="more"></a>
+<ul>
+<li>基于哈希表的 Map 接口的实现。</li>
+<li>允许使用 null 值和 null 键。</li>
+<li>除了非同步和允许使用 null 之外，HashMap 类与 Hashtable 大致相同。</li>
+<li>不保证映射的顺序，特别是它不保证该顺序恒久不变（扩容后元素在底层会重散列）。</li>
+<li>迭代所需的时间与 HashMap实例的“容量”（桶的数量）及键-值映射数成比例。即初始容量设置得太高（或将负载因子设置得太低）对遍历的性能影响都很大。<ul>
+<li>负载因子 = 总键值对数 / 箱子个数(数组元素)</li>
+</ul>
+</li>
+<li>HashMap 的实例有两个参数影响其性能：初始容量 和负载因子。当元素个数超过当前容量(桶数)与负载因子的乘机时，哈希表会对其元素rehash，底层的桶数*2。</li>
+<li>默认负载因子(0.75)，加载因子过高虽然减少了空间开销，但同时也增加了查询成本。在设置初始容量时应该考虑到Map中所要容纳的元素数量及其加载因子，以便最大限度地减少rehash操作次数。如果初始容量大于最大条目数除以加载因子，则不会发生rehash操作。</li>
+<li>如果从一开始就知道有多少元素要存到Map中，最好一开始就指定好Map初始容量，尽量避免其rehash操作。性能会大大提高</li>
+<li>此实现不是同步的。想要同步在一些列操作外手动同步，或者使用<code>Map m = Collections.synchronizedMap(new HashMap(...));</code>方法来“包装”该映射。最好在创建时完成这一操作，以防止对映射进行意外的非同步访问</li>
+</ul>
+<h1 id="HashMap类继承图"><a href="#HashMap类继承图" class="headerlink" title="HashMap类继承图"></a>HashMap类继承图</h1><p><img src="https://upload-images.jianshu.io/upload_images/5291509-39d36773be4fdbce?imageMogr2/auto-orient/strip%7CimageView2/2/w/653" alt=""></p>
+<ul>
+<li>实现了Serializable，Cloneable接口</li>
+<li>继承了父类AbstractMap</li>
+</ul>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-9/51511736.jpg" alt=""></p>
+<h1 id="HashMap属性"><a href="#HashMap属性" class="headerlink" title="HashMap属性"></a>HashMap属性</h1><p>静态属性：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5291509-c9471705807fb759?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<ul>
+<li><code>DEFAULT_INITIAL_CAPACITY</code>: 初始容量，也就是默认会创建 16 个箱子，箱子的个数不能太多或太少。如果太少，很容易触发扩容，如果太多，遍历哈希表会比较慢。</li>
+<li><code>MAXIMUM_CAPACITY</code>: 哈希表最大容量，一般情况下只要内存够用，哈希表不会出现问题。</li>
+<li><code>DEFAULT_LOAD_FACTOR</code>: 默认的负载因子。因此初始情况下，当键值对的数量大于 16 * 0.75 = 12 时，就会触发扩容。</li>
+<li><code>TREEIFY_THRESHOLD</code>: 上文说过，如果哈希函数不合理，即使扩容也无法减少箱子中链表的长度，因此 Java 的处理方案是当链表太长时，转换成红黑树。这个值表示当某个箱子中，链表长度大于等于 8 时，有可能会转化成树。</li>
+<li><code>UNTREEIFY_THRESHOLD</code>: 在哈希表扩容时，如果发现链表长度小于 6，则会由树重新退化为链表。</li>
+<li><code>MIN_TREEIFY_CAPACITY</code>: 在转变成树之前，还会有一次判断，只有键值对数量大于 64 才会发生转换。这是为了避免在哈希表建立初期，多个键值对恰好被放入了同一个链表中而导致不必要的转化。</li>
+</ul>
+<p>成员属性：</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-9/624891.jpg" alt=""></p>
+<ul>
+<li><code>table</code>：HashMap的链表数组。它在自扩容时总是2的次幂</li>
+<li><code>entrySet</code>: HashMap实例中的Entry的Set集合。</li>
+<li><code>size</code>: HashMap实例中映射的数量</li>
+<li><code>modCount</code>: 这个HashMap被结构修改的次数</li>
+<li><code>threshold</code>: 桶数</li>
+<li><code>loadFactor</code>: 哈希表的负载因子</li>
+</ul>
+<p><strong>HashMap简单总结：</strong></p>
+<ul>
+<li>存取无序</li>
+<li>键值允许为NULL</li>
+<li>非同步类</li>
+<li>底层是哈希表</li>
+<li>初始容量和装载因子是决定整个类性能的关键点。</li>
+</ul>
+<h1 id="HashMap构造函数"><a href="#HashMap构造函数" class="headerlink" title="HashMap构造函数"></a>HashMap构造函数</h1><p>HashMap的构造函数共4个。</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-9/96671008.jpg" alt=""></p>
+<h2 id="HashMap-int-initialCapacity-float-loadFactor"><a href="#HashMap-int-initialCapacity-float-loadFactor" class="headerlink" title="HashMap(int initialCapacity, float loadFactor)"></a>HashMap(int initialCapacity, float loadFactor)</h2><p><img src="https://upload-images.jianshu.io/upload_images/5291509-4f153b37d6a712a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>我们可以看到loadFactor参数Java官方还对其进行了Float.NaN(0.0f/0.0f)的判断。可以说考虑的非常周到了</p>
+<p>同时在构造函数的最后一行，在为threshold赋值的时候，调用了tableSizeFor()函数来对输入的初始容量进行判断，来保证该初始容量是2的整数次幂。</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-9/28415970.jpg" alt=""></p>
+<p>函数具体释义可参考：<a href="https://blog.csdn.net/fan2012huan/article/details/51097331" target="_blank" rel="external">HashMap源码注解 之 静态工具方法hash()、tableSizeFor()（四）</a></p>
+<ul>
+<li>此时不经要想为什么是将2的整数幂的数赋给threshold？</li>
+</ul>
+<p>首先我们先来了解一下threshold这个属性：</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-9/34793006.jpg" alt=""></p>
+<p>threshold这个成员变量是阈值，决定了是否要将散列表扩容充重散列。它的值应该是：(capacity * loadfactor）才对的。</p>
+<ul>
+<li>那我们就更奇怪了，那这里还给他赋值干什么？</li>
+</ul>
+<p>其实这里仅仅是一个初始化，当创建哈希表的时候，它会在resize函数中根据一些条件判断来重新定义赋值的。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5291509-52448d3f9cf423aa?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<h2 id="HashMap-Map-lt-extends-K-extends-V-gt-m"><a href="#HashMap-Map-lt-extends-K-extends-V-gt-m" class="headerlink" title="HashMap(Map&lt;? extends K, ? extends V&gt; m)"></a>HashMap(Map&lt;? extends K, ? extends V&gt; m)</h2><p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-9/67028212.jpg" alt=""></p>
+<p>这个构造函数其实本质上和刚才我们所看的给初始容量和负载因子的构造函数一致。函数最终做的除了参数上可以看出来的，把一个Map实例中的元素都插入到HashMap实例中外，由于负载因子没有显示指定所以赋予了loadFactory默认值。</p>
+<p>并且把具体的Map迭代放在了调用的<code>putMapEntries</code>函数中。从该函数注释中看出，该函数是服务于<code>putAll</code>函数和<code>constructor</code>构造函数的。</p>
+<p>从<code>putMapEntries</code>函数注释中也可以看出，如果这个函数在初始化Map时被调用evict参数传入的是false。而如果这个函数是在afterNodeInsertion函数后调用的，那么则需要传入的是true。</p>
+<p>从putMapEntries函数的具体代码实现上可以看出，其在Map第一次初始化的时候和我们刚才所看的构造函数一致，都是在真正构造HashMap前先为阈值赋予一个可靠地初值。然后才迭代入参map集合，将其元素都插入到HashMap中。</p>
+<p>其余的构造函数都是大同小异。就不一一赘述了</p>
+<p><strong>总结：</strong></p>
+<p>从构造函数中我们可以看出，HashMap的构造函数其实工作就只有一个。赋值</p>
+<ul>
+<li>赋值负载因子</li>
+<li>赋值阈值</li>
+</ul>
+<h1 id="HashMap常见Api解析"><a href="#HashMap常见Api解析" class="headerlink" title="HashMap常见Api解析"></a>HashMap常见Api解析</h1><h2 id="put-K-key-V-value"><a href="#put-K-key-V-value" class="headerlink" title="put(K key, V value)"></a>put(K key, V value)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"> /**</div><div class="line"> * Associates the specified value with the specified key in this map.</div><div class="line"> * If the map previously contained a mapping for the key, the old</div><div class="line"> * value is replaced.</div><div class="line"> *</div><div class="line"> */</div><div class="line">public V put(K key, V value) &#123;</div><div class="line">    return putVal(hash(key), key, value, false, true);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看出put函数具体实现其实是调用了putVal函数。并且从注释中可以得知如果该映射存在，新值会替换掉旧值。</p>
+<p>还可以看到的是传入了5个参数，我们来了解简单一下这5个参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"> /**</div><div class="line"> * Implements Map.put and related methods</div><div class="line"> *</div><div class="line"> * @param hash hash for key</div><div class="line"> * @param key the key</div><div class="line"> * @param value the value to put</div><div class="line"> * @param onlyIfAbsent if true, don&apos;t change existing value</div><div class="line"> * @param evict if false, the table is in creation mode.</div><div class="line"> * @return previous value, or null if none</div><div class="line"> */</div><div class="line">final V putVal(int hash, K key, V value, boolean onlyIfAbsent,</div><div class="line">               boolean evict) &#123;</div></pre></td></tr></table></figure>
+<p>注释很直白解释的很清楚，按序号来</p>
+<ol>
+<li>key的哈希值</li>
+<li>key</li>
+<li>value</li>
+<li>如果映射存在不替换原值？</li>
+<li>如果是false，代表当前HashMap正处于创建阶段。</li>
+</ol>
+<p>我们大概知道了这5个参数是干嘛的了，就可以针对第一个参数具体的去了解一下key的哈希值是如何计算得了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">static final int hash(Object key) &#123;</div><div class="line">    int h;</div><div class="line">    return (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里就比较疑惑了，为什么不直接用key类型对应的hashcode函数直接得到对应的哈希码呢？从这段代码可以看出来Java官方拿key的哈希码和其哈希码向右移位16位的结果进行异或操作。我们知道右移高位补0，由于哈希码返回的是一个4字节32位int类型的值。所以总共可以看成是高16位，低16位组成的。</p>
+<p>而这里对其哈希码进行右移16位之后高位空缺补0，原高位到了现低位。然后再拿原哈希码与现哈希码进行异或操作，而我们知道任何数跟0异或都是其本身。所以可以看出Java官方最终目的，是想让哈希码原低16位与其高16位进行异或操作。而原高16位却不变，原来如此~</p>
+<p><img src="https://img-blog.csdn.net/20160408155045341" alt=""></p>
+<p><strong>但为什么要这样呢？</strong></p>
+<p>其实这个与HashMap中元素插入时对应位置table数组下标的计算有关。</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-5-10/96013331.jpg" alt=""></p>
+<p>核心代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">n = (tab = resize()).length;</div><div class="line">i =（n-1） &amp; hash</div></pre></td></tr></table></figure></p>
+<p>我们暂且不看resize函数，putVal函数在初次进来的时候该resize函数做的其实就是哈希表初始化的工作。由于<code>DEFAULT_INITIAL_CAPACITY</code>变量的存在，我们暂且认为该哈希表的大小length为16。即n=16</p>
+<p>那么在计算元素插入位置的时候，由于底层是数组。所以真正存储的位置就是[0-15]。所以n-1。</p>
+<p>而因为，table的length属性都是2的幂，因此i仅与hash值的低n位有关（此n非table.length，而是2的幂指数）<br>假设table.length=2^4=16。 </p>
+<p><img src="https://img-blog.csdn.net/20160408155102734" alt=""></p>
+<p>由上图可以看到，32位的hash值只有低4位参与了运算。<br>仅有4位的异或很容易产生碰撞。但是由于table.length的大小只能由插入数据的多少来改变，而hash值得高16位又由于与操作置0了，所以设计人员相出一个好办法就是通过对key的hash值进行高16位与低16位异或来将高位与低位整合。这样不但可以保留原来key哈希值的差异性(高位地位同时作用)，同时来增加低16位2进制数值在计算时的差异性进而减少这种哈希冲突的情况。</p>
+<p>参考：<a href="https://blog.csdn.net/fan2012huan/article/details/51097331" target="_blank" rel="external">HashMap源码注解 之 静态工具方法hash()、tableSizeFor()（四）</a></p>
+<h2 id="putVal-int-hash-K-key-V-value-boolean-onlyIfAbsent-boolean-evict"><a href="#putVal-int-hash-K-key-V-value-boolean-onlyIfAbsent-boolean-evict" class="headerlink" title="putVal(int hash, K key, V value, boolean onlyIfAbsent,boolean evict)"></a>putVal(int hash, K key, V value, boolean onlyIfAbsent,boolean evict)</h2><p>接下来便可以继续分析真正的put函数了。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5291509-9c35a69f5a70edab?imageMogr2/auto-orient/" alt=""></p>
+<p>总结下来就是：</p>
+<ul>
+<li>散列表初次put数组任为NULL时，调用resize函数(单独拉出来说)来初始化散列表</li>
+<li>当根据元素的哈希值可以确认分配到散列表的下标时，<strong>如果此处没有元素</strong>，那么就直接插入<ul>
+<li><strong>当该元素就是和我一样的元素</strong>。即此处元素的hash值和key值都与要插入的元素相等时。通过变量e指向该元素。</li>
+<li><strong>当该元素已经不是一个链表结构而是一个红黑树结构的时候</strong>(元素肯定过6)，将该元素插入到红黑树中，并用e指向该元素</li>
+<li>否则该处就是一个链表，链表头结点不是要插入的元素，但不能排除其他节点不是。所以然后遍历这个数组，当该链表中遍历到的节点的下一节点为空时将该元素插入到链表尾，循环跳出。如果不为空的话，对下一节点进行判断看是否是待插入节点。如果是跳出</li>
+</ul>
+</li>
+<li>程序进行到绿框时，此时程序只有两种情况。元素最后找到空出插入了，但是e无法指向。或者说元素找到和自己一样的元素了，并且由变量e指向。<ul>
+<li>新旧值替换，根据函数一开始传入的参数onlyIfAbsent或者oldValue的特殊情况来决定是否替换。<ul>
+<li>key对应的旧值如果为NULL，那么无论onlyIfAbsent是否决定替换。都将被替换。</li>
+<li>key对应的旧值如果不为NULL，那么如果onlyIfAbsent是false就替换。</li>
+</ul>
+</li>
+<li>最后返回被替换掉的值。</li>
+</ul>
+</li>
+<li>修改了实例结构所以modCount+1。 </li>
+<li>加入元素后判断元素个数是否超过了阈值。如果是resize函数扩桶数</li>
+</ul>
+<p>这样我们的putVal函数其实思路就理清了，看上去很复杂，其实宗旨没变，也就是判断，扩容，找位置，去除特殊情况，元素插入，只不过数据结构的差异性导致其特殊情况较多，判断的复杂了些。接下来该分析resize函数了。我们可以明显的看到putVal函数多出调用了resize函数。所以要想彻底理清HashMap实例是如何构建的，resize函数必然需要了解一下。</p>
+<p>目前对resize的了解：table==null时，调用resize初始化table。元素数量&gt;=threshold时，调用resize扩容。</p>
+<h2 id="Node-resize"><a href="#Node-resize" class="headerlink" title="Node[] resize()"></a>Node<k,v>[] resize()</k,v></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Initializes or doubles table size.  If null, allocates in</div><div class="line"> * accord with initial capacity target held in field threshold.</div><div class="line"> * Otherwise, because we are using power-of-two expansion, the</div><div class="line"> * elements from each bin must either stay at same index, or move</div><div class="line"> * with a power of two offset in the new table</div><div class="line"> */</div><div class="line">final Node&lt;K,V&gt;[] resize() &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从该函数的开头我们也可以确认我们刚才的观点。用来初始化和给table扩容的。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5291509-4973a9573bbef4b7" alt=""></p>
+<p>总结下来就是：</p>
+<p><strong>哈细表扩容：</strong></p>
+<ul>
+<li>当旧表容量大于0时，即旧表被初始化过了<ul>
+<li>并且如果其容量大于或等于int的最大值。那么阈值设置为int的最大值。并返回旧旧表，此时表已经不能再扩容了，能做的只有置阈值为其能到大的最大值，尽可能的减少扩容次数。</li>
+<li>当旧表容量不及最大容量的一半时，并且旧表容量大于默认容量16时。由于函数resize被调用了。所以需要满足外界扩容需求，旧表阈值&lt;&lt;1。</li>
+</ul>
+</li>
+<li>当旧表没被初始化，但HashMap实例被初始化了。<ul>
+<li>否则当旧表还未被初始化时，只是在初始化HashMap实例的时候赋予了阈值和负载因子(结合构造函数思考)，当旧阈值&gt;0时，哈希表初始容量设置为阈值。</li>
+<li>否则，当构造HashMap实例时如果连阈值也没有赋值(默认为0)只是初始化了负载因子的话(默认无参构造函数)。初始化哈希表容量为<code>DEFAULT_INITIAL_CAPACITY</code>即16，阈值为<code>DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY</code>即12。</li>
+</ul>
+</li>
+<li>当阈值=0时，新阈值=新容量*负载因子。当HashMap实例被被初始化时阈值也被初始化时会走这一分支</li>
+<li>最后确定容量和阈值后初始化哈细表。</li>
+</ul>
+<p><strong>数据迁移：</strong></p>
+<ul>
+<li>当旧哈细表存在时，迭代哈细表每个元素。因为每个元素中存的都是链表或者红黑树。根据每个元素的哈希值重新散列到新哈希表的对应位置上。底层数据结构和节点的存储位置很大程度上会更改。</li>
+</ul>
+<h2 id="get-Object-key"><a href="#get-Object-key" class="headerlink" title="get(Object key)"></a>get(Object key)</h2><p>从注释中可以看出，返回 null 值并不一定 表明该映射不包含该键的映射关系；也可能该映射将该键显示地映射为 null。可使用 containsKey 操作来区分这两种情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> /**</div><div class="line"> * ·····</div><div class="line"> * &lt;p&gt;A return value of &#123;@code null&#125; does not &lt;i&gt;necessarily&lt;/i&gt;</div><div class="line"> * indicate that the map contains no mapping for the key; it&apos;s also</div><div class="line"> * possible that the map explicitly maps the key to &#123;@code null&#125;.</div><div class="line"> * The &#123;@link #containsKey containsKey&#125; operation may be used to</div><div class="line"> * distinguish these two cases.</div><div class="line"> * ·····</div><div class="line"> */</div><div class="line">public V get(Object key) &#123;</div><div class="line">    Node&lt;K,V&gt; e;</div><div class="line">    return (e = getNode(hash(key), key)) == null ? null : e.value;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>函数具体查询逻辑封装到了getNode函数。<br><img src="https://upload-images.jianshu.io/upload_images/5291509-e238bca1afa95fde?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>简单来说：</p>
+<ul>
+<li>key对应的哈希值计算出来落到哈希表对应的地方上，如果有元素存在。</li>
+<li>有元素存在就需要比较了，因为元素上可能存的是链表或者红黑树。<ul>
+<li>第一个元素就是搜寻的key本身</li>
+<li>第一个不是，但其是红黑树结构。参数传递并去红黑树中找</li>
+<li>不是红黑树结构，那么就是链表结构，进行迭代寻找，获取key对应的value。</li>
+</ul>
+</li>
+</ul>
+<h2 id="remove-Object-key"><a href="#remove-Object-key" class="headerlink" title="remove(Object key)"></a>remove(Object key)</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Removes the mapping for the specified key from this map if present.</div><div class="line"> *</div><div class="line"> * @param  key key whose mapping is to be removed from the map</div><div class="line"> * @return the previous value associated with &lt;tt&gt;key&lt;/tt&gt;, or</div><div class="line"> *         &lt;tt&gt;null&lt;/tt&gt; if there was no mapping for &lt;tt&gt;key&lt;/tt&gt;.</div><div class="line"> *         (A &lt;tt&gt;null&lt;/tt&gt; return can also indicate that the map</div><div class="line"> *         previously associated &lt;tt&gt;null&lt;/tt&gt; with &lt;tt&gt;key&lt;/tt&gt;.)</div><div class="line"> */</div><div class="line">public V remove(Object key) &#123;</div><div class="line">    Node&lt;K,V&gt; e;</div><div class="line">    return (e = removeNode(hash(key), key, null, false, true)) == null ?</div><div class="line">        null : e.value;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从函数的注释中可以看出，该函数删除key对应的Entry并返回与 key 关联的旧值；如果 key 没有任何映射关系，则返回 null。<strong>但需要注意的是：</strong> 返回 null 还可能表示该映射之前将 null 与 key 关联。</p>
+<p>函数再次把元素的通过hash函数包装传了进去，这很好理解，因为底层是哈希表嘛，不这样怎么能找到key到底在哈希表什么位置呢。我们可以看到删除逻辑的具体逻辑封装到了<code>removeNode</code>函数中。</p>
+<h2 id="removeNode-int-hash-Object-key-Object-value-boolean-matchValue-boolean-movable"><a href="#removeNode-int-hash-Object-key-Object-value-boolean-matchValue-boolean-movable" class="headerlink" title="removeNode(int hash, Object key, Object value,boolean matchValue, boolean movable)"></a>removeNode(int hash, Object key, Object value,boolean matchValue, boolean movable)</h2><p>先来对removeNod函数的多个参数进行一番分析。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">* @param hash hash for key </div><div class="line">* @param key the key</div><div class="line">* @param value the value to match if matchValue, else ignored</div><div class="line">* @param matchValue if true only remove if value is equal</div><div class="line">* @param movable if false do not move other nodes while removing</div></pre></td></tr></table></figure></p>
+<ol>
+<li>hash(key)</li>
+<li>key</li>
+<li>对应matchValue参数，如果matchValue为true。那么删除key时其value必须与value相等，否则跳过这次删除</li>
+<li>如果true。只有当值相等时才删除。</li>
+<li>如果为false，那么在删除节点时不移动其他节点。</li>
+</ol>
+<p><img src="https://upload-images.jianshu.io/upload_images/5291509-633aa4ef3fdf45b4?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>总的来说：</p>
+<ul>
+<li>先判断key是否可以映射到哈希表上。<ul>
+<li>如果可以，判断一下映射的位置头元素是否为该查找的元素。</li>
+<li>如果头元素不是要找元素，判断一下头元素后有无其他元素。如果有再判断一下这个元素的数据结构是否为红黑树，如果是，用node变量指向该key对应在红黑树中的节点。</li>
+<li>如果不是那说明哈希表该索引处是一个链表结构，然后对链表元素迭代寻找该元素，并用node节点指向寻找到的该元素。需要注意的是，<code>p</code>变量的逻辑定位，由于<code>do while</code>循环体中break语句相对于<code>p=e</code>语句置前，p变量在循环退出时指向的是node节点的前驱节点。</li>
+</ul>
+</li>
+<li><p>经历过橘黄色和红色两大块逻辑判断，成功找到了待删除节点的位置，并用node节点指向。如果该Node节点被成功找到了的话。</p>
+<ul>
+<li>红黑树：如果node节点所在哈希表的位置元素的存储结构式是红黑树的话。调用红黑树的删除方法</li>
+<li>链表：如果头节点就是待删除节点的话，那么待删除节点的next节点做头结点</li>
+<li>链表：如果待删除节点是链表中间部分的某个节点。借助p变量进行删除。</li>
+</ul>
+</li>
+<li><p>modCount+1，size-1，并将删除的节点返回。</p>
+</li>
+</ul>
+<h1 id="HashMap与HashTable对比"><a href="#HashMap与HashTable对比" class="headerlink" title="HashMap与HashTable对比"></a>HashMap与HashTable对比</h1><p>我们从一开始就曾说，两者从存储结构和实现来讲基本上都是相同的。两者最大的差别就是HashTable是线程安全的，而HashMap是线程不安全的。并且在数据存储时，HashMap允许key和value为null。而HashTable则不允许。并且HashTable规定用作键的对象必须实现 hashCode 方法和 equals 方法。</p>
+<p>HashTable在Map映射中的地位有点儿像Vector在List集合中的定位。也是比较过时的类，设计上有一些缺陷，不需要线程安全的情况下可以使用HashMap替代它，而需要线程安全的情况下也可以用ConcurrentHashMap来替代它。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5291509-fe3fa865a5159edf?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>HashMap的底层是：数组+链表+红黑树</li>
+<li>HashMap的实例有两个重要参数影响其性能。负载因子和初始容量，(装载因子*初始容量)&lt; 散列表元素时，该散列表会扩容2倍，并重散列。<ul>
+<li>负载因子：默认0.75，无论是初始大了还是初始小了对HashMap的性能都不好<ul>
+<li>初始值大了，可以减少散列表再散列(扩容的次数)，但同时会导致散列冲突的可能性变大(散列冲突也是耗性能的一个操作，要得操作链表(红黑树)</li>
+<li>初始值小了，可以减小散列冲突的可能性，但同时扩容的次数可能就会变多！</li>
+</ul>
+</li>
+<li>初始容量：默认值是16，无论初始大了还是小了对HashMap都是有影响的<ul>
+<li>初始容量过大，那么遍历时速度就会受影响~</li>
+<li>初始容量过小，散列表再散列(扩容的次数)可能就变得多，扩容也是一件非常耗费性能的一件事</li>
+</ul>
+</li>
+<li>参考公式：阈值 = 容量 * 负载因子</li>
+</ul>
+</li>
+<li>HashMap在计算元素在哈希表中存储位置的时候，并不是直接拿key的哈希值来用的，会先对key的哈希值进行右移16位，然后再与其key的哈希值进行异或操作。根本上就是高位不变，低位变为高16位和低16位的异或结果，使得元素在存储时的随机性更大了。分布更加均匀了，减少了哈希冲突发生的概率</li>
+<li>并不是箱子上元素大于等于8位元素的时候该哈希表的元素底层就能变成红黑树，它得同时满足哈希表总容量大于64才行，同时当红黑树元素数量低于8时，并不是会立马变回链表。而是在其元素小于6时才会。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/hashmap.html" title="HashMap了解一下">http://www.jiyongguang.xin/hashmap.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java基础/" rel="tag"># Java基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/map.html" rel="next" title="Map集合了解一下">
+                <i class="fa fa-chevron-left"></i> Map集合了解一下
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/linkedhashmap.html" rel="prev" title="LinkedHashMap了解一下">
+                LinkedHashMap了解一下 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap"><span class="nav-number">2.</span> <span class="nav-text">HashMap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap类继承图"><span class="nav-number">3.</span> <span class="nav-text">HashMap类继承图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap属性"><span class="nav-number">4.</span> <span class="nav-text">HashMap属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap构造函数"><span class="nav-number">5.</span> <span class="nav-text">HashMap构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap-int-initialCapacity-float-loadFactor"><span class="nav-number">5.1.</span> <span class="nav-text">HashMap(int initialCapacity, float loadFactor)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HashMap-Map-lt-extends-K-extends-V-gt-m"><span class="nav-number">5.2.</span> <span class="nav-text">HashMap(Map<? extends K, ? extends V> m)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap常见Api解析"><span class="nav-number">6.</span> <span class="nav-text">HashMap常见Api解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#put-K-key-V-value"><span class="nav-number">6.1.</span> <span class="nav-text">put(K key, V value)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#putVal-int-hash-K-key-V-value-boolean-onlyIfAbsent-boolean-evict"><span class="nav-number">6.2.</span> <span class="nav-text">putVal(int hash, K key, V value, boolean onlyIfAbsent,boolean evict)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-resize"><span class="nav-number">6.3.</span> <span class="nav-text">Node[] resize()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get-Object-key"><span class="nav-number">6.4.</span> <span class="nav-text">get(Object key)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#remove-Object-key"><span class="nav-number">6.5.</span> <span class="nav-text">remove(Object key)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#removeNode-int-hash-Object-key-Object-value-boolean-matchValue-boolean-movable"><span class="nav-number">6.6.</span> <span class="nav-text">removeNode(int hash, Object key, Object value,boolean matchValue, boolean movable)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HashMap与HashTable对比"><span class="nav-number">7.</span> <span class="nav-text">HashMap与HashTable对比</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

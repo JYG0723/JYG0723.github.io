@@ -1,0 +1,1293 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Spring," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言在看这边博客时，如果遇到有什么不清楚的地方，可以参考我另外一边博文。Spring标签的探索，根据这边文章自己来深入源码一探究竟。这里自己只是简单记录一下各标签作用，每个人困惑不同，自然需求也不一定相同，所以还是自己动手深入源码一探究竟比较好。">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring 配置文件中的那些标签该如何正确使用(持续更新)">
+<meta property="og:url" content="http://www.jiyongguang.xin/spring-annoation.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="前言在看这边博客时，如果遇到有什么不清楚的地方，可以参考我另外一边博文。Spring标签的探索，根据这边文章自己来深入源码一探究竟。这里自己只是简单记录一下各标签作用，每个人困惑不同，自然需求也不一定相同，所以还是自己动手深入源码一探究竟比较好。">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1flr3lxkfbij30q30ct48c.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1flr3eae721j30q20hzgzz.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1flrxdwpeoyj30yd0907dq.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006gmCthly1flsa2adwu7j30960aymxd.jpg">
+<meta property="og:updated_time" content="2017-11-25T16:52:37.540Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring 配置文件中的那些标签该如何正确使用(持续更新)">
+<meta name="twitter:description" content="前言在看这边博客时，如果遇到有什么不清楚的地方，可以参考我另外一边博文。Spring标签的探索，根据这边文章自己来深入源码一探究竟。这里自己只是简单记录一下各标签作用，每个人困惑不同，自然需求也不一定相同，所以还是自己动手深入源码一探究竟比较好。">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/006gmCthly1flr3lxkfbij30q30ct48c.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/spring-annoation.html"/>
+
+
+
+
+
+  <title> Spring 配置文件中的那些标签该如何正确使用(持续更新) | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/spring-annoation.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Spring 配置文件中的那些标签该如何正确使用(持续更新)
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-22T07:47:19+08:00">
+                2017-11-22
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2017-11-26T00:52:37+08:00">
+                2017-11-26
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring-学习/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring 学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/spring-annoation.html" class="leancloud_visitors" data-flag-title="Spring 配置文件中的那些标签该如何正确使用(持续更新)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,539
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在看这边博客时，如果遇到有什么不清楚的地方，可以参考我另外一边博文。<a href="http://www.jiyongguang.xin/spring-annoation-%E3%80%8Acontext-annoation-config%E3%80%8B.html">Spring标签的探索</a>，根据这边文章自己来深入源码一探究竟。这里自己只是简单记录一下各标签作用，每个人困惑不同，自然需求也不一定相同，所以还是自己动手深入源码一探究竟比较好。</p>
+<a id="more"></a>
+<h3 id="context-annotation-config"><a href="#context-annotation-config" class="headerlink" title="context:annotation-config"></a>context:annotation-config</h3><hr>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1flr3lxkfbij30q30ct48c.jpg" alt=""></p>
+<h4 id="注释说明："><a href="#注释说明：" class="headerlink" title="注释说明："></a>注释说明：</h4><p>配置了该标签意味着激活了bean类中要检测的各种注释，Spring的<code>@Required</code>和<code>@Autowired</code>以及JSR 250的<code>@PostConstruct</code>，<code>@PreDestroy</code>，<code>@Resource</code>，JAX-WS的<code>@WebServiceRef</code>，EJB3的<code>@EJB</code>，和JPA的<code>@PersistenceContext</code>，<code>@PersistenceUnit</code>。或者你可以为这些注释激活单独的<code>BeanPostProcessors</code></p>
+<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><p>这个标签不会激活处理Spring的<code>@Transactional</code>或EJB3的<code>@TransactionAttribute</code>注解。 考虑使用<code>&lt;tx：annotation-driven&gt;</code>标签。</p>
+<h4 id="From-Me"><a href="#From-Me" class="headerlink" title="From Me"></a>From Me</h4><p>看源码后分析得知<a href="">我的Spring标签源码分析文章</a>，它的作用是隐式地向Spring容器注册<code>AutowiredAnnotationBeanPostProcessor</code>,<code>CommonAnnotationBeanPostProcessor</code>,<code>PersistenceAnnotationBeanPostProcessor</code>,<code>RequiredAnnotationBeanPostProcessor</code>这4个<code>BeanPostProcessor</code>。其作用是如果你想在程序中使用注解，就必须先注册该注解对应的类，如下图所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">依赖的类</th>
+<th style="text-align:center">注解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>CommonAnnotationBeanPostProcessor</code></td>
+<td style="text-align:center"><code>@Resource</code> 、<code>@PostConstruct</code>、<code>@PreDestroy</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>PersistenceAnnotationBeanPostProcessor</code></td>
+<td style="text-align:center"><code>@PersistenceContext</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>AutowiredAnnotationBeanPostProcessor</code></td>
+<td style="text-align:center"><code>@Autowire</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>RequiredAnnotationBeanPostProcesso</code></td>
+<td style="text-align:center"><code>@Required</code></td>
+</tr>
+</tbody>
+</table>
+<p>另外还支持：<code>@WebServiceRef</code>,<code>@EJB</code>,<code>@PersistenceUnit</code></p>
+<p>当然也可以使用传统的方式要使用对应的注解一个一个去声明自定义注册项目也不会显得那么臃肿，可能就是有点儿难记了。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor "</span>/&gt;</span> </div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="context-component-scan"><a href="#context-component-scan" class="headerlink" title="context:component-scan"></a>context:component-scan</h3><hr>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1flr3eae721j30q20hzgzz.jpg" alt=""></p>
+<h4 id="注释说明：-1"><a href="#注释说明：-1" class="headerlink" title="注释说明："></a>注释说明：</h4><p>扫描<code>classpath</code>时，被注释的组件将自动注册为Spring bean。 默认情况下，Spring提供的<code>@Component</code>，<code>@Repository</code>，<br><code>@Service</code>和<code>@Controller</code>原型会被检测到。</p>
+<h4 id="注意：-1"><a href="#注意：-1" class="headerlink" title="注意："></a>注意：</h4><p>这个标签的存在意味可以不在xml中配置<code>&lt;context:annotation-config&gt;</code>标签了。因为该标签会支持<code>@Required</code>，<code>@Autowired</code>，<code>@PostConstruct</code>，<code>@PreDestroy</code>，<code>@Resource</code>，<code>@PersistenceContext</code>和<code>@PersistenceUnit</code>这些注释，这通常是自动检测组件的理想选择（没有外部配置）。 当然你可以选择设置<code>annotation-config</code>属性为false来弃用这个默认行为，该属性默认为true。例如当你想使用自定义的<code>BeanPostProcessor</code>来处理这些注释的时候你可以这么做。</p>
+<h4 id="From-Me-1"><a href="#From-Me-1" class="headerlink" title="From Me"></a>From Me</h4><p>另外需要注意：当Spring配置需要文件分层的时候，该标签应该保证每一个配置文件都配置一次。这时就可以有点儿讲究了，SpringMVC的<code>dispatcher-servlet.xml</code>配置文件可以只扫描带有<code>@Controller</code>注解的类，而在Spring的<code>applicationContext.xml</code>文件中则可以扫描其他所有带有注解的类(也可以过滤掉带@Controller注解的类)。</p>
+<p>除了必须指定的属性base-package之外，<code>&lt;context:component-scan/&gt;</code>还可以指定如下属性。</p>
+<ul>
+<li>resource-pattern：表示可以被自动检测的Class的形式，默认为<code>“**/*.class”</code>，即所有的class文件。这个只是用来告诉Spring需要对哪些文件进行扫描，而并不是把它们自动定义为对应的bean。这个需要与后续需要介绍的filter区分开。</li>
+<li>use-default-filters：表示使用使用默认的filter，。<code>&lt;context:component-scan/&gt;</code>将把哪些Class自动注册到bean容器是由对应的filter来控制的。该属性的值默认为true，即默认会使用默认的filter。而默认的filter会将标注了@Component、@Controller、@Service和@Repository的类，包括这四个注解所标注的注解所标注的类，都会将它们自动注册到bean容器中。</li>
+<li>annotation-config：是否启用对注解的支持，即隐式的启用<code>&lt;context:annotation-config/&gt;</code>，默认为true。</li>
+<li>name-generator：默认的beanName生成器，即在没有显式的指定beanName时，自动注册的bean将如何使用默认的beanName。默认将使用Class的简称，即不包含包名的类名称，并将首字母小写作为当前bean的名称。用户可以通过实现<code>org.springframework.beans.factory.support.BeanNameGenerator</code>接口并指定其为当前的name-generator来改变对应的策略。</li>
+<li>scope-resolver：指定用于解析bean定义的scope的ScopeMetadataResolver，默认将通过AnnotationScopeMetadataResolver进行解析，而该解析器将根据类上标注的@Scope注解来解析对应的scope。默认没有指定@Scope的都是单例。</li>
+<li>scoped-proxy：表示是否需要为自动检测到的需要加入bean容器中的bean生成对应的代理。默认是不生成。可选值有“no”、“interfaces”和“targetClass”，分别对应不生成、根据接口生成和根据目标class生成。这对需要使用代理的scope是非常有必须要的，如request、session等。更详细的内容请参考先前专门介绍scope的那篇文章。</li>
+</ul>
+<h3 id="mvc-annotation-driven"><a href="#mvc-annotation-driven" class="headerlink" title="mvc:annotation-driven"></a>mvc:annotation-driven</h3><hr>
+<h4 id="From-Me-2"><a href="#From-Me-2" class="headerlink" title="From Me"></a>From Me</h4><ul>
+<li><code>&lt;mvc:annotation-driven/&gt;</code>会自动注册<code>LocaleResolver</code>,<code>ThemeResolver</code>,<code>HandlerMapping</code>,<code>HandlerAdapter</code>,<code>HandlerExceptionResolver</code>,<code>RequestToViewNameTranslator</code>,<code>ViewResolver</code>,<code>FlashMapManager</code>这8个组件的实现类，这8个组件便是SpringMVC的核心组件。程序在运行时会先去容器中扫描看是否你自定义了某一组件的实现，如果没有的话就使用properties文件中默认定义的实现类。</li>
+</ul>
+<p>从源码可知<code>&lt;mvc:annotation-driven/&gt;</code>标签对应的解析类是<code>AnnotationDrivenBeanDefinitionParser。</code>从其中可以看出，该标签为我们做了这些配置：</p>
+<ul>
+<li>支持使用了像<code>@RquestMapping</code>、<code>@ExceptionHandler</code>等等的注解的controller方法去处理请求。</li>
+<li>支持使用<code>@RequestBody</code>、<code>@ResponseBody</code>注解。</li>
+<li>并提供了：数据绑定支持，<code>@NumberFormat</code>注解的支持对数据类型进行格式化，<code>@DateTimeFormat</code>支持</li>
+<li>支持使用<code>@Valid</code>对javaBean进行JSR-303验证。</li>
+<li>读写XML的支持（JAXB），读写JSON的支持（Jackson）。</li>
+</ul>
+<h4 id="HttpMessageConverter"><a href="#HttpMessageConverter" class="headerlink" title="HttpMessageConverter"></a>HttpMessageConverter</h4><p>对于HttpMessageConverter，它到底是干什么的呢？用SpringMVC写过REST的人可能略知一二，它是用来将特定的对象转换成字符串并最终作为<code>HttpResponse</code>返回的工具。实际上SpringMVC中面向开发人员的业务逻辑处理主要集中在各种Controller的方法中，基本模式是接受代表着<code>HttpRequest</code>的各种输入参数，在方法体中进行业务逻辑处理，最后得到输出结果，并以返回值的形式交给SpringMvc，Springmvc根据返回值的不同调用不同的处理逻辑并最终以<code>HttpResponse</code>的形式返回给客户端。Controller中的返回值可以有很多种，比如字符串，ModelAndView，普通对象，等等，甚至void类型都是可以的。所以SpringMvc会根据返回值的类型做很多的if else，不同的类型调用不同的处理逻辑。那么当函数受<code>@ResponseBody</code>声明时，Spring就会尝试用配置好的各种HttpMessageConverter来将返回值进行序列化。不同HttpMessageConverter能够处理的对象以及处理方式都是不一样的，Spring会遍历各Converter，如果该Converter能够处理该对象则交由其处理。因此，很多基于Spring的REST风格的应用常常会返回一个model对象，那么你就应该配置好正确的HttpMessageConverter，以便Spring能够正确的将这些对象序列化回客户端。</p>
+<h3 id="mvc-default-servlet-handler"><a href="#mvc-default-servlet-handler" class="headerlink" title="mvc:default-servlet-handler"></a>mvc:default-servlet-handler</h3><hr>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1flrxdwpeoyj30yd0907dq.jpg" alt=""></p>
+<h4 id="注释说明：-2"><a href="#注释说明：-2" class="headerlink" title="注释说明："></a>注释说明：</h4><p>通过转发到Servlet容器的默认Servlet来配置一个处理器,用来提供静态资源。使用这个处理程序允许使用<code>DispatcherServlet</code>的<code>“ / ”</code>映射，同时仍然使用Servlet容器来提供静态资源</p>
+<h4 id="注意：-2"><a href="#注意：-2" class="headerlink" title="注意："></a>注意：</h4><p>这个处理程序将把所有请求转发给默认的Servlet。因此重要的是，它需要保持在所有其他<code>URL HandlerMappings</code>的顺序之后。 如果您使用<code>annotation-driven</code>元素或者其他情况就是这样。如果您正在设置您的自定义<code>HandlerMapping</code>实例，请务必将它 的“order”属性设置为小于<code>DefaultServletHttpRequestHandler</code>，即<code>Integer.MAX_VALUE。</code> 具体可看源码</p>
+<h4 id="From-Me-3"><a href="#From-Me-3" class="headerlink" title="From Me"></a>From Me</h4><p>其实当一个请求来到的时候，它的执行流程是先经过tomcat的servlet的url-pattern的匹配。进入到了SpringMVC，然后对于SpringMVC框架来说，为了处理对应的请求时，首先会去找对应的<code>HandlerMapping</code>看是否有对应的类来处理该请求，如果有的话再根据HandlerAdapter去找是什么类，以及对应的处理方法。找不到的时候会报404。但当配置了<code>&lt;mvc:default-servlet-handler&gt;</code>标签的时候，它会注册<code>SimpleUrlHandlerMapping</code>来处理请求映射，对应的Handler是<code>DefaultServletHttpRequestHandler</code>，这种情况一般是其他HandlerMapping无法匹配处理，最后才无奈交给<code>DefaultServletHttpRequestHandler</code>来处理。而该Handler具体的做法其实就是转发给了web容器自身的<code>default</code>Servlet来处理。这个servlet名称可以在<code>mvc:default-servlet-handler</code>标签中进行配置，如果没有配置，采用默认的配置，tomcat默认的servlet名称为<code>default</code>。即tomcat、Jetty等，在容器启动的时候，自身就默认注册了一个name叫default的servlet，<code>DefaultServletHttpRequestHandler</code>就是转发给这些servlet。<code>default</code>Servlet会去寻找有没有该文件，找到了解析并返回文件内容，比如我们常请求的jsp页面，就是通过JspServlet来进行翻译的。找不到则404。但是你可以通过自定义servlet来替换defaultServlet。给用户返回自定义的一些信息。</p>
+<h3 id="mvc-resources"><a href="#mvc-resources" class="headerlink" title="mvc:resources"></a>mvc:resources</h3><hr>
+<p><code>&lt;mvc:default-servlet-handler /&gt;</code>将静态资源的处理经由Spring MVC框架交回Web应用服务器处理。而<code>&lt;mvc:resources /&gt;</code>更进一步，由Spring MVC框架自己处理静态资源，并添加一些有用的附加值功能。<code>&lt;mvc:resources /&gt;</code>允许静态资源放在任何地方，如WEB-INF目录下、类路径下等，你甚至可以将JavaScript等静态文件打到JAR包中。通过location属性指定静态资源的位置，由于location属性是Resources类型，因此可以使用诸如<code>classpath:</code>等的资源前缀指定资源位置。传统Web容器的静态资源只能放在Web容器的根路径下，<code>&lt;mvc:resources /&gt;</code>完全打破了这个限制。</p>
+<p>来看Spring官方demo中的示例：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the $&#123;webappRoot&#125;/resources/ directory --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">resources</span> <span class="attr">mapping</span>=<span class="string">"/resources/**"</span> <span class="attr">location</span>=<span class="string">"/resources/"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<p><img src="https://ws1.sinaimg.cn/large/006gmCthly1flsa2adwu7j30960aymxd.jpg" alt=""></p>
+<p>参考 ：</p>
+<p><a href="https://my.oschina.net/HeliosFly/blog/205343" target="_blank" rel="external">Spring MVC 解读——<mvc:annotation-driven></mvc:annotation-driven></a></p>
+<p><a href="http://lgbolgger.iteye.com/blog/2105108" target="_blank" rel="external">SpringMVC源码总结（二）mvc:annotation-driven以及@Controller和@RequestMapping的那些事</a></p>
+<p><a href="https://github.com/spring-projects/spring-mvc-showcase" target="_blank" rel="external">SpringMVC官方Demo</a></p>
+<p><a href="http://blog.csdn.net/wenjiangchun/article/details/50669561" target="_blank" rel="external">spring源码学习之五 <context:component-scan>元素处理过程</context:component-scan></a></p>
+<p><a href="http://www.jianshu.com/p/89f55286cf21" target="_blank" rel="external">＜context:annotation-config／＞自动扫描标签详解</a></p>
+<p><a href="http://www.imooc.com/article/4293" target="_blank" rel="external">SpringMVC从入门到精通之第三章</a></p>
+<p><a href="http://shenzhang.github.io/blog/2014/09/19/spring-mvc-qa/" target="_blank" rel="external">Spring MVC中的二三事</a></p>
+<p><a href="http://blog.csdn.net/a67474506/article/details/46364159" target="_blank" rel="external">SpringMVC 学习笔记(七) JSON返回:HttpMessageConverter作用</a></p>
+<p>SpringMVC——消息转换器HttpMessageConverter</p>
+<p><a href="https://my.oschina.net/HeliosFly/home" target="_blank" rel="external">https://my.oschina.net/HeliosFly/home</a></p>
+<p><a href="https://www.ibm.com/developerworks/cn/web/wa-restful/index.html" target="_blank" rel="external">使用 Spring 3 MVC HttpMessageConverter </a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/spring-annoation.html" title="Spring 配置文件中的那些标签该如何正确使用(持续更新)">http://www.jiyongguang.xin/spring-annoation.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/java-const.html" rel="next" title="常量应该封装到常量类，常量接口，还是枚举类中？">
+                <i class="fa fa-chevron-left"></i> 常量应该封装到常量类，常量接口，还是枚举类中？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/spring-annoation-《context-annoation-config》.html" rel="prev" title="Spring标签<context:annotation-config/>的探索">
+                Spring标签<context:annotation-config/>的探索 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#context-annotation-config"><span class="nav-number">2.</span> <span class="nav-text">context:annotation-config</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注释说明："><span class="nav-number">2.1.</span> <span class="nav-text">注释说明：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意："><span class="nav-number">2.2.</span> <span class="nav-text">注意：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#From-Me"><span class="nav-number">2.3.</span> <span class="nav-text">From Me</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#context-component-scan"><span class="nav-number">3.</span> <span class="nav-text">context:component-scan</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注释说明：-1"><span class="nav-number">3.1.</span> <span class="nav-text">注释说明：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意：-1"><span class="nav-number">3.2.</span> <span class="nav-text">注意：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#From-Me-1"><span class="nav-number">3.3.</span> <span class="nav-text">From Me</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mvc-annotation-driven"><span class="nav-number">4.</span> <span class="nav-text">mvc:annotation-driven</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#From-Me-2"><span class="nav-number">4.1.</span> <span class="nav-text">From Me</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HttpMessageConverter"><span class="nav-number">4.2.</span> <span class="nav-text">HttpMessageConverter</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mvc-default-servlet-handler"><span class="nav-number">5.</span> <span class="nav-text">mvc:default-servlet-handler</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注释说明：-2"><span class="nav-number">5.1.</span> <span class="nav-text">注释说明：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意：-2"><span class="nav-number">5.2.</span> <span class="nav-text">注意：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#From-Me-3"><span class="nav-number">5.3.</span> <span class="nav-text">From Me</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mvc-resources"><span class="nav-number">6.</span> <span class="nav-text">mvc:resources</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

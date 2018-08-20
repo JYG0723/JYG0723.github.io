@@ -1,0 +1,1321 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java基础," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言 本人使用的是jdk1.8  ConcurrentHashMap 1.7首先我们来回顾一下在jdk1.7当中ConcurrentHashMap是如何实现的。 还在jdk1.7的时候ConcurrentHashMap的底层数据结构其实是由Segment数组和多个HashEntry组成。如图：">
+<meta name="keywords" content="Java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ConCurrentHashMap了解一下">
+<meta property="og:url" content="http://www.jiyongguang.xin/conCurrentHashMap.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="前言 本人使用的是jdk1.8  ConcurrentHashMap 1.7首先我们来回顾一下在jdk1.7当中ConcurrentHashMap是如何实现的。 还在jdk1.7的时候ConcurrentHashMap的底层数据结构其实是由Segment数组和多个HashEntry组成。如图：">
+<meta property="og:image" content="http://pettyandydog.com/images/ConcurrentHashMap/1.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-c1aa9927caf5b23a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:updated_time" content="2018-05-18T04:45:39.560Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ConCurrentHashMap了解一下">
+<meta name="twitter:description" content="前言 本人使用的是jdk1.8  ConcurrentHashMap 1.7首先我们来回顾一下在jdk1.7当中ConcurrentHashMap是如何实现的。 还在jdk1.7的时候ConcurrentHashMap的底层数据结构其实是由Segment数组和多个HashEntry组成。如图：">
+<meta name="twitter:image" content="http://pettyandydog.com/images/ConcurrentHashMap/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/conCurrentHashMap.html"/>
+
+
+
+
+
+  <title> ConCurrentHashMap了解一下 | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/conCurrentHashMap.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                ConCurrentHashMap了解一下
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-18T12:43:31+08:00">
+                2018-05-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-05-18T12:45:39+08:00">
+                2018-05-18
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/conCurrentHashMap.html" class="leancloud_visitors" data-flag-title="ConCurrentHashMap了解一下">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  5,659
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  23
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><blockquote>
+<p>本人使用的是jdk1.8</p>
+</blockquote>
+<h1 id="ConcurrentHashMap-1-7"><a href="#ConcurrentHashMap-1-7" class="headerlink" title="ConcurrentHashMap 1.7"></a>ConcurrentHashMap 1.7</h1><p>首先我们来回顾一下在jdk1.7当中ConcurrentHashMap是如何实现的。</p>
+<p>还在jdk1.7的时候ConcurrentHashMap的底层数据结构其实是由<code>Segment</code>数组和多个<code>HashEntry</code>组成。如图：</p>
+<p><img src="http://pettyandydog.com/images/ConcurrentHashMap/1.png" alt=""></p>
+<a id="more"></a>
+<p>Segment数组的意义就是将一个大的table分割成多个小的table来进行加锁，也就是上面的提到的锁分段技术，而每一个Segment元素存储的是HashEntry数组+链表，这个和HashMap的散列表+链表的数据存储结构是一样的。这里的每个table就像我们之前所说的HashTable一样。</p>
+<p>不同于HashTable为了并发情况下的安全性锁整个table那么暴力不同，ConcurrentHashMap的处理方式则是对其进行了优化，是把一个大table分割成小table来分别锁住。也就是我们常说的锁分段。</p>
+<p>同时从源码中我们可以看出，Segment继承了ReentrantLock(独占锁)类。使大table中的每个小table都有了一个锁。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">static final class Segment&lt;K,V&gt; extends ReentrantLock implements Serializable</div></pre></td></tr></table></figure></p>
+<h1 id="ConcurrentHashMap-1-8"><a href="#ConcurrentHashMap-1-8" class="headerlink" title="ConcurrentHashMap 1.8"></a>ConcurrentHashMap 1.8</h1><p>在jdk1.8中，ConCurrentHashMap的数据结构底层是：散列表+链表+红黑树，其变化与HashMap在1.8的变化是一样的。</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/5291509-c1aa9927caf5b23a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<h1 id="ConcurrentHashMap头注释信息"><a href="#ConcurrentHashMap头注释信息" class="headerlink" title="ConcurrentHashMap头注释信息"></a>ConcurrentHashMap头注释信息</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * A hash table supporting full concurrency of retrievals and</div><div class="line"> * high expected concurrency for updates. This class obeys the</div><div class="line"> * same functional specification as &#123;@link java.util.Hashtable&#125;, and</div><div class="line"> * includes versions of methods corresponding to each method of</div><div class="line"> * &#123;@code Hashtable&#125;. However, even though all operations are</div><div class="line"> * thread-safe, retrieval operations do &lt;em&gt;not&lt;/em&gt; entail locking,</div><div class="line"> * and there is &lt;em&gt;not&lt;/em&gt; any support for locking the entire table</div><div class="line"> * in a way that prevents all access.  This class is fully</div><div class="line"> * interoperable with &#123;@code Hashtable&#125; in programs that rely on its</div><div class="line"> * thread safety but not on its synchronization details.</div><div class="line"> *</div><div class="line"> * &lt;p&gt;Retrieval operations (including &#123;@code get&#125;) generally do not</div><div class="line"> * block, so may overlap with update operations (including &#123;@code put&#125;</div><div class="line"> * and &#123;@code remove&#125;). Retrievals reflect the results of the most</div><div class="line"> * recently &lt;em&gt;completed&lt;/em&gt; update operations holding upon their</div><div class="line"> * onset. (More formally, an update operation for a given key bears a</div><div class="line"> * &lt;em&gt;happens-before&lt;/em&gt; relation with any (non-null) retrieval for</div><div class="line"> * that key reporting the updated value.)  For aggregate operations</div><div class="line"> * such as &#123;@code putAll&#125; and &#123;@code clear&#125;, concurrent retrievals may</div><div class="line"> * reflect insertion or removal of only some entries.  Similarly,</div><div class="line"> * Iterators, Spliterators and Enumerations return elements reflecting the</div><div class="line"> * state of the hash table at some point at or since the creation of the</div><div class="line"> * iterator/enumeration.  They do &lt;em&gt;not&lt;/em&gt; throw &#123;@link</div><div class="line"> * java.util.ConcurrentModificationException ConcurrentModificationException&#125;.</div><div class="line"> * However, iterators are designed to be used by only one thread at a time.</div><div class="line"> * Bear in mind that the results of aggregate status methods including</div><div class="line"> * &#123;@code size&#125;, &#123;@code isEmpty&#125;, and &#123;@code containsValue&#125; are typically</div><div class="line"> * useful only when a map is not undergoing concurrent updates in other threads.</div><div class="line"> * Otherwise the results of these methods reflect transient states</div><div class="line"> * that may be adequate for monitoring or estimation purposes, but not</div><div class="line"> * for program control.</div><div class="line"> *</div><div class="line"> * ······</div><div class="line"> * ······</div><div class="line"> */</div></pre></td></tr></table></figure>
+<p>从头注释中我们可以知道：</p>
+<ul>
+<li>ConcurrentHashMap支持高并发情况下对哈希表的访问和更新。</li>
+<li>ConcurrentHashMap与HashTable相似，与HashMap不同。</li>
+<li>ConcurrentHashMap的所有操作都是线程安全的。</li>
+<li>它不允许null用作键或值</li>
+<li>get操作没有上锁。是非阻塞的。所以在并发情况下可以与阻塞的put或remove函数交迭。但在聚合操作下比如putAll和clean，并发情况下由于线程调度的原因get函数可能只能检索到插入和删除的一些Entries(函数还未执行完)。<ul>
+<li>与get函数的处理相类似的还有<code>Iterators, Spliterators,Enumerations</code>，在其创建时或之后，倘若ConcurrentHashMap再发生改变就不会再抛<code>ConcurrentModificationException</code>了。取而代之的是在其改变时new新的数据从而不影响原有的数据，Iterator会在其完成后再将头指针替换为新的数据，这样Iterator线程可以使用原来老的数据，而写线程也可以并发的完成改变，更重要的，这保证了多个线程并发执行的连续性和扩展性，是<strong>性能提升</strong>的关键。</li>
+<li>不过，迭代器被设计成每次仅由一个线程使用。</li>
+</ul>
+</li>
+<li>同时需要注意：<code>size,isEmpty,containsValue</code>等函数的使用，在ConcurrentHashMap实例并发情况下是无意义的。它只能反映该实例的一个暂态，除非此时它并未发生并发修改。</li>
+</ul>
+<h1 id="ConcurrrentHashMap关键属性"><a href="#ConcurrrentHashMap关键属性" class="headerlink" title="ConcurrrentHashMap关键属性"></a>ConcurrrentHashMap关键属性</h1><p>由于ConcurrentHashMap的属性众多，我们挑几个典型关键的来进行分析。</p>
+<ul>
+<li><code>volatile Node&lt;K,V&gt;[] table</code>：装载Node的数组，作为ConcurrentHashMap的数据容器，采用懒加载的方式，直到第一次插入数据的时候才会进行初始化操作，数组的大小总是为2的幂次方。</li>
+<li><code>transient volatile Node&lt;K,V&gt;[] nextTable</code>：扩容时使用，平时为null，只有在扩容的时候才为非null</li>
+<li><code>transient volatile long baseCount</code>：元素数量基础计数器，该值也是一个阶段性的值(产出的时候可能容器正在被修改)。通过<code>CAS</code>的方式进行更改。</li>
+<li><code>transient volatile int sizeCtl</code>：散列表初始化和扩容的大小都是由该变量来控制。<ul>
+<li>当为负数时，它正在被初始化或者扩容。<ul>
+<li>-1表示正在初始化</li>
+<li>-N表示N-1个线程正在扩容</li>
+</ul>
+</li>
+<li>当为整数时，<ul>
+<li>此时如果当前table数组为null的话表示table正在初始化过程中，sizeCtl表示为需要新建的数组的长度，默认为0</li>
+<li>若已经初始化了,表示当前数据容器（table数组）可用容量也可以理解成临界值（插入节点数超过了该临界值就需要扩容）,具体指为数组的长度n 乘以 加载因子loadFactor。 当值为0时，即数组长度为默认初始值。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>static final sun.misc.Unsafe U</code>：在ConcurrentHashMapde的实现中可以看到大量的U.compareAndSwapXXXX的方法去修改ConcurrentHashMap的一些属性。这些方法实际上是利用了CAS算法保证了线程安全性，这是一种乐观策略，假设每一次操作都不会产生冲突(变量实际值!=期望值)，当且仅当冲突发生的时候再去尝试。<ul>
+<li>在大量的同步组件和并发容器的实现中使用CAS是通过<code>sun.misc.Unsafe</code>类实现的。该类提供了一些可以直接操控内存和线程的底层操作，可以理解为java中的“指针”。该成员变量的获取是在静态代码块中：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">static &#123;</div><div class="line">    try &#123;</div><div class="line">        U = sun.misc.Unsafe.getUnsafe();</div><div class="line">        ······</div><div class="line">    &#125; catch (Exception e) &#123;</div><div class="line">        throw new Error(e);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>CAS操作依赖于现代处理器指令集，通过底层<code>CMPXCHG</code>指令实现。CAS(V,O,N)核心思想为：若当前变量实际值V与期望的旧值O相同，则表明该变量没被其他线程进行修改，因此可以安全的将新值N赋值给变量；若当前变量实际值V与期望的旧值O不相同，则表明该变量已经被其他线程做了处理，此时将新值N赋给变量操作就是不安全的，再进行重试。</p>
+<h1 id="ConcurrentHashMap为何存在"><a href="#ConcurrentHashMap为何存在" class="headerlink" title="ConcurrentHashMap为何存在"></a>ConcurrentHashMap为何存在</h1><p>我们知道由于HashMap在多线程情况下是线程不安全的。而和其对应的HashTable虽然是线程安全的，但是却是十分极端的在所有涉及多线程的操作上都加上了synchronized关键字来锁住整个table。这就意味着在多线程情况下，所有的线程都在竞争同一把锁。虽然是线程安全的，但是却无疑是效率低下的。</p>
+<p>其实HashTable有很多的优化空间，锁住整个table这么粗暴的方法可以变相的柔和点，比如在多线程的环境下，对不同的数据集进行操作时其实根本就不需要去竞争一个锁，因为他们不同hash值，不会因为rehash造成线程不安全，所以互不影响，这就是锁分离技术，将锁的粒度降低，利用多个锁来控制多个小的table，这就是ConcurrentHashMap的核心思想</p>
+<p>总而言之：</p>
+<ul>
+<li>Hashtable是在每个方法上都加上了Synchronized完成同步，效率低下。</li>
+<li>ConcurrentHashMap通过在部分加锁和利用CAS算法来实现同步。</li>
+</ul>
+<h1 id="CAS算法"><a href="#CAS算法" class="headerlink" title="CAS算法"></a>CAS算法</h1><p>上面我们提到ConcurrentHashMap是通过CAS算法来实现同步的。接下来我们就简单了解一下什么是CAS算法</p>
+<h3 id="什么是CAS"><a href="#什么是CAS" class="headerlink" title="什么是CAS"></a>什么是CAS</h3><p>CAS: 全称Compare and swap，字面意思:”比较并交换“，一个 CAS 涉及到以下操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">我们假设内存中的原数据V，旧的预期值A，需要修改的新值B。</div><div class="line"></div><div class="line">比较 A 与 V 是否相等。（比较）</div><div class="line">如果比较相等，将 B 写入 V。否则什么都不做（交换）</div><div class="line">返回操作是否成功。</div></pre></td></tr></table></figure>
+<ul>
+<li>当多个线程尝试使用CAS同时更新同一个变量的时候，只有其中一个线程能够更新变量的值。当其他线程失败后，不会像获取锁一样被挂起，而是可以再次尝试，或者不进行任何操作，这种灵活性就大大减少了锁活跃性风险。</li>
+</ul>
+<p>我们知道采用锁对共享数据进行处理的话，当多个线程竞争的时候，都需要进行加锁，没有拿到锁的线程会被阻塞，以及唤醒，这些都需要用户态到核心态的转换，这个代价对阻塞线程来说代价还是蛮高的，那cas是采用无锁乐观方式进行竞争，性能上要比锁更高些才是，为何不对锁竞争方式进行替换？</p>
+<p>在高度竞争的情况下，锁的性能将超过cas的性能，但在中低程度的竞争情况下，cas性能将超过锁的性能。多数情况下，资源竞争一般都不会那么激烈。</p>
+<p>参考：<a href="https://mp.weixin.qq.com/s/l3wSUgWT60lkXwoTUNK4TQ" target="_blank" rel="external">java多线程——CAS</a></p>
+<h1 id="ConcurrentHashMap构造函数"><a href="#ConcurrentHashMap构造函数" class="headerlink" title="ConcurrentHashMap构造函数"></a>ConcurrentHashMap构造函数</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">// 构造一个空map映射，初始容量16</div><div class="line">public ConcurrentHashMap() &#123;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 初始化时明确给定一个初始容量，减少resize次数</div><div class="line">public ConcurrentHashMap(int initialCapacity) &#123;</div><div class="line">    if (initialCapacity &lt; 0)</div><div class="line">        throw new IllegalArgumentException();</div><div class="line">    // tableSizeFor 函数返回一个最接近入参 initialCapacity 容量的2进制整数</div><div class="line">    int cap = ((initialCapacity &gt;= (MAXIMUM_CAPACITY &gt;&gt;&gt; 1)) ?</div><div class="line">               MAXIMUM_CAPACITY :</div><div class="line">               tableSizeFor(initialCapacity + (initialCapacity &gt;&gt;&gt; 1) + 1));</div><div class="line">    this.sizeCtl = cap;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 创建一个与给定的 Map 映射具有相同元素的 ConcurrentHashMap</div><div class="line">public ConcurrentHashMap(Map&lt;? extends K, ? extends V&gt; m) &#123;</div><div class="line">    // 我们前面所述 sizeCtl 两个含义，构造和扩容。</div><div class="line">    // 此处必然是构造容量为 DEFAULT_CAPACITY = 16 的 ConcurrentHashMap</div><div class="line">    this.sizeCtl = DEFAULT_CAPACITY;</div><div class="line">    putAll(m);</div><div class="line">&#125;</div><div class="line"></div><div class="line">public void putAll(Map&lt;? extends K, ? extends V&gt; m) &#123;</div><div class="line">    // 初始化数组容量，防止直接迭代insert导致频繁扩容</div><div class="line">    tryPresize(m.size());</div><div class="line">    for (Map.Entry&lt;? extends K, ? extends V&gt; e : m.entrySet())</div><div class="line">        putVal(e.getKey(), e.getValue(), false);</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 构造一个空的 Map 映射，并给定其初始容量与加载因子</div><div class="line">public ConcurrentHashMap(int initialCapacity, float loadFactor) &#123;</div><div class="line">    this(initialCapacity, loadFactor, 1);</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 构造一个空的 Map 映射，并给定其初始容量，加载因子与预估的并发更新的线程数</div><div class="line">public ConcurrentHashMap(int initialCapacity,</div><div class="line">                         float loadFactor, int concurrencyLevel) &#123;</div><div class="line">    if (!(loadFactor &gt; 0.0f) || initialCapacity &lt; 0 || concurrencyLevel &lt;= 0)</div><div class="line">        throw new IllegalArgumentException();</div><div class="line">    if (initialCapacity &lt; concurrencyLevel)   // Use at least as many bins</div><div class="line">        // 该情况下，一个更新线程负责一个HashEntry</div><div class="line">        initialCapacity = concurrencyLevel;   // as estimated threads</div><div class="line">    // 确定 table 的初始容量 = 初始容量 initialCapacity / 元素密度 loadFactor</div><div class="line">    // 比如你有30个元素，构造Map的时候传入30和0.75，那么table真实容量就应该是 30/0.75。保证你元素数量是table容器的0.75倍</div><div class="line">    long size = (long)(1.0 + (long)initialCapacity / loadFactor);</div><div class="line">    int cap = (size &gt;= (long)MAXIMUM_CAPACITY) ?</div><div class="line">        MAXIMUM_CAPACITY : tableSizeFor((int)size);</div><div class="line">    this.sizeCtl = cap;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>需要注意的就是最后一个构造函数中引用的<code>tableSizeFor</code>函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Returns a power of two table size for the given desired capacity.</div><div class="line"> * See Hackers Delight, sec 3.2</div><div class="line"> */</div><div class="line">private static final int tableSizeFor(int c) &#123;</div><div class="line">    int n = c - 1;</div><div class="line">    n |= n &gt;&gt;&gt; 1;</div><div class="line">    n |= n &gt;&gt;&gt; 2;</div><div class="line">    n |= n &gt;&gt;&gt; 4;</div><div class="line">    n |= n &gt;&gt;&gt; 8;</div><div class="line">    n |= n &gt;&gt;&gt; 16;</div><div class="line">    return (n &lt; 0) ? 1 : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>通过注释就很清楚了，该方法会将调用构造器方法时指定的大小转换成一个2的幂次方数，也就是说ConcurrentHashMap的大小一定是2的幂次方，比如，当指定大小为18时，为了满足2的幂次方特性，实际上concurrentHashMapd的大小为2的5次方（32）。</p>
+<p>另外，需要注意的是，调用构造器方法的时候并未构造出table数组（可以理解为ConcurrentHashMap的数据容器），只是算出table数组的长度，当第一次向ConcurrentHashMap插入数据的时候才真正的完成初始化创建table数组的工作。</p>
+<h1 id="ConcurrentHashMap-常见Api解析"><a href="#ConcurrentHashMap-常见Api解析" class="headerlink" title="ConcurrentHashMap 常见Api解析"></a>ConcurrentHashMap 常见Api解析</h1><h2 id="initTable"><a href="#initTable" class="headerlink" title="initTable()"></a>initTable()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">private final Node&lt;K,V&gt;[] initTable() &#123;</div><div class="line">    Node&lt;K,V&gt;[] tab; int sc;</div><div class="line">    while ((tab = table) == null || tab.length == 0) &#123;</div><div class="line">        if ((sc = sizeCtl) &lt; 0)</div><div class="line">			// 1. 保证只有一个线程正在进行初始化操作</div><div class="line">            Thread.yield(); // lost initialization race; just spin</div><div class="line">        else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) &#123;</div><div class="line">            try &#123;</div><div class="line">                if ((tab = table) == null || tab.length == 0) &#123;</div><div class="line">					// 2. 得出数组的大小</div><div class="line">                    int n = (sc &gt; 0) ? sc : DEFAULT_CAPACITY;</div><div class="line">                    @SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">					// 3. 这里才真正的初始化数组</div><div class="line">                    Node&lt;K,V&gt;[] nt = (Node&lt;K,V&gt;[])new Node&lt;?,?&gt;[n];</div><div class="line">                    table = tab = nt;</div><div class="line">					// 4. 计算数组中可用的大小：实际大小n*0.75（加载因子）</div><div class="line">                    sc = n - (n &gt;&gt;&gt; 2);</div><div class="line">                &#125;</div><div class="line">            &#125; finally &#123;</div><div class="line">                sizeCtl = sc;</div><div class="line">            &#125;</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return tab;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码的逻辑请见注释，有可能存在一个情况是多个线程同时走到这个方法中，为了保证能够正确初始化，在第1步中会先通过if进行判断，若当前已经有一个线程正在初始化即sizeCtl值变为-1，这个时候其他线程在If判断为true从而调用Thread.yield()让出CPU时间片。正在进行初始化的线程会调用U.compareAndSwapInt方法将sizeCtl改为-1即正在初始化的状态。</p>
+<p>另外还需要注意的事情是，在第四步中会进一步计算数组中可用的大小即为数组实际大小n乘以加载因子0.75.可以看看这里乘以0.75是怎么算的，0.75为四分之三，这里n - (n &gt;&gt;&gt; 2)是不是刚好是n-(1/4)n=(3/4)n，挺有意思的吧:)。如果选择是无参的构造器的话，这里在new Node数组的时候会使用默认大小为DEFAULT_CAPACITY（16），然后乘以加载因子0.75为12，也就是说数组的可用大小为12。</p>
+<h2 id="putVal-K-key-V-value-boolean-onlyIfAbsent"><a href="#putVal-K-key-V-value-boolean-onlyIfAbsent" class="headerlink" title="putVal(K key, V value, boolean onlyIfAbsent)"></a>putVal(K key, V value, boolean onlyIfAbsent)</h2><p>当且仅当table中不存在该key对应的Entry时才插入该Entry。否则不替换table中原有的Entry中的value<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div></pre></td><td class="code"><pre><div class="line">final V putVal(K key, V value, boolean onlyIfAbsent) &#123;</div><div class="line">    if (key == null || value == null) throw new NullPointerException();</div><div class="line">    // 1. 计算key的hash值，与HashMap处理逻辑一样</div><div class="line">    int hash = spread(key.hashCode());</div><div class="line">    int binCount = 0;</div><div class="line">    for (Node&lt;K,V&gt;[] tab = table;;) &#123;</div><div class="line">        Node&lt;K,V&gt; f; int n, i, fh;</div><div class="line">        // 2. 如果当前table还没有初始化先调用initTable方法将tab进行初始化</div><div class="line">        if (tab == null || (n = tab.length) == 0)</div><div class="line">            tab = initTable();</div><div class="line">        // 3. tab中索引为i的位置的元素为null，则直接使用CAS将值插入即可</div><div class="line">        else if ((f = tabAt(tab, i = (n - 1) &amp; hash)) == null) &#123;</div><div class="line">            if (casTabAt(tab, i, null,</div><div class="line">                         new Node&lt;K,V&gt;(hash, key, value, null)))</div><div class="line">                break;                   // no lock when adding to empty bin</div><div class="line">        &#125;</div><div class="line">        /* 4. 如果要插入的位置是一个forwordingNode节点，表示正在扩容，那么当前线程帮助扩容</div><div class="line">        这里我有个问题：为什么该位置会是forwordingNode节点 */</div><div class="line">        else if ((fh = f.hash) == MOVED)</div><div class="line">            tab = helpTransfer(tab, f);</div><div class="line">        else &#123;</div><div class="line">            V oldVal = null;</div><div class="line">            // 5. 进行到这一步，说明要插入的位置有值，需要对该桶加锁。</div><div class="line">            synchronized (f) &#123;</div><div class="line">                // 确定f是tab中的头节点</div><div class="line">                if (tabAt(tab, i) == f) &#123;</div><div class="line">                    // fh = 桶首元素的hast值。如果头结点的哈希值大于等于0，说明要插入的节点在(链表)中。否则有可能该桶的数据结构不是链表而是红黑树</div><div class="line">                    if (fh &gt;= 0) &#123;</div><div class="line">                        binCount = 1;</div><div class="line">                        // 开始迭代找key的节点，f = 桶首元素</div><div class="line">                        for (Node&lt;K,V&gt; e = f;; ++binCount) &#123;</div><div class="line">                            K ek;</div><div class="line">                            // 如果某一节点的key的哈希值及key与参数相等，替换该节点的value</div><div class="line">                            if (e.hash == hash &amp;&amp;</div><div class="line">                                ((ek = e.key) == key ||</div><div class="line">                                 (ek != null &amp;&amp; key.equals(ek)))) &#123;</div><div class="line">                                oldVal = e.val;</div><div class="line">                                if (!onlyIfAbsent)</div><div class="line">                                    e.val = value;</div><div class="line">                                break;</div><div class="line">                            &#125;</div><div class="line">                            Node&lt;K,V&gt; pred = e;</div><div class="line">                            // 没有找到则继续向后迭代，当迭代到最后一个元素还没有找到时，将该Entry插入到链表尾。</div><div class="line">                            if ((e = e.next) == null) &#123;</div><div class="line">                                pred.next = new Node&lt;K,V&gt;(hash, key,</div><div class="line">                                                          value, null);</div><div class="line">                                break;</div><div class="line">                            &#125;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                    // 6. 如果要插入的节点在红黑树中，则按照树的方式插入或替换节点</div><div class="line">                    else if (f instanceof TreeBin) &#123;</div><div class="line">                        Node&lt;K,V&gt; p;</div><div class="line">                        binCount = 2;</div><div class="line">                        if ((p = ((TreeBin&lt;K,V&gt;)f).putTreeVal(hash, key,</div><div class="line">                                                       value)) != null) &#123;</div><div class="line">                            oldVal = p.val;</div><div class="line">                            if (!onlyIfAbsent)</div><div class="line">                                p.val = value;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            // 7. 如果binCount不为0，说明插入或者替换操作完成了</div><div class="line">            if (binCount != 0) &#123;</div><div class="line">                // 判断节点数量是否大于等于8，如果是就需要把链表转化成红黑树</div><div class="line">                if (binCount &gt;= TREEIFY_THRESHOLD)</div><div class="line">                    // 链表转成红黑树 </div><div class="line">                    treeifyBin(tab, i);</div><div class="line">                if (oldVal != null)</div><div class="line">                    return oldVal;</div><div class="line">                break;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    // 8. 对当前容量大小进行检查，如果超过了临界值（实际大小*加载因子）就需要扩容 </div><div class="line">    // 能执行到这一步，说明节点不是被替换的，是被插入的，否则在binCount判断 !=0 的时候就要被return了。</div><div class="line">    addCount(1L, binCount);</div><div class="line">    return null;</div><div class="line">&#125;</div><div class="line"></div><div class="line">private final Node&lt;K,V&gt;[] initTable() &#123;</div><div class="line">    Node&lt;K,V&gt;[] tab; int sc;</div><div class="line">    while ((tab = table) == null || tab.length == 0) &#123;</div><div class="line">        if ((sc = sizeCtl) &lt; 0)</div><div class="line">            Thread.yield(); // lost initialization race; just spin</div><div class="line">        else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) &#123;</div><div class="line">            try &#123;</div><div class="line">                if ((tab = table) == null || tab.length == 0) &#123;</div><div class="line">                    int n = (sc &gt; 0) ? sc : DEFAULT_CAPACITY;</div><div class="line">                    @SuppressWarnings(&quot;unchecked&quot;)</div><div class="line">                    Node&lt;K,V&gt;[] nt = (Node&lt;K,V&gt;[])new Node&lt;?,?&gt;[n];</div><div class="line">                    table = tab = nt;</div><div class="line">                    sc = n - (n &gt;&gt;&gt; 2);</div><div class="line">                &#125;</div><div class="line">            &#125; finally &#123;</div><div class="line">                sizeCtl = sc;</div><div class="line">            &#125;</div><div class="line">            break;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return tab;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>整体流程下来就是：</p>
+<ol>
+<li>计算key哈希值</li>
+<li>根据哈希值计算在table中的位置</li>
+<li>根据哈希值执行插入或替换操作 <ol>
+<li>如果这个位置没有值，直接将键值对放进去，不需要加锁。 </li>
+<li>如果要插入的位置是一个forwordingNode节点，表示正在扩容，那么当前线程帮助扩容 </li>
+<li>加锁。以下操作都需要加锁。 </li>
+<li>如果要插入的节点在链表中，遍历链表中的所有节点，如果某一节点的key哈希值和key与参数相等，替换节点的value，记录被替换的值；如果遍历到了最后一个节点，还没找到key对应的节点，根据参数新建节点，插入链表尾部</li>
+<li>如果要插入的节点在树中，则按照树的方式插入或替换节点。如果是替换操作，记录被替换的值</li>
+</ol>
+</li>
+<li>判断节点数量是否大于8，如果大于就需要把链表转化成红黑树</li>
+<li>如果操作3中执行的是替换操作，返回被替换的value。程序结束。</li>
+<li>能执行到这一步，说明节点不是被替换的，是被插入的，所以要将map的元素数量加1。</li>
+</ol>
+<h2 id="get-Object-key"><a href="#get-Object-key" class="headerlink" title="get(Object key)"></a>get(Object key)</h2><p>据我们之前的类头注释所译。get函数没有必要加锁的。但是可以看到的是ConcurrentHashMap对其Node类的next属性加上了volatile关键字进行修饰。来保证并发情况下其他线程若正在与get函数同步的修改该节点的next属性，保证了它的可见性。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">public V get(Object key) &#123;</div><div class="line">    Node&lt;K,V&gt;[] tab; Node&lt;K,V&gt; e, p; int n, eh; K ek;</div><div class="line">    // 散列key</div><div class="line">    int h = spread(key.hashCode());</div><div class="line">    if ((tab = table) != null &amp;&amp; (n = tab.length) &gt; 0 &amp;&amp;</div><div class="line">        (e = tabAt(tab, (n - 1) &amp; h)) != null) &#123;</div><div class="line">        // 根据key的散列值h来找到桶头元素e</div><div class="line">        if ((eh = e.hash) == h) &#123;</div><div class="line">            // key相等值相等，则桶头元素刚好就是所找元素</div><div class="line">            if ((ek = e.key) == key || (ek != null &amp;&amp; key.equals(ek)))</div><div class="line">                return e.val;</div><div class="line">        &#125;</div><div class="line">        // 如果hash &lt; 0 那么在红黑树中</div><div class="line">        else if (eh &lt; 0)</div><div class="line">            return (p = e.find(h, key)) != null ? p.val : null;</div><div class="line">        // 在该桶的链表上，不是桶头元素上，迭代继续向下寻找</div><div class="line">        while ((e = e.next) != null) &#123;</div><div class="line">            if (e.hash == h &amp;&amp;</div><div class="line">                ((ek = e.key) == key || (ek != null &amp;&amp; key.equals(ek))))</div><div class="line">                return e.val;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return null;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>整体流程：</p>
+<p>首先先看当前的hash桶数组节点即table[i]是否为查找的节点，若是则直接返回；若不是，则继续再看当前是不是树节点？通过看节点的hash值是否为小于0，如果小于0则为树节点。如果是树节点在红黑树中查找节点；如果不是树节点，那就只剩下为链表的形式的一种可能性了，就向后遍历查找节点，若查找到则返回节点的value即可，若没有找到就返回null。</p>
+<h1 id="ConcurrrentHashMap关键类"><a href="#ConcurrrentHashMap关键类" class="headerlink" title="ConcurrrentHashMap关键类"></a>ConcurrrentHashMap关键类</h1><h2 id="Node内部类"><a href="#Node内部类" class="headerlink" title="Node内部类"></a>Node内部类</h2><p>Node类实现了Map.Entry接口，主要存放key-value对，并且具有next域<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;</div><div class="line">     final int hash;</div><div class="line">     final K key;</div><div class="line">     volatile V val;</div><div class="line">     volatile Node&lt;K,V&gt; next;</div><div class="line"> 	......</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>另外可以看出很多属性都是用volatile进行修饰的，也是为了保证并发情况下的该属性的可见性。同事对hash和key用final进行修饰也是提供了这两个常用变量的缓存，性能上有所提高。</p>
+<h2 id="TreeNode-树节点"><a href="#TreeNode-树节点" class="headerlink" title="TreeNode 树节点"></a>TreeNode 树节点</h2><p>继承于承载数据节点Node类。而红黑树的操作是针对TreeBin类的，从该类的注释也可以看出，也就是TreeBin会将TreeNode进行再一次封装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">static final class TreeNode&lt;K,V&gt; extends Node&lt;K,V&gt; &#123;</div><div class="line">    TreeNode&lt;K,V&gt; parent;  // red-black tree links</div><div class="line">    TreeNode&lt;K,V&gt; left;</div><div class="line">    TreeNode&lt;K,V&gt; right;</div><div class="line">    TreeNode&lt;K,V&gt; prev;    // needed to unlink next upon deletion</div><div class="line">    boolean red;</div><div class="line">    ······</div></pre></td></tr></table></figure></p>
+<h2 id="TreeBin-树箱"><a href="#TreeBin-树箱" class="headerlink" title="TreeBin 树箱"></a>TreeBin 树箱</h2><p>这个类并不负责包装用户的key、value信息，而是包装的很多TreeNode节点。实际的ConcurrentHashMap“数组”中，存放的是TreeBin对象，而不是TreeNode对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">static final class TreeBin&lt;K,V&gt; extends Node&lt;K,V&gt; &#123;</div><div class="line">    TreeNode&lt;K,V&gt; root;</div><div class="line">    volatile TreeNode&lt;K,V&gt; first;</div><div class="line">    volatile Thread waiter;</div><div class="line">    volatile int lockState;</div><div class="line">    // values for lockState</div><div class="line">    static final int WRITER = 1; // set while holding write lock</div><div class="line">    static final int WAITER = 2; // set when waiting for write lock</div><div class="line">    static final int READER = 4; // increment value for setting read lock</div><div class="line">    ····· 	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="ForwardingNode"><a href="#ForwardingNode" class="headerlink" title="ForwardingNode"></a>ForwardingNode</h2><p>在扩容时才会出现的特殊节点，其key,value,hash全部为null。并拥有nextTable指针引用新的table数组。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">static final class ForwardingNode&lt;K,V&gt; extends Node&lt;K,V&gt; &#123;</div><div class="line">     final Node&lt;K,V&gt;[] nextTable;</div><div class="line">     ForwardingNode(Node&lt;K,V&gt;[] tab) &#123;</div><div class="line">         super(MOVED, null, null, null);</div><div class="line">         this.nextTable = tab;</div><div class="line">     &#125;</div><div class="line">    ······</div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<h1 id="CAS-关键操作"><a href="#CAS-关键操作" class="headerlink" title="CAS 关键操作"></a>CAS 关键操作</h1><p>我们之前说到，在ConcurrentHashMap中会有大量的CAS操作来修改它的一些属性和操作。所以先来看一些常用的CAS操作是如何保证线程安全的</p>
+<h2 id="tabAt"><a href="#tabAt" class="headerlink" title="tabAt"></a>tabAt</h2><p>获取table数组中索引为i的Node元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">static final &lt;K,V&gt; Node&lt;K,V&gt; tabAt(Node&lt;K,V&gt;[] tab, int i) &#123;</div><div class="line">    return (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((long)i &lt;&lt; ASHIFT) + ABASE);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="casTabAt"><a href="#casTabAt" class="headerlink" title="casTabAt"></a>casTabAt</h2><p>利用CAS操作设置table数组中索引为i的元素<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">static final &lt;K,V&gt; boolean casTabAt(Node&lt;K,V&gt;[] tab, int i,</div><div class="line">                                     Node&lt;K,V&gt; c, Node&lt;K,V&gt; v) &#123;</div><div class="line">     return U.compareAndSwapObject(tab, ((long)i &lt;&lt; ASHIFT) + ABASE, c, v);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="compareAndSwapInt"><a href="#compareAndSwapInt" class="headerlink" title="compareAndSwapInt"></a>compareAndSwapInt</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public final native boolean compareAndSwapInt(Object var1, long var2, int var4, int var5);</div></pre></td></tr></table></figure>
+<p>这是一个Native函数。函数的作用是修改当前类的var2属性。如果var2属性和var4属性一样的就修改，否则什么都不做。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>底层结构是散列表(数组+链表)+红黑树，这一点和HashMap是一样的。</li>
+<li>Hashtable是将所有的方法进行同步，效率低下。而ConcurrentHashMap作为一个高并发的容器，它是通过synchronized+CAS算法来进行实现线程安全的。使用3个CAS操作来确保node的一些操作的原子性，这种方式代替了锁。<ul>
+<li>采用synchronized而不是ReentrantLock。</li>
+<li>CAS算法是乐观锁的一种</li>
+</ul>
+</li>
+<li>ConcurrentHashMap的key和Value都不能为null</li>
+<li>get方法是非阻塞，无锁的。重写Node类，通过volatile修饰next来实现每次获取都是最新设置的值。相比于在jdk1.7中的变化就是不采用segment而采用node，锁住node来实现减小锁粒度。</li>
+<li>sizeCtl的不同值来代表不同含义，起到了控制的作用。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/conCurrentHashMap.html" title="ConCurrentHashMap了解一下">http://www.jiyongguang.xin/conCurrentHashMap.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java基础/" rel="tag"># Java基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/treemap.html" rel="next" title="TreeMap了解一下">
+                <i class="fa fa-chevron-left"></i> TreeMap了解一下
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/set.html" rel="prev" title="Set集合了解一下">
+                Set集合了解一下 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ConcurrentHashMap-1-7"><span class="nav-number">2.</span> <span class="nav-text">ConcurrentHashMap 1.7</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ConcurrentHashMap-1-8"><span class="nav-number">3.</span> <span class="nav-text">ConcurrentHashMap 1.8</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ConcurrentHashMap头注释信息"><span class="nav-number">4.</span> <span class="nav-text">ConcurrentHashMap头注释信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ConcurrrentHashMap关键属性"><span class="nav-number">5.</span> <span class="nav-text">ConcurrrentHashMap关键属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ConcurrentHashMap为何存在"><span class="nav-number">6.</span> <span class="nav-text">ConcurrentHashMap为何存在</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CAS算法"><span class="nav-number">7.</span> <span class="nav-text">CAS算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是CAS"><span class="nav-number">7.0.1.</span> <span class="nav-text">什么是CAS</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ConcurrentHashMap构造函数"><span class="nav-number">8.</span> <span class="nav-text">ConcurrentHashMap构造函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ConcurrentHashMap-常见Api解析"><span class="nav-number">9.</span> <span class="nav-text">ConcurrentHashMap 常见Api解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#initTable"><span class="nav-number">9.1.</span> <span class="nav-text">initTable()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#putVal-K-key-V-value-boolean-onlyIfAbsent"><span class="nav-number">9.2.</span> <span class="nav-text">putVal(K key, V value, boolean onlyIfAbsent)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get-Object-key"><span class="nav-number">9.3.</span> <span class="nav-text">get(Object key)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ConcurrrentHashMap关键类"><span class="nav-number">10.</span> <span class="nav-text">ConcurrrentHashMap关键类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Node内部类"><span class="nav-number">10.1.</span> <span class="nav-text">Node内部类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TreeNode-树节点"><span class="nav-number">10.2.</span> <span class="nav-text">TreeNode 树节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TreeBin-树箱"><span class="nav-number">10.3.</span> <span class="nav-text">TreeBin 树箱</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ForwardingNode"><span class="nav-number">10.4.</span> <span class="nav-text">ForwardingNode</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CAS-关键操作"><span class="nav-number">11.</span> <span class="nav-text">CAS 关键操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#tabAt"><span class="nav-number">11.1.</span> <span class="nav-text">tabAt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#casTabAt"><span class="nav-number">11.2.</span> <span class="nav-text">casTabAt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#compareAndSwapInt"><span class="nav-number">11.3.</span> <span class="nav-text">compareAndSwapInt</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">12.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

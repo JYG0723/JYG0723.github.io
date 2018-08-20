@@ -1,0 +1,1359 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java基础," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前言首先声明本文使用的是jdk1.8 Map映射Map即双列集合。但我们一般称它为映射，即键值对的形式。 Map映射的特点 键值对形式存储元素。 Collection集合子接口List元素可以重复，Set不可以重复，而Map是键唯一，值可以重复。 Map集合的数据结构针对于键，和值无关。Collection的数据结构针和元素有关。">
+<meta name="keywords" content="Java基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Map集合了解一下">
+<meta property="og:url" content="http://www.jiyongguang.xin/map.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="前言首先声明本文使用的是jdk1.8 Map映射Map即双列集合。但我们一般称它为映射，即键值对的形式。 Map映射的特点 键值对形式存储元素。 Collection集合子接口List元素可以重复，Set不可以重复，而Map是键唯一，值可以重复。 Map集合的数据结构针对于键，和值无关。Collection的数据结构针和元素有关。">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-b3d36a4444af2b15.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5291509-fd087f8fbdf5c93a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:image" content="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/23-tree-example.png">
+<meta property="og:image" content="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/23-2-node-example.png">
+<meta property="og:image" content="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/23-3-node-example.png">
+<meta property="og:image" content="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/23-4-node-example.png">
+<meta property="og:image" content="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/23-tree-insert-example.png">
+<meta property="og:image" content="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/rbtree-red-node-normal.png">
+<meta property="og:image" content="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/rbtree-red-node-flat.png">
+<meta property="og:image" content="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/rbtree-example-1.png">
+<meta property="og:updated_time" content="2018-05-09T01:47:28.329Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Map集合了解一下">
+<meta name="twitter:description" content="前言首先声明本文使用的是jdk1.8 Map映射Map即双列集合。但我们一般称它为映射，即键值对的形式。 Map映射的特点 键值对形式存储元素。 Collection集合子接口List元素可以重复，Set不可以重复，而Map是键唯一，值可以重复。 Map集合的数据结构针对于键，和值无关。Collection的数据结构针和元素有关。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5291509-b3d36a4444af2b15.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/map.html"/>
+
+
+
+
+
+  <title> Map集合了解一下 | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/map.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Map集合了解一下
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T09:44:51+08:00">
+                2018-05-09
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-05-09T09:47:28+08:00">
+                2018-05-09
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/map.html" class="leancloud_visitors" data-flag-title="Map集合了解一下">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  3,746
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  13
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>首先声明本文使用的是jdk1.8</p>
+<h1 id="Map映射"><a href="#Map映射" class="headerlink" title="Map映射"></a>Map映射</h1><p>Map即双列集合。但我们一般称它为映射，即键值对的形式。</p>
+<h2 id="Map映射的特点"><a href="#Map映射的特点" class="headerlink" title="Map映射的特点"></a>Map映射的特点</h2><ul>
+<li>键值对形式存储元素。</li>
+<li>Collection集合子接口List元素可以重复，Set不可以重复，而Map是键唯一，值可以重复。</li>
+<li>Map集合的数据结构针对于键，和值无关。Collection的数据结构针和元素有关。</li>
+</ul>
+<a id="more"></a>
+<h2 id="Map接口结构"><a href="#Map接口结构" class="headerlink" title="Map接口结构"></a>Map接口结构</h2><p><img src="https://upload-images.jianshu.io/upload_images/5291509-b3d36a4444af2b15.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>图中叙述的很清楚。</p>
+<ul>
+<li>Entry作为Map映射的特有接口而存在于Map接口中属于内部接口。</li>
+<li>重写了Object类的hashcode和equals函数。</li>
+<li>自定义了一套接口函数</li>
+<li>提供了系列可直接使用的函数</li>
+</ul>
+<h2 id="Map接口常见Api解析"><a href="#Map接口常见Api解析" class="headerlink" title="Map接口常见Api解析"></a>Map接口常见Api解析</h2><p>由于是顶级Map接口，官方只由注释定义了其实现规则，所以我们做的也只是解读注释而已。</p>
+<h3 id="put-K-key-V-value"><a href="#put-K-key-V-value" class="headerlink" title="put(K key, V value)"></a>put(K key, V value)</h3><p>将指定的值与此映射中的指定键关联。如果此映射以前包含一个该键的映射关系，则用指定值替换旧值（当且仅当 m.containsKey(k) 返回 true 时，才能说映射 m 包含键 k 的映射关系）。</p>
+<h3 id="putAll-Map-lt-extends-K-extends-V-gt-m"><a href="#putAll-Map-lt-extends-K-extends-V-gt-m" class="headerlink" title="putAll(Map&lt;? extends K,? extends V&gt; m)"></a>putAll(Map&lt;? extends K,? extends V&gt; m)</h3><p>从指定映射中将所有映射关系复制到此映射中（可选操作）。对于指定映射中的每个键 k 到值 v 的映射关系，此调用等效于对此映射调用一次 put(k, v)。</p>
+<h3 id="remove-Object-key"><a href="#remove-Object-key" class="headerlink" title="remove(Object key)"></a>remove(Object key)</h3><p>如果存在一个键的映射关系，则将其从此映射中移除。<br>返回此映射中以前关联该键的值，如果此映射不包含该键的映射关系，则返回 null。</p>
+<p><strong>需要注意的是：</strong></p>
+<p>如果此映射允许 null 值，则返回 null 值并不一定 表示该映射不包含该键的映射关系；也可能该映射将该键显示地映射到 null。</p>
+<h3 id="clear"><a href="#clear" class="headerlink" title="clear()"></a>clear()</h3><p>从此映射中移除所有映射关系（可选操作）。此调用返回后，该映射将为空。</p>
+<h3 id="isEmpty"><a href="#isEmpty" class="headerlink" title="isEmpty()"></a>isEmpty()</h3><p>如果此映射未包含键-值映射关系，则返回 true。</p>
+<h3 id="containsKey-Object-key"><a href="#containsKey-Object-key" class="headerlink" title="containsKey(Object key)"></a>containsKey(Object key)</h3><p>如果此映射包含指定键的映射关系，则返回 true。</p>
+<h3 id="containsValue-Object-value"><a href="#containsValue-Object-value" class="headerlink" title="containsValue(Object value)"></a>containsValue(Object value)</h3><p>如果此映射将一个或多个键映射到指定值，则返回 true。</p>
+<h3 id="get-Object-key"><a href="#get-Object-key" class="headerlink" title="get(Object key)"></a>get(Object key)</h3><p>返回指定键所映射的值；如果此映射不包含该键的映射关系，则返回 null。</p>
+<p><strong>需要注意的是：</strong></p>
+<p>如果此映射允许 null 值，则返回 null 值并不一定 表示该映射不包含该键的映射关系；也可能该映射将该键显示地映射到 null。使用 containsKey 操作可区分这两种情况。</p>
+<h3 id="entrySet"><a href="#entrySet" class="headerlink" title="entrySet()"></a>entrySet()</h3><p>返回此映射中包含的映射关系的Set集合。即Entry集合</p>
+<p><strong>需要注意的是：</strong></p>
+<p>如果对该Set进行迭代的同时修改了映射。则迭代结果是不确定的。迭代结果可能由于并发操作的影响超出我们的预期。</p>
+<p>但如果通过迭代器自己的remove操作，或者通过对迭代器返回的映射项Entry执行setValue操作除外。因为这样的修改结果在我们的预知范围之内。</p>
+<h3 id="keySet"><a href="#keySet" class="headerlink" title="keySet()"></a>keySet()</h3><p>返回此映射中包含的键的Set集合。</p>
+<p><strong>需要注意的是：</strong></p>
+<p>如果对该set进行迭代的同时修改了映射，则迭代结果是不确定的。因为是线程不同步的，所以并发操作其他线程的修改结果我们不会预知，可能会发生异常，可能正常进行但是结果不是我们预期的结果</p>
+<p>但通过迭代器自己的remove操作除外。还是那个原因，通过Iterator的迭代方式进行remove的时候是可以保证在remove的时候expectedModCount = modCount的。</p>
+<p>所以如果在使用Iterator迭代的时候如果其他线程并发的修改了映射类的话。Iteratore会返回一个并发修改的异常。相比于其他迭代方式对Set集合遇到并发修改的行为的返回结果是确定的。</p>
+<h3 id="values"><a href="#values" class="headerlink" title="values()"></a>values()</h3><p>返回此映射中包含的值的Collection集合。</p>
+<h3 id="size"><a href="#size" class="headerlink" title="size()"></a>size()</h3><p>返回此映射中的键-值映射关系数。如果该映射包含的元素大于<code>Integer.MAX_VALUE</code>,则返回<code>Integer.MAX_VALUE</code>。</p>
+<h2 id="Map接口常见实现类"><a href="#Map接口常见实现类" class="headerlink" title="Map接口常见实现类"></a>Map接口常见实现类</h2><p><img src="https://upload-images.jianshu.io/upload_images/5291509-fd087f8fbdf5c93a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt=""></p>
+<p>红框所标都是Map接口关键的实现类。</p>
+<p>其中需要针对HashMap和TreeMap两种需要提前了解一下他们底层的数据结构实现。分别是哈希表(散列表)和红黑树</p>
+<h1 id="散列表"><a href="#散列表" class="headerlink" title="散列表"></a>散列表</h1><p>针对于Map接口的HashMap实现类以及Set接口的HashSet我们来学习一下散列表。</p>
+<h2 id="什么是散列表"><a href="#什么是散列表" class="headerlink" title="什么是散列表"></a>什么是散列表</h2><p>散列表其实也很好理解，就是一个链表数组。数组的每一个元素都是一个链表。</p>
+<p>散列表最重要的就是它当中的元素之如何存储的。在我们之前所了解的无论是链表还是数组，如果想查找某一元素都是量元素间相互比较，通过比较的方式来迭代遍历元素的，知道找到那个元素。这样的方式无疑当数据量上去之后对我们时间上的开销非常的巨大。所以散列表的存储方式就诞生了</p>
+<h2 id="散列表的工作原理"><a href="#散列表的工作原理" class="headerlink" title="散列表的工作原理"></a>散列表的工作原理</h2><p><strong>哈希表的存储过程如下:</strong></p>
+<ul>
+<li>根据 key 计算出它的哈希值 h。</li>
+<li>假设箱子的个数为 n，那么这个键值对应该放在第 (h % n) 个箱子中。</li>
+<li>如果该箱子中已经有了键值对，就使用开放寻址法或者拉链法解决冲突。</li>
+</ul>
+<h2 id="散列冲突"><a href="#散列冲突" class="headerlink" title="散列冲突"></a>散列冲突</h2><p>我们刚才说了，底层容器是一个链表数组。为什么是链表呢，那肯定是数组的一个位置可以存不止一个元素。必然，我们还没有了解过散列表是如何为每个要存入的元素计算其散列值的呢，会不会出现两个元素散列值一样的情况。但既然我们知道散列表底层的数据结构了，肯定就会知道一定是会出现这种情况的。我们一般称这种情况为哈希冲突(hash碰撞)，但一般情况下的哈希函数设计都十分合理，这种现象很少出现。即便出现了，也有对应的措施。</p>
+<p>此时的处理方式：</p>
+<ul>
+<li>判断该数组的链表元素中是否存储了该元素。如果没有就放入，如果有就跳过。</li>
+</ul>
+<p><strong>哈希冲突解决办法：</strong></p>
+<ul>
+<li>开放寻址法：即散列到冲突地址的下一空闲位置插入即可。<ul>
+<li>缺点：散列表空间不足时，无法处理冲突也无法插入数据</li>
+<li>解决办法：由于需要负载因子(空间/插入数据)&gt;=1。所以进行扩容(数组扩容)</li>
+</ul>
+</li>
+<li>拉链法：即如果遇到冲突，他就会在原地址新建一个空间，然后以链表结点的形式插入到该空间。<ul>
+<li>缺点：这种解决办法的哈希表在极端情况下会变成线性表，性能极低。</li>
+<li>解决办法：Java8中Java官方的处理方案是当链表太长时，转换成红黑树。</li>
+</ul>
+</li>
+</ul>
+<h2 id="负载因子"><a href="#负载因子" class="headerlink" title="负载因子"></a>负载因子</h2><p>负载因子(load factor)，它用来衡量哈希表的 空/满 程度，一定程度上也可以体现查询的效率</p>
+<blockquote>
+<p>负载因子 = 总键值对数 / 箱子个数(数组元素)</p>
+</blockquote>
+<p>负载因子越大，意味着哈希表越满，越容易导致冲突，性能也就越低。因此，一般来说，当负载因子大于某个常数(可能是 1，一般为 0.75 等)时，哈希表将自动扩容。</p>
+<p>哈希表在自动扩容时，一般会创建两倍于原来个数的箱子，因此即使 key 的哈希值不变，对箱子个数取余的结果也会发生改变，因此所有键值对的存放位置都有可能发生改变，这个过程也称为重哈希(rehash)。</p>
+<p>哈希表的扩容并不总是能够有效解决负载因子过大的问题。假设所有 key 的哈希值都一样，那么即使扩容以后他们的位置也不会变化。虽然负载因子会降低，但实际存储在每个箱子中的链表长度并不发生改变，因此也就不能提高哈希表的查询性能。</p>
+<h2 id="哈希表的两个问题"><a href="#哈希表的两个问题" class="headerlink" title="哈希表的两个问题"></a>哈希表的两个问题</h2><p>我们可以从刚才的分析中得出哈希表的如下两个问题：</p>
+<ul>
+<li>如果哈希表中本来箱子就比较多，扩容时需要重新哈希并移动数据，性能影响较大。</li>
+<li>如果哈希函数设计不合理，哈希表在极端情况下会变成线性表，性能极低。</li>
+</ul>
+<p>这两个问题在Java8中Java官方已经为我们解决了。</p>
+<ul>
+<li>对于箱子，给定了一个合理的初始容量，既没有太多也没有太少。既不会影响哈希表的遍历速度也很少触发扩容操作</li>
+<li>当箱子成了长链表之后，在链表长度超过8之后会变成红黑树。</li>
+</ul>
+<h1 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h1><p>同样我们针对于Map接口的TreeMap实现类和Set接口的TreeSet实现类来学习一下红黑树。</p>
+<h2 id="什么是红黑树"><a href="#什么是红黑树" class="headerlink" title="什么是红黑树"></a>什么是红黑树</h2><p>红黑树也是平衡二叉树的一种。</p>
+<p>他为什么会出生呢，究其原因肯定是在某些方面该数据结构具有更好地效率。</p>
+<p>我们知道，由于二叉查找树在特殊情况下会变成链表大大影响查找性能的原因我们有了AVL树，而紧接着由于AVL树高度平衡的性质，频繁的插入和删除，会引起频繁的reblance，导致效率下降的原因我们就有了红黑树这个数据结构。</p>
+<p>红黑树不是高度平衡的，算是一种折中，它是局部平衡的。插入最多两次旋转，删除最多三次旋转。</p>
+<p><strong>二叉查找树偏向问题：</strong></p>
+<p>在二叉查找树上，我们插入节点的过程是这样的：小于节点值往右继续与左子节点比，大于则继续与右子节点比，直到某节点左或右子节点为空，把值插入进去。这样无法避免偏向问题</p>
+<p>所以我们就有了平衡树这么一个概念。这样的树结构能够使我们任何的元素在插入与删除的时候依旧能够保持任意节点左右子树高度不相差1。</p>
+<h2 id="红黑树原型2-3树"><a href="#红黑树原型2-3树" class="headerlink" title="红黑树原型2-3树"></a>红黑树原型2-3树</h2><p>红黑树明显很好地解决了这个问题。但是它的原型其实是2-3树。</p>
+<p><img src="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/23-tree-example.png" alt=""></p>
+<p>如图即是一个典型的2-3树。</p>
+<p>在2-3树中，共有两种节点。第一种是“2-节点”：</p>
+<p><img src="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/23-2-node-example.png" alt=""></p>
+<p>该节点性质和二叉查找树种节点性质一致。左孩子小于该节点，右孩子大于该节点</p>
+<p>第二种是“3-节点”：</p>
+<p><img src="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/23-3-node-example.png" alt=""></p>
+<p>该节点和2-节点不同的是多了一条分支。最左边的儿子表示比a小的子树，中间的儿子表示大于a但小于b的子树，右边的儿子表示比b大的子树。</p>
+<p>虽然这是2-3树，我们能直观的看到数中是不存在“4-节点”的。但是为了保持树的平衡性，我们将会利用4-节点来在插入和删除过程中保持树的完美平衡。下面是一个4-节点：</p>
+<p><img src="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/23-4-node-example.png" alt=""></p>
+<p>该节点的分支思路和3-节点一致。</p>
+<p><strong>那么2-3树是如何避免二叉查找树中偏向的问题的呢？</strong></p>
+<p>很简单，我们来参考一个节点插入步骤图。</p>
+<p><img src="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/23-tree-insert-example.png" alt=""></p>
+<p>总的概括起来就是当有新节点插入时</p>
+<ul>
+<li>合并2-节点为3-节点，扩充将3-节点扩充为一个4-节点</li>
+<li>分解4-节点为3-节点，再分解3-节点为2-节点，分解后多出的元素向上回溯。</li>
+<li>重复不断调整，致使整个树平衡。</li>
+</ul>
+<p>当然我们一个树的平衡，不光是要插入时保持平衡同时在做删除操作操作的时候我们也要保持它的持续平衡。2-3树的删除操作平衡调整比较复杂。我也没有完全理解，有兴趣可以参考：</p>
+<p><a href="https://riteme.github.io/blog/2016-3-12/2-3-tree-and-red-black-tree.html#fn:red-is-left" target="_blank" rel="external">2-3树与红黑树</a></p>
+<h2 id="2-3到红黑树"><a href="#2-3到红黑树" class="headerlink" title="2-3到红黑树"></a>2-3到红黑树</h2><p>我们在了解了2-3树对于解决节点偏移的问题的处理思路之后可以很明显的感觉到，其中需要大量的节点变换。这些变换在实际代码中是很复杂的。所以现在几乎没有2-3树的具体实现。</p>
+<p>红黑树也是一种平衡二叉树，但相比于2-3树，红黑树只有一种2-节点。但既然我们要想做和2-3树一样的工作却不给它3-节点，无疑我们把3节点都用合理的方式拆分了。</p>
+<p>如何表示3-节点呢？我们尝试一种特殊的边：默认情况下节点的颜色均为黑色。我们将某个节点染为红色，表示它和父亲的的链接是红色的，就像下图：</p>
+<p><img src="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/rbtree-red-node-normal.png" alt=""></p>
+<p>当我们将红链接画平时</p>
+<p><img src="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/rbtree-red-node-flat.png" alt=""></p>
+<p>可以看到，这不就是我们刚才2-3树种的3-节点吗。而事实上，我们完全可以用这样的方式来表示2-3树中的3-节点。</p>
+<p>如下即是一颗典型的红黑树：<br><img src="https://git.oschina.net/riteme/blogimg/raw/master/rbtree-and-2-3-tree/rbtree-example-1.png" alt=""></p>
+<p>将该树种所有红链接画平，将得到一棵完美平衡的“2-3树”。</p>
+<h2 id="红黑树是如何保证平衡"><a href="#红黑树是如何保证平衡" class="headerlink" title="红黑树是如何保证平衡"></a>红黑树是如何保证平衡</h2><p>相比于2-3树不断变换节点的缺陷来说。由于红黑树的节点都是2-节点所以其处理方式更简洁。</p>
+<ul>
+<li>旋转：顺时针旋转和逆时针旋转</li>
+<li>反色：交换红黑的颜色</li>
+</ul>
+<p>这两个操作相对于2-3树种的节点变换要简单许多。</p>
+<p>具体可以参考：<a href="https://riteme.github.io/blog/2016-3-12/2-3-tree-and-red-black-tree.html#fn:red-is-left" target="_blank" rel="external">2-3树与红黑树</a></p>
+<h2 id="红黑树如何定义"><a href="#红黑树如何定义" class="headerlink" title="红黑树如何定义"></a>红黑树如何定义</h2><ul>
+<li>红黑树是二叉搜索树。</li>
+<li>根节点必须为黑色。毕竟根节点没有父亲。</li>
+<li>红链接必须在左侧。将红链接统一在一个方向是为了方便其它操作。</li>
+<li>不允许两个连续的红链接。因为连续的连个红链接表示的是4-节点。</li>
+<li>从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点(每一条树链上的黑色节点数量（称之为“黑高”）必须相等)。</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li>简单介绍了Map接口的结构及其常用Api</li>
+<li>介绍了Map接口的常用实现类并为后面研究其实现类做铺垫了解了其实现类HashMap和TreeMap的底层数据结构，散列表和红黑树</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/map.html" title="Map集合了解一下">http://www.jiyongguang.xin/map.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java基础/" rel="tag"># Java基础</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/list.html" rel="next" title="List集合了解一下">
+                <i class="fa fa-chevron-left"></i> List集合了解一下
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/hashmap.html" rel="prev" title="HashMap了解一下">
+                HashMap了解一下 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Map映射"><span class="nav-number">2.</span> <span class="nav-text">Map映射</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Map映射的特点"><span class="nav-number">2.1.</span> <span class="nav-text">Map映射的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map接口结构"><span class="nav-number">2.2.</span> <span class="nav-text">Map接口结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map接口常见Api解析"><span class="nav-number">2.3.</span> <span class="nav-text">Map接口常见Api解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#put-K-key-V-value"><span class="nav-number">2.3.1.</span> <span class="nav-text">put(K key, V value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#putAll-Map-lt-extends-K-extends-V-gt-m"><span class="nav-number">2.3.2.</span> <span class="nav-text">putAll(Map<? extends K,? extends V> m)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#remove-Object-key"><span class="nav-number">2.3.3.</span> <span class="nav-text">remove(Object key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clear"><span class="nav-number">2.3.4.</span> <span class="nav-text">clear()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#isEmpty"><span class="nav-number">2.3.5.</span> <span class="nav-text">isEmpty()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#containsKey-Object-key"><span class="nav-number">2.3.6.</span> <span class="nav-text">containsKey(Object key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#containsValue-Object-value"><span class="nav-number">2.3.7.</span> <span class="nav-text">containsValue(Object value)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#get-Object-key"><span class="nav-number">2.3.8.</span> <span class="nav-text">get(Object key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#entrySet"><span class="nav-number">2.3.9.</span> <span class="nav-text">entrySet()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#keySet"><span class="nav-number">2.3.10.</span> <span class="nav-text">keySet()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#values"><span class="nav-number">2.3.11.</span> <span class="nav-text">values()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#size"><span class="nav-number">2.3.12.</span> <span class="nav-text">size()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map接口常见实现类"><span class="nav-number">2.4.</span> <span class="nav-text">Map接口常见实现类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#散列表"><span class="nav-number">3.</span> <span class="nav-text">散列表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是散列表"><span class="nav-number">3.1.</span> <span class="nav-text">什么是散列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#散列表的工作原理"><span class="nav-number">3.2.</span> <span class="nav-text">散列表的工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#散列冲突"><span class="nav-number">3.3.</span> <span class="nav-text">散列冲突</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#负载因子"><span class="nav-number">3.4.</span> <span class="nav-text">负载因子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希表的两个问题"><span class="nav-number">3.5.</span> <span class="nav-text">哈希表的两个问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#红黑树"><span class="nav-number">4.</span> <span class="nav-text">红黑树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是红黑树"><span class="nav-number">4.1.</span> <span class="nav-text">什么是红黑树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#红黑树原型2-3树"><span class="nav-number">4.2.</span> <span class="nav-text">红黑树原型2-3树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3到红黑树"><span class="nav-number">4.3.</span> <span class="nav-text">2-3到红黑树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#红黑树是如何保证平衡"><span class="nav-number">4.4.</span> <span class="nav-text">红黑树是如何保证平衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#红黑树如何定义"><span class="nav-number">4.5.</span> <span class="nav-text">红黑树如何定义</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

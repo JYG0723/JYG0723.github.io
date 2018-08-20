@@ -1,0 +1,1259 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Linux," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Centos下常用Linux命令的学习ls显示当前目录下非影藏文件与目录1[root@localhost ~]# ls 显示当前目录下包括影藏文件在内的所有文件列表1[root@localhost ~]# ls -a">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日几个Linux命令，十天了解工作中常用的那些命令(一)">
+<meta property="og:url" content="http://www.jiyongguang.xin/linux-1.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="Centos下常用Linux命令的学习ls显示当前目录下非影藏文件与目录1[root@localhost ~]# ls 显示当前目录下包括影藏文件在内的所有文件列表1[root@localhost ~]# ls -a">
+<meta property="og:updated_time" content="2018-03-30T10:22:45.322Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="每日几个Linux命令，十天了解工作中常用的那些命令(一)">
+<meta name="twitter:description" content="Centos下常用Linux命令的学习ls显示当前目录下非影藏文件与目录1[root@localhost ~]# ls 显示当前目录下包括影藏文件在内的所有文件列表1[root@localhost ~]# ls -a">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/linux-1.html"/>
+
+
+
+
+
+  <title> 每日几个Linux命令，十天了解工作中常用的那些命令(一) | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/linux-1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                每日几个Linux命令，十天了解工作中常用的那些命令(一)
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T18:18:24+08:00">
+                2018-03-30
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-03-30T18:22:45+08:00">
+                2018-03-30
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/linux-1.html" class="leancloud_visitors" data-flag-title="每日几个Linux命令，十天了解工作中常用的那些命令(一)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2,029
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Centos下常用Linux命令的学习"><a href="#Centos下常用Linux命令的学习" class="headerlink" title="Centos下常用Linux命令的学习"></a>Centos下常用Linux命令的学习</h1><h2 id="ls"><a href="#ls" class="headerlink" title="ls"></a>ls</h2><p>显示当前目录下非影藏文件与目录<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# ls</div></pre></td></tr></table></figure></p>
+<p>显示当前目录下包括影藏文件在内的所有文件列表<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# ls -a</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>可见隐藏文件与非隐藏文件在<code>CentOS</code>下的区别就是文件名前的<code>.</code></p>
+<p>输出长格式列表<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# ls -1</div></pre></td></tr></table></figure></p>
+<p>水平输出文件列表<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost /]# ls -m</div></pre></td></tr></table></figure></p>
+<p>最近修改的文件显示在最上面。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost /]# ls -t</div></pre></td></tr></table></figure></p>
+<p>打印文件的UID和GID<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@localhost /]# ls -n</div><div class="line"></div><div class="line">total 254</div><div class="line">drwxr-xr-x   2 0 0  4096 Jun 12 04:03 bin</div><div class="line">drwxr-xr-x   4 0 0  1024 Jun 15 14:45 boot</div><div class="line">drwxr-xr-x   6 0 0  4096 Jun 12 10:26 data</div><div class="line">drwxr-xr-x  10 0 0  3520 Sep 26 15:38 dev</div><div class="line">drwxr-xr-x  75 0 0  4096 Oct 16 04:02 etc</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>用户ID(UID)：每个用户必需指定UID。UID 0是保留给root用户的，UID 1~99是保留给其它预定义用户的， UID 100~999是保留给系统用户的</p>
+<p>组ID(GID)：主组ID(保存在/etc/group文件中)；</p>
+</blockquote>
+<p>列出文件和文件夹的详细信息<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost /]# ls -l</div></pre></td></tr></table></figure></p>
+<p>按时间列出文件和文件夹详细信息<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost /]# ls -lt</div></pre></td></tr></table></figure></p>
+<p>按修改时间列出文件和文件夹详细信息<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[root@localhost /]# ls -ltr</div></pre></td></tr></table></figure></p>
+<h2 id="mkdir"><a href="#mkdir" class="headerlink" title="mkdir"></a>mkdir</h2><p>选项<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-m&lt;目标属性&gt; 建立目录的同时设置目录的权限</div><div class="line">-p 若所要建立目录的上层目录目前尚未建立，则会一并建立上层目录</div></pre></td></tr></table></figure></p>
+<p>在目录<code>/usr/meng</code>下建立子目录<code>test</code>，并且只有文件主有读、写和执行权限，其他人无权访问<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkdir -m <span class="number">700</span> /usr/meng/test</div></pre></td></tr></table></figure></p>
+<p>在当前目录中建立<code>bin</code>和<code>bin</code>下的<code>os_1</code>目录，权限设置为文件主可读、写、执行，同组用户可读和执行，其他用户无权访问<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkdir -mp <span class="number">750</span> bin/os_1</div></pre></td></tr></table></figure></p>
+<h2 id="rm"><a href="#rm" class="headerlink" title="rm"></a>rm</h2><p>选项<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-f：强制删除文件或目录</div><div class="line">-i：删除已有文件或目录之前先询问用户</div><div class="line">-r或-R：递归处理，将指定目录下的所有文件与子目录一并处理</div></pre></td></tr></table></figure></p>
+<p>交互式删除当前目录下的文件<code>test</code>和<code>example</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rm -i test example</div><div class="line">Remove test ?n（不删除文件test)</div><div class="line">Remove example ?y（删除文件example)</div></pre></td></tr></table></figure></p>
+<p>删除当前目录下除隐含文件外的所有文件和子目录<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"># rm -r *</div></pre></td></tr></table></figure></p>
+<p>需要注意的是：指定被删除的文件列表，如果参数中含有目录，则必须加上<code>-r</code>或者<code>-R</code>选项。</p>
+<h2 id="pwd"><a href="#pwd" class="headerlink" title="pwd"></a>pwd</h2><p>pwd命令以绝对路径的方式显示用户当前工作目录。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# pwd</div><div class="line">/root</div></pre></td></tr></table></figure></p>
+<h2 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h2><ul>
+<li><code>scp</code>命令用于在<code>Linux</code>下进行远程拷贝文件的命令，和它类似的命令有<code>cp</code>，不过<code>cp</code>只是在本机进行拷贝不能跨服务器。</li>
+</ul>
+<p>从远处复制文件到本地目录<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp root@<span class="number">10.10</span><span class="number">.10</span><span class="number">.10</span>:<span class="regexp">/opt/</span>soft/nginx<span class="number">-0.5</span><span class="number">.38</span>.tar.gz /opt/soft/</div></pre></td></tr></table></figure></p>
+<p>从远处复制目录到本地(递归)<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp -r root@<span class="number">10.10</span><span class="number">.10</span><span class="number">.10</span>:opt/soft/mongodb /opt/soft/</div></pre></td></tr></table></figure></p>
+<p>上传本地文件到远程机器指定目录<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp /opt/soft/nginx<span class="number">-0.5</span><span class="number">.38</span>.tar.gz root@<span class="number">10.10</span><span class="number">.10</span><span class="number">.10</span>:<span class="regexp">/opt/</span>soft/scptest</div></pre></td></tr></table></figure></p>
+<p>上传本地目录到远程机器指定目录<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">scp -r /opt/soft/mongodb root@<span class="number">10.10</span><span class="number">.10</span><span class="number">.10</span>:<span class="regexp">/opt/</span>soft/scptest</div></pre></td></tr></table></figure></p>
+<ul>
+<li>需要注意：上传先写文件名后写服务器地址名，下载先写服务器地址名，后写本机存放位置</li>
+</ul>
+<h2 id="cp"><a href="#cp" class="headerlink" title="cp"></a>cp</h2><ul>
+<li>如果把一个文件复制到一个目标文件中，而目标文件已经存在，那么，该目标文件的内容将被破坏。</li>
+<li><code>cp</code>命令不能复制目录，如果要复制目录，则必须使用<code>-R</code>选项</li>
+</ul>
+<p>选项<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-p：保留源文件或目录的属性</div><div class="line">-R/r：递归处理，将指定目录下的所有文件与子目录一并处理</div></pre></td></tr></table></figure></p>
+<p>将指定文件复制到当前目录下<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp ../mary/homework/assign .</div></pre></td></tr></table></figure></p>
+<p>将文件file复制到目录<code>/usr/men/tmp</code>下，并改名为<code>file1</code><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp file /usr/men/tmp/filel</div></pre></td></tr></table></figure></p>
+<p>将目录<code>/usr/men</code>下的所有文件及其子目录复制到目录<code>/usr/zh</code>中<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp -r /usr/men /usr/zh</div></pre></td></tr></table></figure></p>
+<h2 id="iostat"><a href="#iostat" class="headerlink" title="iostat"></a>iostat</h2><ul>
+<li>iostat命令被用于监视系统输入输出设备和CPU的使用情况。它的特点是汇报磁盘活动统计情况，同时也会汇报出CPU使用情况。同<code>vmstat</code>一样，<code>iostat</code>也有一个弱点，就是它不能对某个进程进行深入分析，仅对系统的整体情况进行分析。</li>
+</ul>
+<p>用<code>iostat -x /dev/sda1</code>来观看磁盘I/O的详细情况：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">iostat -x /dev/sda1 </div><div class="line"></div><div class="line">Linux <span class="number">2.6</span><span class="number">.18</span><span class="number">-164.</span>el5xen (localhost.localdomain)</div><div class="line"><span class="number">2010</span>年<span class="number">03</span>月<span class="number">26</span>日  </div><div class="line"> </div><div class="line">avg-cpu:  %user   %nice %system %iowait </div><div class="line">%steal   %idle  </div><div class="line">          <span class="number">0.11</span>    <span class="number">0.02</span>    <span class="number">0.18</span>    <span class="number">0.35</span>   </div><div class="line"><span class="number">0.03</span>     <span class="number">99.31</span>  </div><div class="line"> </div><div class="line">Device:         tps   Blk_read/s    Blk_wrtn/s  </div><div class="line">Blk_read   Blk_wrtn  </div><div class="line">sda1            <span class="number">0.02</span>     <span class="number">0.08</span>         <span class="number">0.00</span>                       </div><div class="line"><span class="number">2014</span>            <span class="number">4</span></div></pre></td></tr></table></figure></p>
+<p>第三行和第四行显示<code>CPU</code>使用情况（具体内容和<code>mpstat</code>命令相同）。<br>I/O输出的信息，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">标示	说明</div><div class="line">Device	监测设备名称</div><div class="line">rrqm/s	每秒需要读取需求的数量</div><div class="line">wrqm/s	每秒需要写入需求的数量</div><div class="line">r/s 	每秒实际读取需求的数量</div><div class="line">w/s	每秒实际写入需求的数量</div><div class="line">rsec/s	每秒读取区段的数量</div><div class="line">wsec/s	每秒写入区段的数量</div><div class="line">rkB/s	每秒实际读取的大小，单位为KB</div><div class="line">wkB/s	每秒实际写入的大小，单位为KB</div><div class="line">avgrq-sz	需求的平均大小区段</div><div class="line">avgqu-sz	需求的平均队列长度</div><div class="line">await	等待I/O平均的时间（milliseconds）</div><div class="line">svctm	I/O需求完成的平均时间</div><div class="line">%util	被I/O需求消耗的CPU百分比</div></pre></td></tr></table></figure></p>
+<h2 id="lsof"><a href="#lsof" class="headerlink" title="lsof"></a>lsof</h2><ul>
+<li><code>lsof</code>命令用于查看你进程打开的文件，打开文件的进程。进程打开的端口<code>TCP,UDP</code>找回，恢复删除的文件。是十分方便的系统工具，因为<code>lsof</code>需要访问系统核心内存及各种文件，所以需要<code>root</code>权限。在linux环境下，任何事物都以文件的形式存在，通过文件不仅仅可以访问常规数据，还可以访问<strong>网络连接和硬件</strong>。所以如传输控制协议 (TCP) 和用户数据报协议 (UDP) 套接字等，系统在后台都为该应用程序分配了一个文件描述符。该文件描述符为应用程序与基础操作系统之间的交互提供了通用接口。因为应用程序打开文件的描述符列表提供了大量关于这个应用程序本身的信息，因此通过lsof工具能够查看这个列表对系统监测以及排错将是很有帮助的。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">lsof</div><div class="line">command     PID USER   FD      type             DEVICE     SIZE       NODE NAME</div><div class="line">init          <span class="number">1</span> root  cwd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">init          <span class="number">1</span> root  rtd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">init          <span class="number">1</span> root  txt       REG                <span class="number">8</span>,<span class="number">2</span>    <span class="number">43496</span>    <span class="number">6121706</span> /sbin/init</div><div class="line">init          <span class="number">1</span> root  mem       REG                <span class="number">8</span>,<span class="number">2</span>   <span class="number">143600</span>    <span class="number">7823908</span> /lib64/ld<span class="number">-2.5</span>.so</div><div class="line">init          <span class="number">1</span> root  mem       REG                <span class="number">8</span>,<span class="number">2</span>  <span class="number">1722304</span>    <span class="number">7823915</span> /lib64/libc<span class="number">-2.5</span>.so</div><div class="line">init          <span class="number">1</span> root  mem       REG                <span class="number">8</span>,<span class="number">2</span>    <span class="number">23360</span>    <span class="number">7823919</span> /lib64/libdl<span class="number">-2.5</span>.so</div><div class="line">init          <span class="number">1</span> root  mem       REG                <span class="number">8</span>,<span class="number">2</span>    <span class="number">95464</span>    <span class="number">7824116</span> /lib64/libselinux.so<span class="number">.1</span></div><div class="line">init          <span class="number">1</span> root  mem       REG                <span class="number">8</span>,<span class="number">2</span>   <span class="number">247496</span>    <span class="number">7823947</span> /lib64/libsepol.so<span class="number">.1</span></div><div class="line">init          <span class="number">1</span> root   <span class="number">10</span>u     FIFO               <span class="number">0</span>,<span class="number">17</span>                <span class="number">1233</span> /dev/initctl</div><div class="line">migration     <span class="number">2</span> root  cwd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">migration     <span class="number">2</span> root  rtd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">migration     <span class="number">2</span> root  txt   unknown                                        /proc/<span class="number">2</span>/exe</div><div class="line">ksoftirqd     <span class="number">3</span> root  cwd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">ksoftirqd     <span class="number">3</span> root  rtd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">ksoftirqd     <span class="number">3</span> root  txt   unknown                                        /proc/<span class="number">3</span>/exe</div><div class="line">migration     <span class="number">4</span> root  cwd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">migration     <span class="number">4</span> root  rtd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">migration     <span class="number">4</span> root  txt   unknown                                        /proc/<span class="number">4</span>/exe</div><div class="line">ksoftirqd     <span class="number">5</span> root  cwd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">ksoftirqd     <span class="number">5</span> root  rtd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">ksoftirqd     <span class="number">5</span> root  txt   unknown                                        /proc/<span class="number">5</span>/exe</div><div class="line">events/<span class="number">0</span>      <span class="number">6</span> root  cwd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">events/<span class="number">0</span>      <span class="number">6</span> root  rtd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div><div class="line">events/<span class="number">0</span>      <span class="number">6</span> root  txt   unknown                                        /proc/<span class="number">6</span>/exe</div><div class="line">events/<span class="number">1</span>      <span class="number">7</span> root  cwd       DIR                <span class="number">8</span>,<span class="number">2</span>     <span class="number">4096</span>          <span class="number">2</span> /</div></pre></td></tr></table></figure>
+<p>lsof输出各列信息的意义如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">COMMAND：进程的名称</div><div class="line">PID：进程标识符</div><div class="line">PPID：父进程标识符（需要指定-R参数）</div><div class="line">USER：进程所有者</div><div class="line">PGID：进程所属组</div><div class="line">FD：文件描述符，应用程序通过文件描述符识别该文件。</div></pre></td></tr></table></figure></p>
+<h2 id="uname"><a href="#uname" class="headerlink" title="uname"></a>uname</h2><ul>
+<li>uname命令用于打印当前系统相关信息（内核版本号、硬件架构、主机名称和操作系统类型等）。</li>
+</ul>
+<p>显示在网络上的主机名称<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# uname -n</div><div class="line">localhost</div></pre></td></tr></table></figure></p>
+<p>显示操作系统名称<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[root@localhost ~]# uname -s</div><div class="line">Linux</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/linux-1.html" title="每日几个Linux命令，十天了解工作中常用的那些命令(一)">http://www.jiyongguang.xin/linux-1.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/java-bigdecimal.html" rel="next" title="Java中的BigDecimal类你了解多少？">
+                <i class="fa fa-chevron-left"></i> Java中的BigDecimal类你了解多少？
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/collection.html" rel="prev" title="Collection 接口详解">
+                Collection 接口详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">123</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Centos下常用Linux命令的学习"><span class="nav-number">1.</span> <span class="nav-text">Centos下常用Linux命令的学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ls"><span class="nav-number">1.1.</span> <span class="nav-text">ls</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mkdir"><span class="nav-number">1.2.</span> <span class="nav-text">mkdir</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rm"><span class="nav-number">1.3.</span> <span class="nav-text">rm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pwd"><span class="nav-number">1.4.</span> <span class="nav-text">pwd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scp"><span class="nav-number">1.5.</span> <span class="nav-text">scp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cp"><span class="nav-number">1.6.</span> <span class="nav-text">cp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#iostat"><span class="nav-number">1.7.</span> <span class="nav-text">iostat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lsof"><span class="nav-number">1.8.</span> <span class="nav-text">lsof</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#uname"><span class="nav-number">1.9.</span> <span class="nav-text">uname</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>
