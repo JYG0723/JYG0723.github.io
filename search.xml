@@ -919,10 +919,10 @@
         <category>学习</category>
       </categories>
       <tags>
-        <tag>BootStrap</tag>
-        <tag>AJAX</tag>
         <tag>Restful</tag>
         <tag>MariaDB</tag>
+        <tag>BootStrap</tag>
+        <tag>AJAX</tag>
         <tag>Project</tag>
         <tag>SpringMVC</tag>
         <tag>Spring</tag>
@@ -960,10 +960,10 @@
         <category>学习</category>
       </categories>
       <tags>
-        <tag>BootStrap</tag>
-        <tag>AJAX</tag>
         <tag>Restful</tag>
         <tag>MariaDB</tag>
+        <tag>BootStrap</tag>
+        <tag>AJAX</tag>
         <tag>Project</tag>
         <tag>SpringMVC</tag>
         <tag>Spring</tag>
@@ -991,10 +991,10 @@
         <category>学习</category>
       </categories>
       <tags>
-        <tag>BootStrap</tag>
-        <tag>AJAX</tag>
         <tag>Restful</tag>
         <tag>MariaDB</tag>
+        <tag>BootStrap</tag>
+        <tag>AJAX</tag>
         <tag>Project</tag>
         <tag>SpringMVC</tag>
         <tag>Spring</tag>
@@ -1023,10 +1023,10 @@
         <category>学习</category>
       </categories>
       <tags>
-        <tag>BootStrap</tag>
-        <tag>AJAX</tag>
         <tag>Restful</tag>
         <tag>MariaDB</tag>
+        <tag>BootStrap</tag>
+        <tag>AJAX</tag>
         <tag>Project</tag>
         <tag>SpringMVC</tag>
         <tag>Spring</tag>
@@ -1055,8 +1055,8 @@
       </categories>
       <tags>
         <tag>SpringBoot</tag>
-        <tag>HikariCP</tag>
         <tag>MariaDB</tag>
+        <tag>HikariCP</tag>
         <tag>Mybatis</tag>
       </tags>
   </entry>
@@ -1069,8 +1069,8 @@
       </categories>
       <tags>
         <tag>SpringBoot</tag>
-        <tag>HikariCP</tag>
         <tag>MariaDB</tag>
+        <tag>HikariCP</tag>
         <tag>JdbcTemplate</tag>
       </tags>
   </entry>
@@ -1152,8 +1152,8 @@
         <category>学习</category>
       </categories>
       <tags>
-        <tag>AJAX</tag>
         <tag>SpringBoot</tag>
+        <tag>AJAX</tag>
         <tag>Interceptor</tag>
       </tags>
   </entry>
@@ -1165,8 +1165,8 @@
         <category>学习</category>
       </categories>
       <tags>
-        <tag>BootStrap</tag>
         <tag>SpringBoot</tag>
+        <tag>BootStrap</tag>
         <tag>CSS</tag>
         <tag>JavaScript</tag>
         <tag>JQuery</tag>
@@ -1251,17 +1251,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[解析 SpringBoot 项目的 pom.xml]]></title>
-    <url>%2Fframe-springboot-starter.html</url>
-    <content type="text"><![CDATA[1. Spring Boot父级依赖123456&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt; &lt;version&gt;1.5.4.RELEASE&lt;/version&gt; &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;&lt;/parent&gt; 这块配置就是Spring Boot父级依赖，有了这个，当前的项目就是Spring Boot项目了，spring-boot-starter-parent是一个特殊的starter,它用来提供相关的Maven默认依赖，使用它之后，常用的包依赖可以省去version标签。使用父级依赖提供的默认version。关于Spring Boot提供了哪些jar包的依赖，可查看C:\Users\用户.m2\repository\org\springframework\boot\spring-boot-dependencies\1.5.1.RELEASE\spring-boot-dependencies-1.5.1.RELEASE.pom 123456789101112131415161718&lt;properties&gt; &lt;!-- Dependency versions --&gt; &lt;activemq.version&gt;5.14.3&lt;/activemq.version&gt; &lt;antlr2.version&gt;2.7.7&lt;/antlr2.version&gt; &lt;appengine-sdk.version&gt;1.9.48&lt;/appengine-sdk.version&gt; &lt;artemis.version&gt;1.5.2&lt;/artemis.version&gt; &lt;aspectj.version&gt;1.8.9&lt;/aspectj.version&gt; &lt;assertj.version&gt;2.6.0&lt;/assertj.version&gt; &lt;atomikos.version&gt;3.9.3&lt;/atomikos.version&gt; &lt;bitronix.version&gt;2.1.4&lt;/bitronix.version&gt; &lt;caffeine.version&gt;2.3.5&lt;/caffeine.version&gt; &lt;cassandra-driver.version&gt;3.1.3&lt;/cassandra-driver.version&gt; &lt;classmate.version&gt;1.3.3&lt;/classmate.version&gt; &lt;commons-beanutils.version&gt;1.9.3&lt;/commons-beanutils.version&gt; &lt;commons-collections.version&gt;3.2.2&lt;/commons-collections.version&gt; &lt;spring-data-releasetrain.version&gt;Ingalls-RELEASE&lt;/spring-data-releasetrain.version&gt; ......&lt;/properties&gt; 如果你不想使用某个依赖默认的版本，您还可以通过覆盖自己的项目中的属性来覆盖各个依赖项。如下： 1234567891011&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt; &lt;version&gt;1.5.4.RELEASE&lt;/version&gt; &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;&lt;/parent&gt;&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt; &lt;version&gt;1.5.3.RELEASE&lt;/version&gt;&lt;/dependency&gt; 2. 起步依赖 spring-boot-starter-xxSpring Boot提供了很多”开箱即用“的依赖模块，都是以spring-boot-starter-xx作为命名的。举个例子来说明一下这个起步依赖的好处，比如组装台式机和品牌机，自己组装的话需要自己去选择不同的零件，最后还要组装起来，期间有可能会遇到零件不匹配的问题。耗时又消力，而品牌机就好一点，买来就能直接用的，后续想换零件也是可以的。相比较之下，后者带来的效果更好点（这里就不讨论价格问题哈），起步依赖就像这里的品牌机，自动给你封装好了你想要实现的功能的依赖。就比如我们之前要实现web功能，引入了spring-boot-starter-web这个起步依赖。我们来看看spring-boot-starter-web到底依赖了哪些，如下图： 看来依赖如此之多，如果让我自己弄估计要调半天，所以Spring Boot通过提供众多起步依赖降低项目依赖的复杂度。起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或者某类功能。 3. Spring Boot Maven插件12345678&lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt; &lt;/plugin&gt; &lt;/plugins&gt;&lt;/build&gt; 上面的配置就是Spring Boot Maven插件，Spring Boot Maven插件提供了许多方便的功能： 把项目打包成一个可执行的超级JAR（uber-JAR）,包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用java -jar来运行应用程序。 搜索public static void main()方法来标记为可运行类。]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>SpringBoot</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[IDEA下maven的正确使用]]></title>
     <url>%2Fjava-idea-maven.html</url>
     <content type="text"><![CDATA[IDEA 下 SpringBoot 项目的运行SpringBoot 项目可以使用命令 mvn spring-boot:run 在命令行启动该应用，IDEA 中该命令在如下位置： 运行之后： 当看到如下命令，并且控制台没有任何异常信息。就可以在浏览器中对 SpringBoot 项目进行访问了。 命令行下 SpringBoot 项目的运行先在 maven 命令中运行 clean 命令，然后再运行 package 命令打包。IDEA 中命令在如下位置： 运行结果：BUILD SUCCESS 运行 mvn package 进行打包时，会打包成一个可以直接运行的 JAR 文件，使用 java -jar 命令就可以直接运行： 没有任何异常信息，运行成功之后就可以对 SpringBoot 项目进行访问了。 Maven有如下几种依赖范围：在引入dependency时，对一些依赖的作用范围梳理不清。 compile:编译依赖范围。如果没有指定，就会默认使用该依赖范围。使用此依赖范围的Maven依赖，对于编译、测试、运行三种classpath都有效。典型的例子是spring-code,在编译、测试和运行的时候都需要使用该依赖。 test: 测试依赖范围。使用次依赖范围的Maven依赖，只对于测试classpath有效，在编译主代码或者运行项目的使用时将无法使用此依赖。典型的例子是Jnuit,它只有在编译测试代码及运行测试的时候才需要。 provided:已提供依赖范围。使用此依赖范围的Maven依赖，对于编译和测试classpath有效，但在运行时候无效。典型的例子是servlet-api,编译和测试项目的时候需要该依赖，但在运行项目的时候，由于容器以及提供，就不需要Maven重复地引入一遍。(测试时不会启动容器，所以用不到容器默认提供的servlet-api，但是测试代码 又需要用到，所以在引入依赖时需要在标签中带上provided)。在项目运行时该依赖就不会起作用]]></content>
@@ -1273,6 +1262,17 @@
         <tag>IDEA</tag>
         <tag>Java</tag>
         <tag>Maven</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[解析 SpringBoot 项目的 pom.xml]]></title>
+    <url>%2Fframe-springboot-starter.html</url>
+    <content type="text"><![CDATA[1. Spring Boot父级依赖123456&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt; &lt;version&gt;1.5.4.RELEASE&lt;/version&gt; &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;&lt;/parent&gt; 这块配置就是Spring Boot父级依赖，有了这个，当前的项目就是Spring Boot项目了，spring-boot-starter-parent是一个特殊的starter,它用来提供相关的Maven默认依赖，使用它之后，常用的包依赖可以省去version标签。使用父级依赖提供的默认version。关于Spring Boot提供了哪些jar包的依赖，可查看C:\Users\用户.m2\repository\org\springframework\boot\spring-boot-dependencies\1.5.1.RELEASE\spring-boot-dependencies-1.5.1.RELEASE.pom 123456789101112131415161718&lt;properties&gt; &lt;!-- Dependency versions --&gt; &lt;activemq.version&gt;5.14.3&lt;/activemq.version&gt; &lt;antlr2.version&gt;2.7.7&lt;/antlr2.version&gt; &lt;appengine-sdk.version&gt;1.9.48&lt;/appengine-sdk.version&gt; &lt;artemis.version&gt;1.5.2&lt;/artemis.version&gt; &lt;aspectj.version&gt;1.8.9&lt;/aspectj.version&gt; &lt;assertj.version&gt;2.6.0&lt;/assertj.version&gt; &lt;atomikos.version&gt;3.9.3&lt;/atomikos.version&gt; &lt;bitronix.version&gt;2.1.4&lt;/bitronix.version&gt; &lt;caffeine.version&gt;2.3.5&lt;/caffeine.version&gt; &lt;cassandra-driver.version&gt;3.1.3&lt;/cassandra-driver.version&gt; &lt;classmate.version&gt;1.3.3&lt;/classmate.version&gt; &lt;commons-beanutils.version&gt;1.9.3&lt;/commons-beanutils.version&gt; &lt;commons-collections.version&gt;3.2.2&lt;/commons-collections.version&gt; &lt;spring-data-releasetrain.version&gt;Ingalls-RELEASE&lt;/spring-data-releasetrain.version&gt; ......&lt;/properties&gt; 如果你不想使用某个依赖默认的版本，您还可以通过覆盖自己的项目中的属性来覆盖各个依赖项。如下： 1234567891011&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt; &lt;version&gt;1.5.4.RELEASE&lt;/version&gt; &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;&lt;/parent&gt;&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt; &lt;version&gt;1.5.3.RELEASE&lt;/version&gt;&lt;/dependency&gt; 2. 起步依赖 spring-boot-starter-xxSpring Boot提供了很多”开箱即用“的依赖模块，都是以spring-boot-starter-xx作为命名的。举个例子来说明一下这个起步依赖的好处，比如组装台式机和品牌机，自己组装的话需要自己去选择不同的零件，最后还要组装起来，期间有可能会遇到零件不匹配的问题。耗时又消力，而品牌机就好一点，买来就能直接用的，后续想换零件也是可以的。相比较之下，后者带来的效果更好点（这里就不讨论价格问题哈），起步依赖就像这里的品牌机，自动给你封装好了你想要实现的功能的依赖。就比如我们之前要实现web功能，引入了spring-boot-starter-web这个起步依赖。我们来看看spring-boot-starter-web到底依赖了哪些，如下图： 看来依赖如此之多，如果让我自己弄估计要调半天，所以Spring Boot通过提供众多起步依赖降低项目依赖的复杂度。起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或者某类功能。 3. Spring Boot Maven插件12345678&lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt; &lt;/plugin&gt; &lt;/plugins&gt;&lt;/build&gt; 上面的配置就是Spring Boot Maven插件，Spring Boot Maven插件提供了许多方便的功能： 把项目打包成一个可执行的超级JAR（uber-JAR）,包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用java -jar来运行应用程序。 搜索public static void main()方法来标记为可运行类。]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
@@ -1343,6 +1343,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[SpringBoot启动原理解析]]></title>
+    <url>%2Fframe-springboot-run.html</url>
+    <content type="text"><![CDATA[启动类：123456@SpringBootApplicationpublic class SpringbootInitialApplication &#123; public static void main(String[] args) &#123; SpringApplication.run(SpringbootInitialApplication.class, args); &#125;&#125; 接下来着重分析两点： @SpringBootApplication SpringApplication.run SpringBootApplication123456789101112@Target(ElementType.TYPE)@Retention(RetentionPolicy.RUNTIME)@Documented@Inherited@SpringBootConfiguration@EnableAutoConfiguration@ComponentScan(excludeFilters = &#123; @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class), @Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) &#125;)public @interface SpringBootApplication &#123;...&#125; 这里实际重要的只有三个注解： @Configuration（@SpringBootConfiguration点开查看发现里面还是应用了@Configuration） @EnableAutoConfiguration @ComponentScan 所以，如果使用如下的SpringBoot启动类，与之前的启动类功能一致： 12345678@Configuration@EnableAutoConfiguration@ComponentScanpublic class SpringbootInitialApplication &#123; public static void main(String[] args) &#123; SpringApplication.run(SpringbootInitialApplication.class, args); &#125;&#125; 当然我选择比较懒的方式。推荐使用@SpringBootApplication。 @Configuration @Configuration对我们来说不陌生，它就是JavaConfig形式的Spring Ioc容器的配置类使用的那个@Configuration，SpringBoot社区推荐使用基于JavaConfig的配置形式，所以，这里的启动类标注了@Configuration之后，本身其实也是一个IOC容器的配置类。 简单回顾下，XML跟config配置方式的区别： 表达形式层面 基于XML配置的方式是这样： 1234567&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" default-lazy-init="true"&gt; &lt;!--bean定义--&gt;&lt;/beans&gt; 基于JavaConfig的配置方式是这样： 1234@Configurationpublic class MockConfiguration&#123; //bean定义&#125; 任何一个标注了@Configuration的Java类定义都是一个JavaConfig配置类。 注册bean定义层面 基于XML的配置形式是这样： 123&lt;bean id="mockService" class="..MockServiceImpl"&gt; ...&lt;/bean&gt; 基于JavaConfig的配置形式是这样： 1234567@Configurationpublic class MockConfiguration&#123; @Bean public MockService mockService()&#123; return new MockServiceImpl(); &#125;&#125; 任何一个标注了@Bean的方法，其返回值将作为一个bean定义注册到Spring的IOC容器(返回值对应xml配置文形式中的class属性)，方法名将默认成该bean定义的id。 表达依赖注入关系层面 为了表达bean与bean之间的依赖关系，在XML形式中一般是这样： 12345&lt;bean id="mockService" class="..MockServiceImpl"&gt; &lt;propery name ="dependencyService" ref="dependencyService" /&gt;&lt;/bean&gt;&lt;bean id="dependencyService" class="DependencyServiceImpl"&gt;&lt;/bean&gt; 基于JavaConfig的配置形式是这样的： 123456789101112@Configurationpublic class MockConfiguration&#123; @Bean public MockService mockService()&#123; return new MockServiceImpl(dependencyService());// 这里直接向MockServiceImpl的构造方法中调用依赖bean的创建方法即可 &#125; @Bean public DependencyService dependencyService()&#123; return new DependencyServiceImpl(); &#125;&#125; 如果一个bean的定义依赖其他bean,则直接调用对应的JavaConfig类中依赖的bean的创建方法就可以了。 @ComponentScan @ComponentScan这个注解在Spring中很重要，它对应XML配置中的元素，@ComponentScan的功能其实就是自动扫描并加载符合条件的组件（比如@Component和@Repository等）或者bean定义，最终将这些bean定义加载到IoC容器中。 我们可以通过basePackages等属性来细粒度的定制@ComponentScan自动扫描的范围，如果不指定，则默认Spring框架实现会从声明@ComponentScan所在类的package进行扫描。 注：所以SpringBoot的启动类最好是放在root package下，因为默认不指定basePackages。 @EnableAutoConfigurationSpring框架提供了各种名字为@Enable开头的Annotation定义。比如@EnableScheduling，@EnableCaching，@EnableMBeanExport等，@EnableAutoConfiguration的理念和做事方式其实一脉相承，简单概括一下就是：借助@Import的支持，收集和注册特定场景相关的bean。 @EnableScheduling是通过@Import将Spring调度框架相关的bean定义都加载到IOC容器。 @EnableMBeanExport是通过@Import将JMX相关的bean定义加载到IOC容器。 而@EnableAutoConfiguration也是借助@Import的帮助，将所有符合自动配置条件的bean定义加载到IOC容器，仅此而已！ @EnableAutoConfiguration作为一个复合Annotation,其自身定义关键信息如下： 12345678910@SuppressWarnings("deprecation")@Target(ElementType.TYPE)@Retention(RetentionPolicy.RUNTIME)@Documented@Inherited@AutoConfigurationPackage@Import(EnableAutoConfigurationImportSelector.class)public @interface EnableAutoConfiguration &#123; ...&#125; @Import其中，最关键的是@Import(EnableAutoConfigurationImportSelector.class)： 借助EnableAutoConfigurationImportSelector类，@EnableAutoConfiguration可以帮助SpringBoot应用将所有符合条件的@Configuration配置都加载到当前SpringBoot项目创建并使用的IOC容器。(注入作用) 就像一只“八爪鱼”一样。借助于Spring框架原有的一个工具类：SpringFactoriesLoader的支持，@EnableAutoConfiguration可以智能的自动配置功效才得以大功告成！(扫描作用) SpringFactoriesLoader SpringFactoriesLoader属于Spring框架私有的一种扩展方案，其主要功能就是从指定的配置文件META-INF/spring.factories加载配置。 1234567891011public abstract class SpringFactoriesLoader &#123; // factoryClass public static &lt;T&gt; List&lt;T&gt; loadFactories(Class&lt;T&gt; factoryClass, ClassLoader classLoader) &#123; ... &#125; // factoryClass public static List&lt;String&gt; loadFactoryNames(Class&lt;?&gt; factoryClass, ClassLoader classLoader) &#123; .... &#125;&#125; 配合@EnableAutoConfiguration使用的话，它更多是提供一种配置查找的功能支持，即根据@EnableAutoConfiguration的完整类名org.springframework.boot.autoconfigure.EnableAutoConfiguration作为查找的Key,获取对应的一组@Configuration类 上图就是从SpringBoot的autoconfigure依赖包中的META-INF/spring.factories配置文件中摘录的一段内容，可以很好地说明问题。 所以，@EnableAutoConfiguration自动配置就变成了：从classpath中搜寻所有的META-INF/spring.factories配置文件，并将其中org.springframework.boot.autoconfigure.EnableutoConfiguration对应的配置项通过反射（Java Refletion）实例化为对应的标注了@Configuration的JavaConfig形式的IOC容器配置类，然后汇总为一个并加载到IOC容器。 SpringApplication执行流程SpringApplication的run方法实现流程： 如果我们使用的是SpringApplication的静态run方法，那么，这个方法里面首先要创建一个SpringApplication对象实例，然后调用这个创建好的SpringApplication的实例方法。在SpringApplication实例初始化的时候，它会提前做几件事情： 根据classpath里面是否存在某个特征类（org.springframework.web.context.ConfigurableWebApplicationContext）来决定是否应该创建一个为Web应用使用的ApplicationContext类型。 使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationContextInitializer。 使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationListener。 推断并设置main方法的定义类。 SpringApplication实例初始化完成并且完成设置后，就开始执行run方法的逻辑了，方法执行伊始，首先遍历执行所有通过SpringFactoriesLoader可以查找到并加载的SpringApplicationRunListener。调用它们的started()方法，告诉这些SpringApplicationRunListener，SpringBoot应用要开始执行了。(启动监听器) 创建并配置当前Spring Boot应用将要使用的Environment（包括配置要使用的PropertySource以及Profile）。将配置文件中的配置信息应用到SpringBoot的上下文中 123456private ConfigurableEnvironment prepareEnvironment(SpringApplicationRunListeners listeners, ApplicationArguments applicationArguments) &#123; // 关键代码 ConfigurableEnvironment environment = this.getOrCreateEnvironment(); this.configureEnvironment((ConfigurableEnvironment)environment, applicat ··· &#125; 遍历调用所有SpringApplicationRunListener的environmentPrepared()的方法，告诉他们：当前SpringBoot应用使用的Environment准备好了。(函数回调) 123456private ConfigurableEnvironment prepareEnvironment(SpringApplicationRunListeners listeners, ApplicationArguments applicationArguments) &#123;// 回调函数 ··· // 关键代码 listeners.environmentPrepared((ConfigurableEnvironment)environment); ··· &#125; 如果SpringApplication的showBanner属性被设置为true，则打印banner。 根据用户是否明确设置了applicationContextClass类型以及初始化阶段的推断结果，决定该为当前SpringBoot应用创建什么类型的ApplicationContext并创建完成。 ​ 123456789101112protected ConfigurableApplicationContext createApplicationContext() &#123; Class&lt;?&gt; contextClass = this.applicationContextClass; if(contextClass == null) &#123; try &#123; contextClass = Class.forName(this.webEnvironment?"org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext":"org.springframework.context.annotation.AnnotationConfigApplicationContext"); &#125; catch (ClassNotFoundException var3) &#123; throw new IllegalStateException("Unable create a default ApplicationContext, please specify an ApplicationContextClass", var3); &#125; &#125; return (ConfigurableApplicationContext)BeanUtils.instantiate(contextClass);&#125; 然后根据条件决定是否使用自定义的ResourceLoader， 决定是否使用自定义的BeanNameGenerator， 决定是否添加ShutdownHook， 最重要的，将之前准备好的Environment设置给创建好的ApplicationContext使用。 ApplicationContext创建好之后，SpringApplication会再次借助SpringFactoriesLoader，查找并加载classpath中所有可用的ApplicationContextInitializer，然后遍历调用这些ApplicationContextInitializer的initialize（applicationContext）方法来对已经创建好的ApplicationContext进行进一步的处理。 遍历调用所有SpringApplicationRunListener的contextPrepared()方法。 最核心的一步，将之前通过@EnableAutoConfiguration获取的所有配置以及其他形式的IOC容器配置加载到已经准备完毕的ApplicationContext。 遍历调用所有SpringApplicationRunListener的contextLoaded()方法。 调用ApplicationContext的refresh()方法，完成IOC容器可用的最后一道工序。 查找当前ApplicationContext中是否注册有CommandLineRunner，如果有，则遍历执行它们。 正常情况下，遍历执行SpringApplicationRunListener的finished()方法、（如果整个过程出现异常，则依然调用所有SpringApplicationRunListener的finished()方法，只不过这种情况下会将异常信息一并传入处理） 去除事件通知点后，整个流程如下： 总结：SpringBoot的核心组件完成了基本的解析，综合来看，大部分都是Spring框架背后的一些概念和实践方式，SpringBoot只是在这些概念和实践上对特定的场景事先进行了固化和升华，而也恰恰是这些固化让我们开发基于Sping框架的应用更加方便高效。]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[SpringBoot + MariaDB]]></title>
     <url>%2Fframe-springboot-MariaDB.html</url>
     <content type="text"><![CDATA[首先来看维基上对MariaDB的描述： MariaDB数据库管理系统是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。 MariaDB的目的是完全兼容MySQL，包括API和命令行，使之能轻松成为MySQL的代替品。在存储引擎方面，10.0.9版起使用XtraDB（名称代号为Aria&amp;action=edit&amp;redlink=1)）来代替MySQL的InnoDB。 过去一年中，大型互联网用户以及Linux发行商纷纷抛弃MySQL，转投MariaDB阵营。MariaDB是目前最受关注的MySQL数据库衍生版，也被视为开源数据库MySQL的替代品。 MariaDB虽然被视为MySQL数据库的替代品，但它在扩展功能、存储引擎以及一些新的功能改进方面都强过MySQL。而且从MySQL迁移到MariaDB也是非常简单的： 数据和表定义文件（.frm）是二进制兼容的 所有客户端API、协议和结构都是完全一致的 所有文件名、二进制、路径、端口等都是一致的 所有的MySQL连接器，比如PHP、Perl、Python、Java、.NET、MyODBC、Ruby以及MySQL C connector等在MariaDB中都保持不变 mysql-client包在MariaDB服务器中也能够正常运行 共享的客户端库与MySQL也是二进制兼容的 也就是说，在大多数情况下，你完全可以卸载MySQL然后安装MariaDB，然后就可以像之前一样正常的运行。 如下是支持MariaDB的客户端工具： DBEdit 一个免费的MariaDB数据库和其他数据库管理应用程序。 Navicat 一系列Windows、Mac OS X、Linux下专有数据库管理应用程序。 HeidiSQL 一个Windows上自由和开放源码的MySQL客户端。它支持MariaDB的5.2.7版本和以后的版本。(在用) phpMyAdmin 一个基于网络的MySQL数据库管理应用程序 pom.xml： 123456&lt;!-- Mariadb 依赖 --&gt; &lt;dependency&gt; &lt;groupId&gt;org.mariadb.jdbc&lt;/groupId&gt; &lt;artifactId&gt;mariadb-java-client&lt;/artifactId&gt; &lt;version&gt;1.5.9&lt;/version&gt; &lt;/dependency&gt;]]></content>
@@ -1352,17 +1363,6 @@
       <tags>
         <tag>SpringBoot</tag>
         <tag>MariaDB</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[SpringBoot启动原理解析]]></title>
-    <url>%2Fframe-springboot-run.html</url>
-    <content type="text"><![CDATA[启动类：123456@SpringBootApplicationpublic class SpringbootInitialApplication &#123; public static void main(String[] args) &#123; SpringApplication.run(SpringbootInitialApplication.class, args); &#125;&#125; 接下来着重分析两点： @SpringBootApplication SpringApplication.run SpringBootApplication123456789101112@Target(ElementType.TYPE)@Retention(RetentionPolicy.RUNTIME)@Documented@Inherited@SpringBootConfiguration@EnableAutoConfiguration@ComponentScan(excludeFilters = &#123; @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class), @Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) &#125;)public @interface SpringBootApplication &#123;...&#125; 这里实际重要的只有三个注解： @Configuration（@SpringBootConfiguration点开查看发现里面还是应用了@Configuration） @EnableAutoConfiguration @ComponentScan 所以，如果使用如下的SpringBoot启动类，与之前的启动类功能一致： 12345678@Configuration@EnableAutoConfiguration@ComponentScanpublic class SpringbootInitialApplication &#123; public static void main(String[] args) &#123; SpringApplication.run(SpringbootInitialApplication.class, args); &#125;&#125; 当然我选择比较懒的方式。推荐使用@SpringBootApplication。 @Configuration @Configuration对我们来说不陌生，它就是JavaConfig形式的Spring Ioc容器的配置类使用的那个@Configuration，SpringBoot社区推荐使用基于JavaConfig的配置形式，所以，这里的启动类标注了@Configuration之后，本身其实也是一个IOC容器的配置类。 简单回顾下，XML跟config配置方式的区别： 表达形式层面 基于XML配置的方式是这样： 1234567&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd" default-lazy-init="true"&gt; &lt;!--bean定义--&gt;&lt;/beans&gt; 基于JavaConfig的配置方式是这样： 1234@Configurationpublic class MockConfiguration&#123; //bean定义&#125; 任何一个标注了@Configuration的Java类定义都是一个JavaConfig配置类。 注册bean定义层面 基于XML的配置形式是这样： 123&lt;bean id="mockService" class="..MockServiceImpl"&gt; ...&lt;/bean&gt; 基于JavaConfig的配置形式是这样： 1234567@Configurationpublic class MockConfiguration&#123; @Bean public MockService mockService()&#123; return new MockServiceImpl(); &#125;&#125; 任何一个标注了@Bean的方法，其返回值将作为一个bean定义注册到Spring的IOC容器(返回值对应xml配置文形式中的class属性)，方法名将默认成该bean定义的id。 表达依赖注入关系层面 为了表达bean与bean之间的依赖关系，在XML形式中一般是这样： 12345&lt;bean id="mockService" class="..MockServiceImpl"&gt; &lt;propery name ="dependencyService" ref="dependencyService" /&gt;&lt;/bean&gt;&lt;bean id="dependencyService" class="DependencyServiceImpl"&gt;&lt;/bean&gt; 基于JavaConfig的配置形式是这样的： 123456789101112@Configurationpublic class MockConfiguration&#123; @Bean public MockService mockService()&#123; return new MockServiceImpl(dependencyService());// 这里直接向MockServiceImpl的构造方法中调用依赖bean的创建方法即可 &#125; @Bean public DependencyService dependencyService()&#123; return new DependencyServiceImpl(); &#125;&#125; 如果一个bean的定义依赖其他bean,则直接调用对应的JavaConfig类中依赖的bean的创建方法就可以了。 @ComponentScan @ComponentScan这个注解在Spring中很重要，它对应XML配置中的元素，@ComponentScan的功能其实就是自动扫描并加载符合条件的组件（比如@Component和@Repository等）或者bean定义，最终将这些bean定义加载到IoC容器中。 我们可以通过basePackages等属性来细粒度的定制@ComponentScan自动扫描的范围，如果不指定，则默认Spring框架实现会从声明@ComponentScan所在类的package进行扫描。 注：所以SpringBoot的启动类最好是放在root package下，因为默认不指定basePackages。 @EnableAutoConfigurationSpring框架提供了各种名字为@Enable开头的Annotation定义。比如@EnableScheduling，@EnableCaching，@EnableMBeanExport等，@EnableAutoConfiguration的理念和做事方式其实一脉相承，简单概括一下就是：借助@Import的支持，收集和注册特定场景相关的bean。 @EnableScheduling是通过@Import将Spring调度框架相关的bean定义都加载到IOC容器。 @EnableMBeanExport是通过@Import将JMX相关的bean定义加载到IOC容器。 而@EnableAutoConfiguration也是借助@Import的帮助，将所有符合自动配置条件的bean定义加载到IOC容器，仅此而已！ @EnableAutoConfiguration作为一个复合Annotation,其自身定义关键信息如下： 12345678910@SuppressWarnings("deprecation")@Target(ElementType.TYPE)@Retention(RetentionPolicy.RUNTIME)@Documented@Inherited@AutoConfigurationPackage@Import(EnableAutoConfigurationImportSelector.class)public @interface EnableAutoConfiguration &#123; ...&#125; @Import其中，最关键的是@Import(EnableAutoConfigurationImportSelector.class)： 借助EnableAutoConfigurationImportSelector类，@EnableAutoConfiguration可以帮助SpringBoot应用将所有符合条件的@Configuration配置都加载到当前SpringBoot项目创建并使用的IOC容器。(注入作用) 就像一只“八爪鱼”一样。借助于Spring框架原有的一个工具类：SpringFactoriesLoader的支持，@EnableAutoConfiguration可以智能的自动配置功效才得以大功告成！(扫描作用) SpringFactoriesLoader SpringFactoriesLoader属于Spring框架私有的一种扩展方案，其主要功能就是从指定的配置文件META-INF/spring.factories加载配置。 1234567891011public abstract class SpringFactoriesLoader &#123; // factoryClass public static &lt;T&gt; List&lt;T&gt; loadFactories(Class&lt;T&gt; factoryClass, ClassLoader classLoader) &#123; ... &#125; // factoryClass public static List&lt;String&gt; loadFactoryNames(Class&lt;?&gt; factoryClass, ClassLoader classLoader) &#123; .... &#125;&#125; 配合@EnableAutoConfiguration使用的话，它更多是提供一种配置查找的功能支持，即根据@EnableAutoConfiguration的完整类名org.springframework.boot.autoconfigure.EnableAutoConfiguration作为查找的Key,获取对应的一组@Configuration类 上图就是从SpringBoot的autoconfigure依赖包中的META-INF/spring.factories配置文件中摘录的一段内容，可以很好地说明问题。 所以，@EnableAutoConfiguration自动配置就变成了：从classpath中搜寻所有的META-INF/spring.factories配置文件，并将其中org.springframework.boot.autoconfigure.EnableutoConfiguration对应的配置项通过反射（Java Refletion）实例化为对应的标注了@Configuration的JavaConfig形式的IOC容器配置类，然后汇总为一个并加载到IOC容器。 SpringApplication执行流程SpringApplication的run方法实现流程： 如果我们使用的是SpringApplication的静态run方法，那么，这个方法里面首先要创建一个SpringApplication对象实例，然后调用这个创建好的SpringApplication的实例方法。在SpringApplication实例初始化的时候，它会提前做几件事情： 根据classpath里面是否存在某个特征类（org.springframework.web.context.ConfigurableWebApplicationContext）来决定是否应该创建一个为Web应用使用的ApplicationContext类型。 使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationContextInitializer。 使用SpringFactoriesLoader在应用的classpath中查找并加载所有可用的ApplicationListener。 推断并设置main方法的定义类。 SpringApplication实例初始化完成并且完成设置后，就开始执行run方法的逻辑了，方法执行伊始，首先遍历执行所有通过SpringFactoriesLoader可以查找到并加载的SpringApplicationRunListener。调用它们的started()方法，告诉这些SpringApplicationRunListener，SpringBoot应用要开始执行了。(启动监听器) 创建并配置当前Spring Boot应用将要使用的Environment（包括配置要使用的PropertySource以及Profile）。将配置文件中的配置信息应用到SpringBoot的上下文中 123456private ConfigurableEnvironment prepareEnvironment(SpringApplicationRunListeners listeners, ApplicationArguments applicationArguments) &#123; // 关键代码 ConfigurableEnvironment environment = this.getOrCreateEnvironment(); this.configureEnvironment((ConfigurableEnvironment)environment, applicat ··· &#125; 遍历调用所有SpringApplicationRunListener的environmentPrepared()的方法，告诉他们：当前SpringBoot应用使用的Environment准备好了。(函数回调) 123456private ConfigurableEnvironment prepareEnvironment(SpringApplicationRunListeners listeners, ApplicationArguments applicationArguments) &#123;// 回调函数 ··· // 关键代码 listeners.environmentPrepared((ConfigurableEnvironment)environment); ··· &#125; 如果SpringApplication的showBanner属性被设置为true，则打印banner。 根据用户是否明确设置了applicationContextClass类型以及初始化阶段的推断结果，决定该为当前SpringBoot应用创建什么类型的ApplicationContext并创建完成。 ​ 123456789101112protected ConfigurableApplicationContext createApplicationContext() &#123; Class&lt;?&gt; contextClass = this.applicationContextClass; if(contextClass == null) &#123; try &#123; contextClass = Class.forName(this.webEnvironment?"org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext":"org.springframework.context.annotation.AnnotationConfigApplicationContext"); &#125; catch (ClassNotFoundException var3) &#123; throw new IllegalStateException("Unable create a default ApplicationContext, please specify an ApplicationContextClass", var3); &#125; &#125; return (ConfigurableApplicationContext)BeanUtils.instantiate(contextClass);&#125; 然后根据条件决定是否使用自定义的ResourceLoader， 决定是否使用自定义的BeanNameGenerator， 决定是否添加ShutdownHook， 最重要的，将之前准备好的Environment设置给创建好的ApplicationContext使用。 ApplicationContext创建好之后，SpringApplication会再次借助SpringFactoriesLoader，查找并加载classpath中所有可用的ApplicationContextInitializer，然后遍历调用这些ApplicationContextInitializer的initialize（applicationContext）方法来对已经创建好的ApplicationContext进行进一步的处理。 遍历调用所有SpringApplicationRunListener的contextPrepared()方法。 最核心的一步，将之前通过@EnableAutoConfiguration获取的所有配置以及其他形式的IOC容器配置加载到已经准备完毕的ApplicationContext。 遍历调用所有SpringApplicationRunListener的contextLoaded()方法。 调用ApplicationContext的refresh()方法，完成IOC容器可用的最后一道工序。 查找当前ApplicationContext中是否注册有CommandLineRunner，如果有，则遍历执行它们。 正常情况下，遍历执行SpringApplicationRunListener的finished()方法、（如果整个过程出现异常，则依然调用所有SpringApplicationRunListener的finished()方法，只不过这种情况下会将异常信息一并传入处理） 去除事件通知点后，整个流程如下： 总结：SpringBoot的核心组件完成了基本的解析，综合来看，大部分都是Spring框架背后的一些概念和实践方式，SpringBoot只是在这些概念和实践上对特定的场景事先进行了固化和升华，而也恰恰是这些固化让我们开发基于Sping框架的应用更加方便高效。]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
