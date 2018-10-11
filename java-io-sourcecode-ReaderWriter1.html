@@ -1,0 +1,1321 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="说明整个系列的文章全部参考或直接照搬下面两位作者的文章，这里只是根据自己需要对原作者的文章梳理的总结，仅给自己日后复习时提供思路，如有读者看到学习时建议移步原作。再次重申并非我所写  潘威威：Java8 I/O源码-目录 skywang12345：Java I/O系列   助于理解需要铭记的就是，字符输入输出流，最终我们都只是在操作各字符输入输出流中的char数组。所以它才叫字符输入输出流。各种不">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java IO源码分析 - Reader，Writer系列（一）">
+<meta property="og:url" content="http://www.jiyongguang.xin/java-io-sourcecode-ReaderWriter1.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="说明整个系列的文章全部参考或直接照搬下面两位作者的文章，这里只是根据自己需要对原作者的文章梳理的总结，仅给自己日后复习时提供思路，如有读者看到学习时建议移步原作。再次重申并非我所写  潘威威：Java8 I/O源码-目录 skywang12345：Java I/O系列   助于理解需要铭记的就是，字符输入输出流，最终我们都只是在操作各字符输入输出流中的char数组。所以它才叫字符输入输出流。各种不">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-9-29/63621796.jpg">
+<meta property="og:image" content="http://otsgsfu16.bkt.clouddn.com/18-9-29/50616007.jpg">
+<meta property="og:updated_time" content="2018-10-11T08:44:38.082Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java IO源码分析 - Reader，Writer系列（一）">
+<meta name="twitter:description" content="说明整个系列的文章全部参考或直接照搬下面两位作者的文章，这里只是根据自己需要对原作者的文章梳理的总结，仅给自己日后复习时提供思路，如有读者看到学习时建议移步原作。再次重申并非我所写  潘威威：Java8 I/O源码-目录 skywang12345：Java I/O系列   助于理解需要铭记的就是，字符输入输出流，最终我们都只是在操作各字符输入输出流中的char数组。所以它才叫字符输入输出流。各种不">
+<meta name="twitter:image" content="http://otsgsfu16.bkt.clouddn.com/18-9-29/63621796.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/java-io-sourcecode-ReaderWriter1.html"/>
+
+
+
+
+
+  <title> Java IO源码分析 - Reader，Writer系列（一） | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/java-io-sourcecode-ReaderWriter1.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java IO源码分析 - Reader，Writer系列（一）
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-11T16:40:30+08:00">
+                2018-10-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-10-11T16:44:38+08:00">
+                2018-10-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/java-io-sourcecode-ReaderWriter1.html" class="leancloud_visitors" data-flag-title="Java IO源码分析 - Reader，Writer系列（一）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  7,853
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  32
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>整个系列的文章<strong>全部参考或直接照搬</strong>下面两位作者的文章，这里只是根据自己需要对原作者的文章梳理的总结，仅给自己日后复习时提供思路，如有读者看到学习时建议移步原作。再次重申并非我所写</p>
+<ul>
+<li>潘威威：<a href="https://blog.csdn.net/panweiwei1994/article/details/78046000" target="_blank" rel="external">Java8 I/O源码-目录</a></li>
+<li>skywang12345：<a href="https://www.cnblogs.com/skywang12345/category/455711.html" target="_blank" rel="external">Java I/O系列</a> </li>
+</ul>
+<h1 id="助于理解"><a href="#助于理解" class="headerlink" title="助于理解"></a>助于理解</h1><p>需要铭记的就是，字符输入输出流，最终我们都只是在操作各字符输入输出流中的char数组。所以它才叫字符输入输出流。各种不同类型的字符输入输出流在构造时需要传入的对象也是Reader和Writer而不可能是InputStream和OutputStream。</p>
+<p>字符输入流操控字符，字节输入流操控字节。一定要搞清楚这一点。</p>
+<a id="more"></a>
+<h1 id="File"><a href="#File" class="headerlink" title="File"></a>File</h1><p>File 是“文件”和“目录路径名”的抽象表示形式。</p>
+<p>File 直接继承于Object，实现了Serializable接口和Comparable接口。实现Serializable接口，意味着File对象支持序列化操作。而实现Comparable接口，意味着File对象之间可以比较大小；File能直接被存储在有序集合(如TreeSet、TreeMap中)。</p>
+<p>File类源码分析，在分析File类源码的时候很多地方引用到了抽象类FileSystem的函数，而File类默认FileSystem的默认实例是WinNTFileSystem类。即Windows平台的文件系统对象，应该是我们下载时Java官方根据我们请求的主机来反回了不同jdk。</p>
+<p>由于扯到了WinNTFileSystem这个类，所以对于File类的函数，只要知道结果和File层异常抛出情况即可。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">File</span> <span class="keyword">implements</span> <span class="title">Serializable</span>, <span class="title">Comparable</span>&lt;<span class="title">File</span>&gt; </span>&#123;</div><div class="line">    </div><div class="line">     <span class="comment">// 代表所在平台的文件系统对象</span></div><div class="line">     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> FileSystem fs = DefaultFileSystem.getFileSystem();</div><div class="line">     <span class="comment">// 文件路径名</span></div><div class="line">     <span class="keyword">private</span> <span class="keyword">final</span> String path;</div><div class="line">     <span class="comment">// 内联枚举类,地址是否合法</span></div><div class="line">     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">enum</span> PathStatus &#123; INVALID, CHECKED &#125;;</div><div class="line">     <span class="comment">// 指示文件路径是否无效的标志</span></div><div class="line">     <span class="keyword">private</span> <span class="keyword">transient</span> PathStatus status = <span class="keyword">null</span>;</div><div class="line">     <span class="comment">// 路径前缀的长度</span></div><div class="line">     <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">transient</span> <span class="keyword">int</span> prefixLength;</div><div class="line">     <span class="comment">// 分隔符，分隔同一个路径字符串中的目录的</span></div><div class="line">     <span class="comment">// UNIX systems is '/' | Microsoft is '\\'</span></div><div class="line">     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">char</span> separatorChar = fs.getSeparator();</div><div class="line">     <span class="comment">// 分隔符</span></div><div class="line">     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String separator = <span class="string">""</span> + separatorChar;</div><div class="line">     <span class="comment">// 路径分割符,分隔连续多个路径字符串的分隔符。</span></div><div class="line">     <span class="comment">// UNIX systems this character is ':' | on Microsoft Windows systems it is ';'</span></div><div class="line">     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">char</span> pathSeparatorChar = fs.getPathSeparator();</div><div class="line">     <span class="comment">// 路径分割符</span></div><div class="line">     <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String pathSeparator = <span class="string">""</span> + pathSeparatorChar;</div><div class="line">     </div><div class="line">     <span class="comment">//根据 parent 父路径和 child 子路径名字符串创建一个新 File 实例</span></div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="title">File</span><span class="params">(File parent, String child)</span> </span>&#123;<span class="comment">// this.path，this.prefixLength</span></div><div class="line">     &#125;</div><div class="line">     </div><div class="line">     <span class="comment">//通过将给定路径字符串转换为抽象路径名来创建一个新 File 实例。</span></div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="title">File</span><span class="params">(String pathname)</span> </span>&#123;</div><div class="line">     &#125;</div><div class="line">     </div><div class="line">     <span class="comment">// 根据 parent 父路径名字符串和 child 子路径名字符串创建一个新 File 实例。</span></div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="title">File</span><span class="params">(String parent, String child)</span> </span>&#123;</div><div class="line">     &#125;</div><div class="line">     </div><div class="line">     <span class="comment">// 通过将给定的 file: URI 转换为一个抽象路径名来创建一个新的 File 实例。</span></div><div class="line">     <span class="function"><span class="keyword">public</span> <span class="title">File</span><span class="params">(URI uri)</span> </span>&#123;</div><div class="line">     &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>看完File类的成员变量后，我们大致了解了File类有哪些信息供直接表示，以及File类的所有构造函数并没有真正的构造File对象，<strong>都</strong>是先初始化了path，prefixLength两个成员变量。</p>
+<h2 id="File类函数列表即释义"><a href="#File类函数列表即释义" class="headerlink" title="File类函数列表即释义"></a>File类函数列表即释义</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 成员函数</span></div><div class="line"><span class="function"><span class="keyword">boolean</span>    <span class="title">canExecute</span><span class="params">()</span>    <span class="comment">// 测试应用程序是否可以执行此抽象路径名表示的文件。</span></span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">canRead</span><span class="params">()</span>       <span class="comment">// 测试应用程序是否可以读取此抽象路径名表示的文件。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">canWrite</span><span class="params">()</span>      <span class="comment">// 测试应用程序是否可以修改此抽象路径名表示的文件。</span></div><div class="line"><span class="keyword">int</span>    <span class="title">compareTo</span><span class="params">(File pathname)</span>    <span class="comment">// 按字母顺序比较两个抽象路径名。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">createNewFile</span><span class="params">()</span>         <span class="comment">// 当且仅当不存在具有此抽象路径名指定名称的文件时，不可分地创建一个新的空文件。</span></div><div class="line"><span class="keyword">static</span> File    <span class="title">createTempFile</span><span class="params">(String prefix, String suffix)</span>    <span class="comment">// 在默认临时文件目录中创建一个空文件，使用给定前缀和后缀生成其名称。</span></div><div class="line"><span class="keyword">static</span> File    <span class="title">createTempFile</span><span class="params">(String prefix, String suffix, File directory)</span>    <span class="comment">// 在指定目录中创建一个新的空文件，使用给定的前缀和后缀字符串生成其名称。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">delete</span><span class="params">()</span>             <span class="comment">// 删除此抽象路径名表示的文件或目录。</span></div><div class="line"><span class="keyword">void</span>    <span class="title">deleteOnExit</span><span class="params">()</span>       <span class="comment">// 在虚拟机终止时，请求删除此抽象路径名表示的文件或目录。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">equals</span><span class="params">(Object obj)</span>   <span class="comment">// 测试此抽象路径名与给定对象是否相等。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">exists</span><span class="params">()</span>             <span class="comment">// 测试此抽象路径名表示的文件或目录是否存在。</span></div><div class="line">File    <span class="title">getAbsoluteFile</span><span class="params">()</span>    <span class="comment">// 返回此抽象路径名的绝对路径名形式。</span></div><div class="line">String    <span class="title">getAbsolutePath</span><span class="params">()</span>    <span class="comment">// 返回此抽象路径名的绝对路径名字符串。</span></div><div class="line">File    <span class="title">getCanonicalFile</span><span class="params">()</span>   <span class="comment">// 返回此抽象路径名的规范形式。</span></div><div class="line">String    <span class="title">getCanonicalPath</span><span class="params">()</span>   <span class="comment">// 返回此抽象路径名的规范路径名字符串。</span></div><div class="line"><span class="keyword">long</span>    <span class="title">getFreeSpace</span><span class="params">()</span>       <span class="comment">// 返回此抽象路径名指定的分区中未分配的字节数。</span></div><div class="line">String    <span class="title">getName</span><span class="params">()</span>            <span class="comment">// 返回由此抽象路径名表示的文件或目录的名称。</span></div><div class="line">String    <span class="title">getParent</span><span class="params">()</span>          <span class="comment">// 返回此抽象路径名父目录的路径名字符串；如果此路径名没有指定父目录，则返回 null。</span></div><div class="line">File    <span class="title">getParentFile</span><span class="params">()</span>      <span class="comment">// 返回此抽象路径名父目录的抽象路径名；如果此路径名没有指定父目录，则返回 null。</span></div><div class="line">String    <span class="title">getPath</span><span class="params">()</span>            <span class="comment">// 将此抽象路径名转换为一个路径名字符串。</span></div><div class="line"><span class="keyword">long</span>    <span class="title">getTotalSpace</span><span class="params">()</span>      <span class="comment">// 返回此抽象路径名指定的分区大小。</span></div><div class="line"><span class="keyword">long</span>    <span class="title">getUsableSpace</span><span class="params">()</span>     <span class="comment">// 返回此抽象路径名指定的分区上可用于此虚拟机的字节数。</span></div><div class="line"><span class="keyword">int</span>    <span class="title">hashCode</span><span class="params">()</span>               <span class="comment">// 计算此抽象路径名的哈希码。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">isAbsolute</span><span class="params">()</span>         <span class="comment">// 测试此抽象路径名是否为绝对路径名。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">isDirectory</span><span class="params">()</span>        <span class="comment">// 测试此抽象路径名表示的文件是否是一个目录。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">isFile</span><span class="params">()</span>             <span class="comment">// 测试此抽象路径名表示的文件是否是一个标准文件。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">isHidden</span><span class="params">()</span>           <span class="comment">// 测试此抽象路径名指定的文件是否是一个隐藏文件。</span></div><div class="line"><span class="keyword">long</span>    <span class="title">lastModified</span><span class="params">()</span>       <span class="comment">// 返回此抽象路径名表示的文件最后一次被修改的时间。</span></div><div class="line"><span class="keyword">long</span>    <span class="title">length</span><span class="params">()</span>             <span class="comment">// 返回由此抽象路径名表示的文件的长度。</span></div><div class="line">String[]    <span class="title">list</span><span class="params">()</span>           <span class="comment">// 返回一个字符串数组，这些字符串指定此抽象路径名表示的目录中的文件和目录。</span></div><div class="line">String[]    <span class="title">list</span><span class="params">(FilenameFilter filter)</span>    <span class="comment">// 返回一个字符串数组，这些字符串指定此抽象路径名表示的目录中满足指定过滤器的文件和目录。</span></div><div class="line">File[]    <span class="title">listFiles</span><span class="params">()</span>                        <span class="comment">// 返回一个抽象路径名数组，这些路径名表示此抽象路径名表示的目录中的文件。</span></div><div class="line">File[]    <span class="title">listFiles</span><span class="params">(FileFilter filter)</span>       <span class="comment">// 返回抽象路径名数组，这些路径名表示此抽象路径名表示的目录中满足指定过滤器的文件和目录。</span></div><div class="line">File[]    <span class="title">listFiles</span><span class="params">(FilenameFilter filter)</span>   <span class="comment">// 返回抽象路径名数组，这些路径名表示此抽象路径名表示的目录中满足指定过滤器的文件和目录。</span></div><div class="line"><span class="keyword">static</span> File[]    <span class="title">listRoots</span><span class="params">()</span>    <span class="comment">// 列出可用的文件系统根。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">mkdir</span><span class="params">()</span>     <span class="comment">// 创建此抽象路径名指定的目录。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">mkdirs</span><span class="params">()</span>    <span class="comment">// 创建此抽象路径名指定的目录，包括所有必需但不存在的父目录。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">renameTo</span><span class="params">(File dest)</span>    <span class="comment">// 重新命名此抽象路径名表示的文件。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">setExecutable</span><span class="params">(<span class="keyword">boolean</span> executable)</span>    <span class="comment">// 设置此抽象路径名所有者执行权限的一个便捷方法。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">setExecutable</span><span class="params">(<span class="keyword">boolean</span> executable, <span class="keyword">boolean</span> ownerOnly)</span>    <span class="comment">// 设置此抽象路径名的所有者或所有用户的执行权限。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">setLastModified</span><span class="params">(<span class="keyword">long</span> time)</span>       <span class="comment">// 设置此抽象路径名指定的文件或目录的最后一次修改时间。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">setReadable</span><span class="params">(<span class="keyword">boolean</span> readable)</span>    <span class="comment">// 设置此抽象路径名所有者读权限的一个便捷方法。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">setReadable</span><span class="params">(<span class="keyword">boolean</span> readable, <span class="keyword">boolean</span> ownerOnly)</span>    <span class="comment">// 设置此抽象路径名的所有者或所有用户的读权限。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">setReadOnly</span><span class="params">()</span>                    <span class="comment">// 标记此抽象路径名指定的文件或目录，从而只能对其进行读操作。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">setWritable</span><span class="params">(<span class="keyword">boolean</span> writable)</span>    <span class="comment">// 设置此抽象路径名所有者写权限的一个便捷方法。</span></div><div class="line"><span class="keyword">boolean</span>    <span class="title">setWritable</span><span class="params">(<span class="keyword">boolean</span> writable, <span class="keyword">boolean</span> ownerOnly)</span>    <span class="comment">// 设置此抽象路径名的所有者或所有用户的写权限。</span></div><div class="line">String    <span class="title">toString</span><span class="params">()</span>    <span class="comment">// 返回此抽象路径名的路径名字符串。</span></div><div class="line">URI    <span class="title">toURI</span><span class="params">()</span>    <span class="comment">// 构造一个表示此抽象路径名的 file: URI。</span></div><div class="line">URL    <span class="title">toURL</span><span class="params">()</span>    <span class="comment">// 已过时。 此方法不会自动转义 URL 中的非法字符。建议新的代码使用以下方式将抽象路径名转换为 URL：首先通过 toURI 方法将其转换为 URI，然后通过 URI.toURL 方法将 URI 装换为 URL。</span></div></pre></td></tr></table></figure>
+<h2 id="File类API典型应用"><a href="#File类API典型应用" class="headerlink" title="File类API典型应用"></a>File类API典型应用</h2><h3 id="当前目录的子目录下，再新建一个目录"><a href="#当前目录的子目录下，再新建一个目录" class="headerlink" title="当前目录的子目录下，再新建一个目录"></a>当前目录的子目录下，再新建一个目录</h3><p>例如，我们想要在当前目录的子目录“dir”下，再新建一个子目录。有一下几种方法:</p>
+<p>方法1<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">File sub1 = <span class="keyword">new</span> File(<span class="string">"dir"</span>, <span class="string">"sub1"</span>);</div><div class="line">sub1.mkdir();</div></pre></td></tr></table></figure></p>
+<p>说明：上面的方法作用是，在当前目录下 “dir/sub1”。它能正常运行的前提是“sub1”的父目录“dir”已经存在！</p>
+<p>方法2<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">File sub2 = <span class="keyword">new</span> File(dir, <span class="string">"sub2"</span>);</div><div class="line">sub2.mkdir();</div></pre></td></tr></table></figure></p>
+<p>说明：上面的方法作用是，在当前目录下 “dir/sub2”。它能正常运行的前提是“sub2”的父目录“dir”已经存在！</p>
+<p>方法3<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">File sub3 = <span class="keyword">new</span> File(<span class="string">"dir/sub3"</span>);</div><div class="line">sub3.mkdirs();</div></pre></td></tr></table></figure></p>
+<p>说明：上面的方法作用是，在当前目录下 “dir/sub3”。它不需要dir已经存在，也能正常运行；若“sub3”的父母路不存在，mkdirs()方法会自动创建父目录。</p>
+<h3 id="新建文件的几种常用方法"><a href="#新建文件的几种常用方法" class="headerlink" title="新建文件的几种常用方法"></a>新建文件的几种常用方法</h3><p>例如，我们想要在当前目录的子目录“dir”下，新建一个文件。有一下几种方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    File dir = <span class="keyword">new</span> File(<span class="string">"dir"</span>);    <span class="comment">// 获取目录“dir”对应的File对象</span></div><div class="line">    File file1 = <span class="keyword">new</span> File(dir, <span class="string">"file1.txt"</span>);</div><div class="line">    file1.createNewFile();</div><div class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">    e.printStackTrace();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>说明：上面代码作用是，在“dir”目录(相对路径)下新建文件“file1.txt”。</p>
+<p>方法2<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    File file2 = <span class="keyword">new</span> File(<span class="string">"dir"</span>, <span class="string">"file2.txt"</span>);</div><div class="line">    file2.createNewFile();</div><div class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">    e.printStackTrace();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>说明：上面代码作用是，在“dir”目录(相对路径)下新建文件“file2.txt”。</p>
+<p>方法3<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    File file3 = <span class="keyword">new</span> File(<span class="string">"D:/dir/file4.txt"</span>);</div><div class="line">    file3.createNewFile();</div><div class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">    e.printStackTrace();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>上面代码作用是，下新建文件“D:/dir/file4.txt”(绝对路径)。</p>
+<h1 id="FileDescriptor"><a href="#FileDescriptor" class="headerlink" title="FileDescriptor"></a>FileDescriptor</h1><ul>
+<li>FileDescriptor 是“文件描述符”。</li>
+<li>FileDescriptor 可以被用来表示开放文件、开放套接字等。</li>
+<li>以FileDescriptor表示文件来说：<strong>当FileDescriptor表示某文件时，我们可以通俗的将FileDescriptor看成是该文件。但是，我们不能直接通过FileDescriptor对该文件进行操作；若需要通过FileDescriptor对该文件进行操作，则需要新创建FileDescriptor对应的FileOutputStream，再对文件进行操作。</strong></li>
+</ul>
+<h2 id="in-out-err介绍"><a href="#in-out-err介绍" class="headerlink" title="in, out, err介绍"></a>in, out, err介绍</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(<span class="number">01</span>) in  -- 标准输入(键盘)的描述符</div><div class="line">(<span class="number">02</span>) out -- 标准输出(屏幕)的描述符</div><div class="line">(<span class="number">03</span>) err -- 标准错误输出(屏幕)的描述符</div></pre></td></tr></table></figure>
+<p>它们3个的原理和用法都类似。</p>
+<p>out是标准输出(屏幕)的描述符。但是它有什么作用呢？<br>我们可以通俗理解，out就代表了标准输出(屏幕)。若我们要输出信息到屏幕上，即可通过out来进行操作；但是，out又没有提供输出信息到屏幕的接口(因为out本质是FileDescriptor对象，而FileDescriptor没有输出接口)。怎么办呢？<br>很简单，我们创建out对应的“输出流对象”，然后通过“输出流”的write()等输出接口就可以将信息输出到屏幕上。如下代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    FileOutputStream out = <span class="keyword">new</span> FileOutputStream(FileDescriptor.out);</div><div class="line">    out.write(<span class="string">'A'</span>);</div><div class="line">    out.close();</div><div class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>执行上面的程序，会在屏幕上输出字母’A’。</p>
+<p>为了方便我们操作，java早已为我们封装好了“能方便的在屏幕上输出信息的接口”：通过<code>System.out</code>，我们能方便的输出信息到屏幕上。<br>因此，我们可以等价的将上面的程序转换为如下代码：<br><code>System.out.print(&#39;A&#39;)</code>;</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> FileDescriptor out = standardStream(<span class="number">1</span>);</div><div class="line"> </div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> FileDescriptor <span class="title">standardStream</span><span class="params">(<span class="keyword">int</span> fd)</span> </span>&#123;</div><div class="line">    FileDescriptor desc = <span class="keyword">new</span> FileDescriptor();</div><div class="line">    desc.handle = set(fd);</div><div class="line">    <span class="keyword">return</span> desc;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 构造一个无效的FileDescriptor对象</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="comment">/**/ FileDescriptor() &#123;</span></div><div class="line">    fd = -1;</div><div class="line">    handle = -1;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>由于standardStream函数中调用的set函数是JNI，所以我们只能推测默认构造函数生成的FileDescriptor对象是无效的FileDescriptor对象。由此可知要想生成一个有效的FileDescriptor对象只能选择其内部声明好的3个静态域对象。至此我们大致也能猜出set函数应该是对fd变量赋值，并将返回值赋予handle，执行成功那么该返回的对象desc就不再是一个无效的FileDescriptor对象了。</p>
+<p>fd对象是非常重要的一个变量，“fd=1”就代表了“标准输出”，“fd=0”就代表了“标准输入”，“fd=2”就代表了“标准错误输出”。</p>
+<p>FileOutputStream out = new FileOutputStream(FileDescriptor.out); 就是利用构造函数FileOutputStream(FileDescriptor fdObj)来创建“Filed.out对应的FileOutputStream对象”。</p>
+<p>通过上面的学习，我们知道，我们可以自定义标准的文件描述符[即，in(标准输入),out(标准输出),err(标准错误输出)]的流，从而完成输入/输出功能；但是，java已经为我们封装好了相应的接口，即我们可以更方便的System.in, System.out, System.err去使用它们。</p>
+<h1 id="FileInputStream，FileOutputStream"><a href="#FileInputStream，FileOutputStream" class="headerlink" title="FileInputStream，FileOutputStream"></a>FileInputStream，FileOutputStream</h1><p><code>FileInputStream</code>是文件输入流，用于从文件系统中的某个文件中获得输入字节。FileInputStream用于读取诸如图像数据之类的原始字节流。要读取字符流，请考虑使用<code>FileReader</code>。</p>
+<p><code>FileOutputStream</code>是文件输出流，用于将数据写入<code>File</code>或<code>FileDescriptor</code>的输出流。FileOutputStream用于写入诸如图像数据之类的原始字节的流。要写入字符流，请考虑使用<code>FileWriter</code>。</p>
+<h2 id="FileInputStream"><a href="#FileInputStream" class="headerlink" title="FileInputStream"></a>FileInputStream</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileInputStream</span> <span class="keyword">extends</span> <span class="title">InputStream</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//打开的文件的文件描述符，负责handle文件</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> FileDescriptor fd;</div><div class="line">    <span class="comment">//引用文件的路径，null if the stream is created with a file descriptor</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String path;</div><div class="line">    <span class="comment">//文件通道</span></div><div class="line">    <span class="keyword">private</span> FileChannel channel = <span class="keyword">null</span>;</div><div class="line">    <span class="comment">//关闭锁</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Object closeLock = <span class="keyword">new</span> Object();</div><div class="line">    <span class="comment">//标识流是否关闭</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> closed = <span class="keyword">false</span>;</div><div class="line">    </div><div class="line">    <span class="comment">// 根据传入的文件名来创建File对象</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileInputStream</span><span class="params">(String name)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</div><div class="line">        <span class="keyword">this</span>(name != <span class="keyword">null</span> ? <span class="keyword">new</span> File(name) : <span class="keyword">null</span>);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileInputStream</span><span class="params">(File file)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</div><div class="line">        <span class="comment">//获取文件名</span></div><div class="line">        String name = (file != <span class="keyword">null</span> ? file.getPath() : <span class="keyword">null</span>);</div><div class="line">        <span class="comment">//获取安全管理器</span></div><div class="line">        SecurityManager security = System.getSecurityManager();</div><div class="line">        <span class="keyword">if</span> (security != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="comment">//如果调用线程没有访问指定文件的权限,抛出SecurityException</span></div><div class="line">            security.checkRead(name);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (name == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (file.isInvalid()) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> FileNotFoundException(<span class="string">"Invalid file path"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//fd表示此文件连接</span></div><div class="line">        fd = <span class="keyword">new</span> FileDescriptor();</div><div class="line">        fd.attach(<span class="keyword">this</span>);</div><div class="line">        path = name;</div><div class="line">        <span class="comment">//打开文件以便读取</span></div><div class="line">        open(name);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="close，getChannel，getFD，finalize"><a href="#close，getChannel，getFD，finalize" class="headerlink" title="close，getChannel，getFD，finalize"></a>close，getChannel，getFD，finalize</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 关闭此文件输入流并释放与此流有关的所有系统资源。</span></div><div class="line"><span class="comment">// 如果此流有一个与之关联的通道，则关闭该通道</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (closeLock) &#123;</div><div class="line">        <span class="keyword">if</span> (closed) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line">        closed = <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//如果此流有一个与之关联的通道，则关闭该通道。</span></div><div class="line">    <span class="keyword">if</span> (channel != <span class="keyword">null</span>) &#123;</div><div class="line">       channel.close();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    fd.closeAll(<span class="keyword">new</span> Closeable() &#123;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">           close0();</div><div class="line">       &#125;</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 返回与此文件输入流有关的唯一FileChannel对象。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> FileChannel <span class="title">getChannel</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (channel == <span class="keyword">null</span>) &#123;</div><div class="line">            channel = FileChannelImpl.open(fd, path, <span class="keyword">true</span>, <span class="keyword">false</span>, <span class="keyword">this</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> channel;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 返回表示到文件系统中实际文件的连接的FileDescriptor对象</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> FileDescriptor <span class="title">getFD</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">if</span> (fd != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span> fd;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IOException();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 确保在不再引用文件输入流时调用其close方法。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">finalize</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">if</span> ((fd != <span class="keyword">null</span>) &amp;&amp;  (fd != FileDescriptor.in)) &#123;</div><div class="line">        close();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="FileOutputStream"><a href="#FileOutputStream" class="headerlink" title="FileOutputStream"></a>FileOutputStream</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileOutputStream</span> <span class="keyword">extends</span> <span class="title">OutputStream</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 文件描述符</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> FileDescriptor fd;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 标识添加还是替换文件的内容</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> append;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 关联的通道</div><div class="line">     * 懒加载</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> FileChannel channel;</div><div class="line">    <span class="comment">//引用文件的路径</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String path;</div><div class="line">    <span class="comment">//锁</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> Object closeLock = <span class="keyword">new</span> Object();</div><div class="line">    <span class="comment">//标识流是否关闭</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">boolean</span> closed = <span class="keyword">false</span>;</div><div class="line">    </div><div class="line">    <span class="comment">// 创建一个向具有指定name的文件中写入数据的输出文件流。</span></div><div class="line">    <span class="comment">// 如果第二个参数为append为true，则将字节写入文件末尾处，而不是写入文件开始处。</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileOutputStream</span><span class="params">(String name, <span class="keyword">boolean</span> append)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</div><div class="line">        <span class="keyword">this</span>(name != <span class="keyword">null</span> ? <span class="keyword">new</span> File(name) : <span class="keyword">null</span>, append);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 创建一个向指定文件描述符处写入数据的输出文件流，该文件描述符表示一个到文件系统中的某个实际文件的现有连接。</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileOutputStream</span><span class="params">(FileDescriptor fdObj)</span> </span>&#123;</div><div class="line">        SecurityManager security = System.getSecurityManager();</div><div class="line">        <span class="keyword">if</span> (fdObj == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (security != <span class="keyword">null</span>) &#123;</div><div class="line">            security.checkWrite(fdObj);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.fd = fdObj;</div><div class="line">        <span class="keyword">this</span>.append = <span class="keyword">false</span>;</div><div class="line">        <span class="keyword">this</span>.path = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        fd.attach(<span class="keyword">this</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="write"><a href="#write" class="headerlink" title="write"></a>write</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 将指定字节写入此文件输出流。</span></div><div class="line"><span class="comment">// append 控制是写到文件尾还是头</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">native</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">int</span> b, <span class="keyword">boolean</span> append)</span> <span class="keyword">throws</span> IOException</span>;</div></pre></td></tr></table></figure>
+<p>可以看出FileOutputStream和FileInputStream的相同功能函数处理逻辑一致。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>FileInputStream是文件输入流，用于从文件系统中的某个文件中获得输入字节。FileInputStream用于读取诸如图像数据之类的原始字节流。要读取字符流，请考虑使用FileReader。</li>
+<li>FileOutputStream是文件输出流，用于将数据写入File或FileDescriptor的输出流。FileOutputStream用于写入诸如图像数据之类的原始字节的流。要写入字符流，请考虑使用FileWriter。</li>
+<li>Java语言本身不能对操作系统底层进行访问和操作，但是可以通过JNI接口调用其他语言来实现对底层的访问。</li>
+<li>FileInputStream不支持mark方法与set方法。</li>
+</ul>
+<h1 id="ObjectInputStream，ObjectOutputStream"><a href="#ObjectInputStream，ObjectOutputStream" class="headerlink" title="ObjectInputStream，ObjectOutputStream"></a>ObjectInputStream，ObjectOutputStream</h1><p>ObjectInputStream 和 ObjectOutputStream 的作用是，<strong>对基本数据和对象进行==序列化操作==支持。</strong></p>
+<p>创建“文件输出流”对应的ObjectOutputStream对象，该ObjectOutputStream对象能提供对“基本数据或对象”的持久存储；当我们需要读取这些存储的“基本数据或对象”时，可以创建“文件输入流”对应的ObjectInputStream，进而读取出这些“基本数据或对象”。</p>
+<p><strong>==注意==</strong>： 只有支持 java.io.Serializable 或 java.io.Externalizable 接口的对象才能被ObjectInputStream/ObjectOutputStream所操作！</p>
+<p>头<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectOutputStream</span></span></div><div class="line">    <span class="keyword">extends</span> <span class="title">OutputStream</span> <span class="keyword">implements</span> <span class="title">ObjectOutput</span>, <span class="title">ObjectStreamConstants</span> &#123;</div><div class="line">    </div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectInputStream</span></span></div><div class="line">    <span class="keyword">extends</span> <span class="title">InputStream</span> <span class="keyword">implements</span> <span class="title">ObjectInput</span>, <span class="title">ObjectStreamConstants</span> &#123;</div><div class="line">    </div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>演示程序<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * ObjectInputStream 和 ObjectOutputStream 测试程序</div><div class="line"> *</div><div class="line"> * 注意：通过ObjectInputStream, ObjectOutputStream操作的对象，必须是实现了Serializable或Externalizable序列化接口的类的实例。</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> skywang</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.FileInputStream;   </div><div class="line"><span class="keyword">import</span> java.io.FileOutputStream;   </div><div class="line"><span class="keyword">import</span> java.io.ObjectInputStream;   </div><div class="line"><span class="keyword">import</span> java.io.ObjectOutputStream;   </div><div class="line"><span class="keyword">import</span> java.io.Serializable;   </div><div class="line"><span class="keyword">import</span> java.util.Map;</div><div class="line"><span class="keyword">import</span> java.util.HashMap;</div><div class="line"><span class="keyword">import</span> java.util.Iterator;</div><div class="line">  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectStreamTest</span> </span>&#123; </div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TMP_FILE = <span class="string">"box.tmp"</span>;</div><div class="line">  </div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;   </div><div class="line">        testWrite();</div><div class="line">        testRead();</div><div class="line">    &#125;</div><div class="line">  </div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * ObjectOutputStream 测试函数</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testWrite</span><span class="params">()</span> </span>&#123;   </div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            ObjectOutputStream out = <span class="keyword">new</span> ObjectOutputStream(</div><div class="line">                    <span class="keyword">new</span> FileOutputStream(TMP_FILE));</div><div class="line">            out.writeBoolean(<span class="keyword">true</span>);</div><div class="line">            out.writeByte((<span class="keyword">byte</span>)<span class="number">65</span>);</div><div class="line">            out.writeChar(<span class="string">'a'</span>);</div><div class="line">            out.writeInt(<span class="number">20131015</span>);</div><div class="line">            out.writeFloat(<span class="number">3.14F</span>);</div><div class="line">            out.writeDouble(<span class="number">1.414</span>D);</div><div class="line">            <span class="comment">// 写入HashMap对象</span></div><div class="line">            HashMap map = <span class="keyword">new</span> HashMap();</div><div class="line">            map.put(<span class="string">"one"</span>, <span class="string">"red"</span>);</div><div class="line">            map.put(<span class="string">"two"</span>, <span class="string">"green"</span>);</div><div class="line">            map.put(<span class="string">"three"</span>, <span class="string">"blue"</span>);</div><div class="line">            out.writeObject(map);</div><div class="line">            <span class="comment">// 写入自定义的Box对象，Box实现了Serializable接口</span></div><div class="line">            Box box = <span class="keyword">new</span> Box(<span class="string">"desk"</span>, <span class="number">80</span>, <span class="number">48</span>);</div><div class="line">            out.writeObject(box);</div><div class="line"></div><div class="line">            out.close();</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception ex) &#123;</div><div class="line">            ex.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * ObjectInputStream 测试函数</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testRead</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            ObjectInputStream in = <span class="keyword">new</span> ObjectInputStream(</div><div class="line">                    <span class="keyword">new</span> FileInputStream(TMP_FILE));</div><div class="line">            System.out.printf(<span class="string">"boolean:%b\n"</span> , in.readBoolean());</div><div class="line">            System.out.printf(<span class="string">"byte:%d\n"</span> , (in.readByte()&amp;<span class="number">0xff</span>));</div><div class="line">            System.out.printf(<span class="string">"char:%c\n"</span> , in.readChar());</div><div class="line">            System.out.printf(<span class="string">"int:%d\n"</span> , in.readInt());</div><div class="line">            System.out.printf(<span class="string">"float:%f\n"</span> , in.readFloat());</div><div class="line">            System.out.printf(<span class="string">"double:%f\n"</span> , in.readDouble());</div><div class="line">            <span class="comment">// 读取HashMap对象</span></div><div class="line">            HashMap map = (HashMap) in.readObject();</div><div class="line">            Iterator iter = map.entrySet().iterator();</div><div class="line">            <span class="keyword">while</span> (iter.hasNext()) &#123;</div><div class="line">                Map.Entry entry = (Map.Entry)iter.next();</div><div class="line">                System.out.printf(<span class="string">"%-6s -- %s\n"</span> , entry.getKey(), entry.getValue());</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 读取Box对象，Box实现了Serializable接口</span></div><div class="line">            Box box = (Box) in.readObject();</div><div class="line">            System.out.println(<span class="string">"box: "</span> + box);</div><div class="line"></div><div class="line">            in.close();</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Box</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> width;   </div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> height; </div><div class="line">    <span class="keyword">private</span> String name;   </div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Box</span><span class="params">(String name, <span class="keyword">int</span> width, <span class="keyword">int</span> height)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name;</div><div class="line">        <span class="keyword">this</span>.width = width;</div><div class="line">        <span class="keyword">this</span>.height = height;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"["</span>+name+<span class="string">": ("</span>+width+<span class="string">", "</span>+height+<span class="string">") ]"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>结果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">boolean</span>:<span class="keyword">true</span></div><div class="line"><span class="keyword">byte</span>:<span class="number">65</span></div><div class="line"><span class="keyword">char</span>:a</div><div class="line"><span class="keyword">int</span>:<span class="number">20131015</span></div><div class="line"><span class="keyword">float</span>:<span class="number">3.140000</span></div><div class="line"><span class="keyword">double</span>:<span class="number">1.414000</span></div><div class="line">two    -- green</div><div class="line">one    -- red</div><div class="line">three  -- blue</div><div class="line">box: [desk: (<span class="number">80</span>, <span class="number">48</span>) ]</div></pre></td></tr></table></figure></p>
+<p>==再次提示==：通过ObjectInputStream, ObjectOutputStream操作的对象，必须是实现了Serializable或Externalizable序列化接口的类的实例。</p>
+<h1 id="字节输入流输出流分析结束"><a href="#字节输入流输出流分析结束" class="headerlink" title="字节输入流输出流分析结束"></a>字节输入流输出流分析结束</h1><h1 id="Reader，Writer"><a href="#Reader，Writer" class="headerlink" title="Reader，Writer"></a>Reader，Writer</h1><p>输入流的抽象类Reader，字符输出流的抽象类Writer。</p>
+<h2 id="Reader"><a href="#Reader" class="headerlink" title="Reader"></a>Reader</h2><p>Reader是字符输入流的抽象类。看一下类的结构可以知道，子类必须实现的方法只有<code>read(char[], int, int)</code> 和<code>close()</code>函数。但是，多数子类将重写此处定义的一些方法，以提供更高的效率和/或其他功能。<br><img src="http://otsgsfu16.bkt.clouddn.com/18-9-29/63621796.jpg" alt=""></p>
+<p>看一下类的签名可知其实现了Readable和Closeable接口。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Reader</span> <span class="keyword">implements</span> <span class="title">Readable</span>和, <span class="title">Closeable</span> </span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Readable</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(java.nio.CharBuffer cb)</span> <span class="keyword">throws</span> IOException</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Closeable</span> <span class="keyword">extends</span> <span class="title">AutoCloseable</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException</span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>Reader类成员域<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Reader</span> <span class="keyword">implements</span> <span class="title">Readable</span>, <span class="title">Closeable</span> </span>&#123;</div><div class="line">    <span class="comment">//用于同步针对此流的操作的对象。</span></div><div class="line">    <span class="keyword">protected</span> Object lock;</div><div class="line">     <span class="comment">/** Maximum skip-buffer size */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> maxSkipBufferSize = <span class="number">8192</span>;</div><div class="line">    <span class="comment">/** Skip buffer, null until allocated */</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">char</span> skipBuffer[] = <span class="keyword">null</span>;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 构造函数之一</div><div class="line">     * 创建一个新的字符流Reader，其重要部分将同步其自身。</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">Reader</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.lock = <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 构造函数之一</div><div class="line">     * 创建一个新的字符流reader，其重要部分将同步给定的对象lock</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">Reader</span><span class="params">(Object lock)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (lock == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.lock = lock;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="read，skip"><a href="#read，skip" class="headerlink" title="read，skip"></a>read，skip</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 试图将字符读入指定的字符缓冲区。</div><div class="line"> * 缓冲区可照原样用作字符的存储库：所做的唯一改变是put操作的结果。不对缓冲区执行翻转或重绕操作。</div><div class="line"> * 将输入流管道中的target.length个字节读取到指定的缓存字符数组target中、返回实际存放到target中的字符数。 </div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(java.nio.CharBuffer target)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="comment">//获取此缓冲区中的剩余空间大小</span></div><div class="line">    <span class="keyword">int</span> len = target.remaining();</div><div class="line">    <span class="keyword">char</span>[] cbuf = <span class="keyword">new</span> <span class="keyword">char</span>[len];</div><div class="line">    <span class="comment">//试图将输入流中的len个字符读入cbuf，返回实际读取的字节数n</span></div><div class="line">    <span class="keyword">int</span> n = read(cbuf, <span class="number">0</span>, len);</div><div class="line">    <span class="comment">//如果实际读到字符的个数大于0</span></div><div class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>)</div><div class="line">        <span class="comment">//将实际读取到的n个字符存入缓冲区</span></div><div class="line">        target.put(cbuf, <span class="number">0</span>, n);</div><div class="line">    <span class="comment">//返回实际读取的字符数</span></div><div class="line">    <span class="keyword">return</span> n;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 从输入流中读取单个字符。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">char</span> cb[] = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">1</span>];</div><div class="line">    <span class="keyword">if</span> (read(cb, <span class="number">0</span>, <span class="number">1</span>) == -<span class="number">1</span>)</div><div class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="keyword">return</span> cb[<span class="number">0</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 跳过字符</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span>  n  要跳过的字符数</div><div class="line"> * <span class="doctag">@return</span>    实际跳过的字符数</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">skip</span><span class="params">(<span class="keyword">long</span> n)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="comment">//如果n为负数，抛出异常</span></div><div class="line">    <span class="keyword">if</span> (n &lt; <span class="number">0L</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"skip value is negative"</span>);</div><div class="line">    <span class="comment">//不允许n大于maxSkipBufferSize</span></div><div class="line">    <span class="keyword">int</span> nn = (<span class="keyword">int</span>) Math.min(n, maxSkipBufferSize);</div><div class="line">    <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">        <span class="comment">//如果现有缓冲区为null或者大小小于nn，就新建一个大小为nn的缓冲区</span></div><div class="line">        <span class="keyword">if</span> ((skipBuffer == <span class="keyword">null</span>) || (skipBuffer.length &lt; nn))</div><div class="line">            skipBuffer = <span class="keyword">new</span> <span class="keyword">char</span>[nn];</div><div class="line">        <span class="keyword">long</span> r = n;</div><div class="line">        <span class="comment">//循环跳过输入流中字符，一次尝试跳过nn个字符，直到到达输入流末尾或者n个字符被全部跳过</span></div><div class="line">        <span class="keyword">while</span> (r &gt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">int</span> nc = read(skipBuffer, <span class="number">0</span>, (<span class="keyword">int</span>)Math.min(r, nn));</div><div class="line">            <span class="keyword">if</span> (nc == -<span class="number">1</span>)</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            r -= nc;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//返回实际跳过的字符数</span></div><div class="line">        <span class="keyword">return</span> n - r;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>剩下的函数大部分都需要没有具体实现需要子类重写实现自己的处理逻辑。对于大部分操作Reader抽象类，默认是unsupported的</p>
+<h2 id="writer"><a href="#writer" class="headerlink" title="writer"></a>writer</h2><p>Writer是字符输出流的抽象类。子类必须实现的方法仅有 <code>write(char[], int, int)</code>、<code>flush()</code> 和 <code>close()</code>。但是，多数子类将重写此处定义的一些方法，以提供更高的效率和/或其他功能。</p>
+<p><img src="http://otsgsfu16.bkt.clouddn.com/18-9-29/50616007.jpg" alt=""></p>
+<p>从类的结构图可以看出，该类实现了Appendable接口的全部的3个抽象函数。并重写了父类Closeable，Flushable的全部的close，flush函数。但只是再次抽象声明，并没有提供默认实现。任然需要子类重写扩展</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Writer</span> <span class="keyword">implements</span> <span class="title">Appendable</span>, <span class="title">Closeable</span>, <span class="title">Flushable</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 字符缓存数组。</div><div class="line">     * 用于临时存放要写入字符输出流中的字符</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">char</span>[] writeBuffer;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 字符缓存数组的默认大小。</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> WRITE_BUFFER_SIZE = <span class="number">1024</span>;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 用于同步此流的操作的对象。</div><div class="line">     */</div><div class="line">    <span class="keyword">protected</span> Object lock;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 构造方法</div><div class="line">     * 创建一个新的字符流writer，其关键部分将同步其自身。</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">Writer</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.lock = <span class="keyword">this</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 构造方法</div><div class="line">     * 建一个新的字符流writer，其关键部分将同步给定的对象。</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">Writer</span><span class="params">(Object lock)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (lock == <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.lock = lock;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 写入单个字符。</div><div class="line"> * 要写入的字符包含在给定整数值的16个低位中，16高位被忽略。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">int</span> c)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">        <span class="keyword">if</span> (writeBuffer == <span class="keyword">null</span>)&#123;</div><div class="line">            writeBuffer = <span class="keyword">new</span> <span class="keyword">char</span>[WRITE_BUFFER_SIZE];</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//char为16位。所以要写入的字符包含在给定整数值的16个低位中，16高位被忽略。</span></div><div class="line">        writeBuffer[<span class="number">0</span>] = (<span class="keyword">char</span>) c;</div><div class="line">        write(writeBuffer, <span class="number">0</span>, <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 试图将字符串中从off开始的len个字符写入输出流中。</span></div><div class="line"><span class="comment">// 尽量写入len个字符，但写入的字节数可能少于len个，也可能为零。</span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(String str, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">        <span class="keyword">char</span> cbuf[];</div><div class="line">        <span class="keyword">if</span> (len &lt;= WRITE_BUFFER_SIZE) &#123;</div><div class="line">            <span class="keyword">if</span> (writeBuffer == <span class="keyword">null</span>) &#123;</div><div class="line">                writeBuffer = <span class="keyword">new</span> <span class="keyword">char</span>[WRITE_BUFFER_SIZE];</div><div class="line">            &#125;</div><div class="line">            cbuf = writeBuffer;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;    <span class="comment">// Don't permanently allocate very large buffers.</span></div><div class="line">            cbuf = <span class="keyword">new</span> <span class="keyword">char</span>[len];</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//将字符串中从off开始到off+len的字符复制到cbuf中</span></div><div class="line">        str.getChars(off, (off + len), cbuf, <span class="number">0</span>);</div><div class="line">        <span class="comment">// 将该方法的暂存数组写入到输出流中。</span></div><div class="line">        <span class="comment">// 前面的一系列判断决定了是否使用Writer类给定的默认大小的字符串冲数组// 当大小超出则使用临时新定义的更大的缓冲数组</span></div><div class="line">        write(cbuf, <span class="number">0</span>, len);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 添加字符序列的一部分</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> Writer <span class="title">append</span><span class="params">(CharSequence csq, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    CharSequence cs = (csq == <span class="keyword">null</span> ? <span class="string">"null"</span> : csq);</div><div class="line">    write(cs.subSequence(start, end).toString());</div><div class="line">    <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Reader是字符输入流的抽象类。子类必须实现的方法只有read(char[], int, int) 和close()。但是，多数子类将重写此处定义的一些方法，以提供更高的效率和/或其他功能。如重写read方法提供更高的效率；重写mark/set方法提供标记功能。</li>
+<li>Writer是字符输出流的抽象类。子类必须实现的方法仅有 write(char[], int, int)、flush() 和 close()。但是，多数子类将重写此处定义的一些方法，以提供更高的效率和/或其他功能。</li>
+</ul>
+<h2 id="Reader与InputStream区别"><a href="#Reader与InputStream区别" class="headerlink" title="Reader与InputStream区别"></a>Reader与InputStream区别</h2><ul>
+<li>操作对象的不同。字节流操作字节、字符操作字符。</li>
+<li>实现的接口不同。Reader比InputStream多实现了一个Readable接口，用于提供一个可以将字符写入到指定缓存数组的方法。</li>
+<li>close方法不同。Reader的close方法是抽象的、子类必须重写，而InputStream则不是(空实现，即不要求子类必须重写)。  InputStream的close方法则不是抽象的。</li>
+</ul>
+<h2 id="Writer与OutputStream区别"><a href="#Writer与OutputStream区别" class="headerlink" title="Writer与OutputStream区别"></a>Writer与OutputStream区别</h2><ul>
+<li>操作对象的不同。字节流操作字节、字符操作字符。</li>
+<li>实现的接口不同。Writer相比与OutputStream多实现了一个Appendable接口、用于提供几个向此流中追加字符的方法。</li>
+<li>close、flush方法不同。Writer的close、flush方法都是抽象的，而OutputStream则不是(空实现，即不要求子类必须重写)。</li>
+</ul>
+<h1 id="CharArrayReader，CharArrayWriter"><a href="#CharArrayReader，CharArrayWriter" class="headerlink" title="CharArrayReader，CharArrayWriter"></a>CharArrayReader，CharArrayWriter</h1><ul>
+<li>CharArrayReader实现一个可用作字符输入流的字符缓冲区。支持mark/set。</li>
+<li>CharArrayWriter实现一个可用作字符输出流的字符缓冲区。缓冲区会随向流中写入数据而自动增长。可使用 toCharArray()和 toString()获取数据。</li>
+</ul>
+<h2 id="CharArrayReader"><a href="#CharArrayReader" class="headerlink" title="CharArrayReader"></a>CharArrayReader</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CharArrayReader</span> <span class="keyword">extends</span> <span class="title">Reader</span> </span>&#123;</div><div class="line">    <span class="comment">/** 字符缓冲区 */</span></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">char</span> buf[];</div><div class="line"></div><div class="line">    <span class="comment">/** 缓冲区中下一个被获取的字符的索引 */</span></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> pos;</div><div class="line"></div><div class="line">    <span class="comment">/** 缓冲区中标记的位置. */</span></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> markedPos = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** 字符缓冲区大小 **/</span></div><div class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> count;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 根据指定的char数组创建一个CharArrayReader。</div><div class="line">     * </div><div class="line">     * buf不是复制得到的</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CharArrayReader</span><span class="params">(<span class="keyword">char</span> buf[])</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.buf = buf;</div><div class="line">        <span class="keyword">this</span>.pos = <span class="number">0</span>;</div><div class="line">        <span class="keyword">this</span>.count = buf.length;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//  根据指定的char数组创建一个CharArrayReader。</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CharArrayReader</span><span class="params">(<span class="keyword">char</span> buf[], <span class="keyword">int</span> offset, <span class="keyword">int</span> length)</span> </span>&#123;</div><div class="line">        <span class="comment">//如果offset为负或大于buf.length，或者length为负，或者这两个值的和为负，抛出IllegalArgumentException。</span></div><div class="line">        <span class="keyword">if</span> ((offset &lt; <span class="number">0</span>) || (offset &gt; buf.length) || (length &lt; <span class="number">0</span>) ||</div><div class="line">            ((offset + length) &lt; <span class="number">0</span>)) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">this</span>.buf = buf;</div><div class="line">        <span class="keyword">this</span>.pos = offset;</div><div class="line">        <span class="comment">//count为length或buf.length-offset其中的较小者</span></div><div class="line">        <span class="keyword">this</span>.count = Math.min(offset + length, buf.length);</div><div class="line">        <span class="keyword">this</span>.markedPos = offset;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="ensureOpen，ready，reset"><a href="#ensureOpen，ready，reset" class="headerlink" title="ensureOpen，ready，reset"></a>ensureOpen，ready，reset</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** 检查流是否被关闭。若字符缓冲为null，则认为流已关闭。*/</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureOpen</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">if</span> (buf == <span class="keyword">null</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Stream closed"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 读取单个字符。</div><div class="line"> * 如果到达缓冲区末尾，返回-1</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">        <span class="comment">// 输入流的打开检测</span></div><div class="line">        ensureOpen();</div><div class="line">        <span class="comment">// 缓冲区容量判断</span></div><div class="line">        <span class="keyword">if</span> (pos &gt;= count)</div><div class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="keyword">return</span> buf[pos++];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 判断此流是否已准备好被读取。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">ready</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">        ensureOpen();</div><div class="line">        <span class="comment">// 缓冲区有数据可读即算准备好</span></div><div class="line">        <span class="keyword">return</span> (count - pos) &gt; <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 将该流重置为最新的标记。</div><div class="line"> * 如果从未标记过，则将其重置到开头。</div><div class="line"> *</div><div class="line"> * <span class="doctag">@exception</span>  IOException  If an I/O error occurs</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">        ensureOpen();</div><div class="line">        pos = markedPos;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>==注意：== 从ready函数我们可以总结出，CharArrayRead类相比于InputStream抽象类一派的子类来说性能更高，因为InputStream的子类在对需要加锁操作的方法上的处理是直接在函数签名上添加synchronized来保证的。这样的话锁的就是这个对象，这样对一些没有加锁的方法调用时性能就会很受影响。而这里CharArrayRead类则是使用其内部声明的对象锁来保证的，很好地解决了这个问题。</p>
+<p>==注意：== 关于reset函数这里再贴一遍是为了提醒自己，不要忘记markPos变量声明时直接指定其值为0。也就是即便函数并没有调用过mark函数指定标记位置，也没有调用<code>public CharArrayReader(char buf[], int offset, int length) {</code>该多参构造函数构造对象，指定其markPos变量为offset位置。该值也会有默认reset到的位置。</p>
+<p>测试程序<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Slf</span>4j</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        charArrayReaderTest();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">charArrayReaderTest</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">char</span>[] chars = <span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>, <span class="string">'g'</span>, <span class="string">'h'</span>, <span class="string">'j'</span>&#125;;</div><div class="line">        CharArrayReader charArrayReader = <span class="keyword">new</span> CharArrayReader(chars);</div><div class="line"></div><div class="line">        <span class="keyword">char</span>[] container = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">2</span>];</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">if</span> (charArrayReader.ready()) &#123;</div><div class="line">                <span class="keyword">char</span> target = (<span class="keyword">char</span>) charArrayReader.read();</div><div class="line">                System.out.println(target);<span class="comment">// a - b</span></div><div class="line"></div><div class="line">                <span class="keyword">if</span> (charArrayReader.markSupported()) &#123;</div><div class="line">                    charArrayReader.mark(<span class="number">0</span>);</div><div class="line">                &#125;</div><div class="line"></div><div class="line">                charArrayReader.skip(<span class="number">2</span>);<span class="comment">// - d</span></div><div class="line"></div><div class="line">                <span class="keyword">int</span> containerLoaded = charArrayReader.read(container, <span class="number">0</span>, container.length);</div><div class="line">                System.out.println(containerLoaded);<span class="comment">// 2 - g</span></div><div class="line"></div><div class="line">                charArrayReader.reset(); <span class="comment">// - b</span></div><div class="line"></div><div class="line">                container = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">6</span>];</div><div class="line">                charArrayReader.read(container);</div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; container.length; i++) &#123;</div><div class="line">                    System.out.println(container[i]);<span class="comment">// b-j</span></div><div class="line">                &#125;</div><div class="line"></div><div class="line">                <span class="keyword">if</span> (charArrayReader.ready()) &#123;<span class="comment">// 有没有数据要被读</span></div><div class="line">                    charArrayReader.close();</div><div class="line">                    charArrayReader.read(); <span class="comment">// throw IOException</span></div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</div><div class="line">            log.error(<span class="string">"buf is null"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>结果<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">a</div><div class="line"><span class="number">2</span></div><div class="line">b</div><div class="line">c</div><div class="line">d</div><div class="line">e</div><div class="line">f</div><div class="line">g</div><div class="line"><span class="number">15</span>:<span class="number">26</span>:<span class="number">12.561</span> [main] ERROR com.mmall.concurrency.TestController - buf is <span class="keyword">null</span></div></pre></td></tr></table></figure></p>
+<h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>CharArrayReader实现了一个可和字符输入流一样使用的<strong>字符缓冲区</strong>。也就是说，其实CharArrayReader只是一个缓冲区，其数据总量也就是CharArrayReader实例在构造时传入的char数组的大小。<ul>
+<li>==有意思的是== 它实现了Reader函数，包装成了输入流的样子，可以供我们以输入流的方式读取其缓冲池中的数据。</li>
+<li>==有点儿不懂的是==，还没有给默认的缓冲池，一定要求我们以输入流的方式读取我们给定的char数组中的数据。</li>
+</ul>
+</li>
+<li>在做<strong>所有</strong>操作前，都要确认流处于open状态。判断流处于open状态的依据是buf不为null。close方法中会将buf置为null。</li>
+<li>CharArrayReader支持<code>mark()</code>，<code>reset()</code>操作。</li>
+</ul>
+<h2 id="CharArrayWriter"><a href="#CharArrayWriter" class="headerlink" title="CharArrayWriter"></a>CharArrayWriter</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CharArrayWriter</span> <span class="keyword">extends</span> <span class="title">Writer</span> </span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 存储数据的字符缓冲区</div><div class="line">     */</div><div class="line">    <span class="keyword">protected</span> <span class="keyword">char</span> buf[];</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 缓冲区中的字符个数</div><div class="line">     */</div><div class="line">    <span class="keyword">protected</span> <span class="keyword">int</span> count;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建一个新的CharArrayWriter。</div><div class="line">     * 缓冲区大小默认为32</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CharArrayWriter</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(<span class="number">32</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建一个新的CharArrayWriter，指定缓冲区大小为initialSize</div><div class="line">     * 如果initialSize为负数，抛出异常</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CharArrayWriter</span><span class="params">(<span class="keyword">int</span> initialSize)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span> (initialSize &lt; <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Negative initial size: "</span>+ initialSize);</div><div class="line">        &#125;</div><div class="line">        buf = <span class="keyword">new</span> <span class="keyword">char</span>[initialSize];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="write，writeTo，reset，toCharArray"><a href="#write，writeTo，reset，toCharArray" class="headerlink" title="write，writeTo，reset，toCharArray"></a>write，writeTo，reset，toCharArray</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 将一个指定字符写到缓冲区中</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">int</span> c)</span> </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">        <span class="keyword">int</span> newcount = count + <span class="number">1</span>;</div><div class="line">        <span class="comment">//如果buf存满、则将buf容量扩大1倍、并将原来buf中count字符copy到新的buf中  </span></div><div class="line">        <span class="keyword">if</span> (newcount &gt; buf.length) &#123;</div><div class="line">            buf = Arrays.copyOf(buf, Math.max(buf.length &lt;&lt; <span class="number">1</span>, newcount));</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// 插入到字符数据缓冲区的数据也尽量不要超过2个字节的表示区，</span></div><div class="line">        <span class="comment">// 否则结果不是你想要的，高16位舍去</span></div><div class="line">        buf[count] = (<span class="keyword">char</span>)c;</div><div class="line">        count = newcount;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 将缓冲区的内容写入另一个字符流out。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeTo</span><span class="params">(Writer out)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">        out.write(buf, <span class="number">0</span>, count);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 重置该缓冲区，以便再次使用它而无需丢弃已分配的缓冲区。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span> </span>&#123;</div><div class="line">    count = <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 返回输入数据的副本。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">char</span> <span class="title">toCharArray</span><span class="params">()</span>[] </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">        <span class="keyword">return</span> Arrays.copyOf(buf, count);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>reset方法和toCharArray设计上行还是很简洁的。该类的flush，close方法无效。</p>
+<h3 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>CharArrayWriter实现了一个可用作字符输出流的字符缓冲区，默认大小32。</li>
+<li>CharArrayWriter的缓冲区会随着向流中写入数据的增多而自动增长(动态扩容 系数为1)。</li>
+<li>可使用CharArrayWritert的toCharArray()和 toString()获取缓冲区中数据或者writeTo数据传递到另一个Writer流中也行。</li>
+<li>CharArrayWriter中close()，flush()方法无效(空实现)。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/java-io-sourcecode-ReaderWriter1.html" title="Java IO源码分析 - Reader，Writer系列（一）">http://www.jiyongguang.xin/java-io-sourcecode-ReaderWriter1.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/java-jvm-1.html" rel="next" title="JVM 快速入门">
+                <i class="fa fa-chevron-left"></i> JVM 快速入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/java-io-sourcecode-ReaderWriter2.html" rel="prev" title="Java IO源码分析 - Reader，Writer系列（二）">
+                Java IO源码分析 - Reader，Writer系列（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">130</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#助于理解"><span class="nav-number">2.</span> <span class="nav-text">助于理解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#File"><span class="nav-number">3.</span> <span class="nav-text">File</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#File类函数列表即释义"><span class="nav-number">3.1.</span> <span class="nav-text">File类函数列表即释义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#File类API典型应用"><span class="nav-number">3.2.</span> <span class="nav-text">File类API典型应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#当前目录的子目录下，再新建一个目录"><span class="nav-number">3.2.1.</span> <span class="nav-text">当前目录的子目录下，再新建一个目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新建文件的几种常用方法"><span class="nav-number">3.2.2.</span> <span class="nav-text">新建文件的几种常用方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FileDescriptor"><span class="nav-number">4.</span> <span class="nav-text">FileDescriptor</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#in-out-err介绍"><span class="nav-number">4.1.</span> <span class="nav-text">in, out, err介绍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FileInputStream，FileOutputStream"><span class="nav-number">5.</span> <span class="nav-text">FileInputStream，FileOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FileInputStream"><span class="nav-number">5.1.</span> <span class="nav-text">FileInputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#close，getChannel，getFD，finalize"><span class="nav-number">5.1.1.</span> <span class="nav-text">close，getChannel，getFD，finalize</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FileOutputStream"><span class="nav-number">5.2.</span> <span class="nav-text">FileOutputStream</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#write"><span class="nav-number">5.2.1.</span> <span class="nav-text">write</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">5.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ObjectInputStream，ObjectOutputStream"><span class="nav-number">6.</span> <span class="nav-text">ObjectInputStream，ObjectOutputStream</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字节输入流输出流分析结束"><span class="nav-number">7.</span> <span class="nav-text">字节输入流输出流分析结束</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reader，Writer"><span class="nav-number">8.</span> <span class="nav-text">Reader，Writer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Reader"><span class="nav-number">8.1.</span> <span class="nav-text">Reader</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#read，skip"><span class="nav-number">8.1.1.</span> <span class="nav-text">read，skip</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#writer"><span class="nav-number">8.2.</span> <span class="nav-text">writer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-1"><span class="nav-number">8.3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reader与InputStream区别"><span class="nav-number">8.4.</span> <span class="nav-text">Reader与InputStream区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Writer与OutputStream区别"><span class="nav-number">8.5.</span> <span class="nav-text">Writer与OutputStream区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CharArrayReader，CharArrayWriter"><span class="nav-number">9.</span> <span class="nav-text">CharArrayReader，CharArrayWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CharArrayReader"><span class="nav-number">9.1.</span> <span class="nav-text">CharArrayReader</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ensureOpen，ready，reset"><span class="nav-number">9.1.1.</span> <span class="nav-text">ensureOpen，ready，reset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结-2"><span class="nav-number">9.1.2.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CharArrayWriter"><span class="nav-number">9.2.</span> <span class="nav-text">CharArrayWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#write，writeTo，reset，toCharArray"><span class="nav-number">9.2.1.</span> <span class="nav-text">write，writeTo，reset，toCharArray</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结-3"><span class="nav-number">9.2.2.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>

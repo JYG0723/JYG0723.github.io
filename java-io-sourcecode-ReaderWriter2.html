@@ -1,0 +1,1342 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="true" />
+
+
+
+
+
+
+
+  <meta name="baidu-site-verification" content="true" />
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.lug.ustc.edu.cn//css?family=Roboto Slab:300,300italic,400,400italic,700,700italic|Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Illusion's Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="说明整个系列的文章全部参考或直接照搬下面两位作者的文章，这里只是根据自己需要对原作者的文章梳理的总结，仅给自己日后复习时提供思路，如有读者看到学习时建议移步原作。再次重申并非我所写  潘威威：Java8 I/O源码-目录 skywang12345：Java I/O系列   PipedReader，PipedWriterPipedReader与PipedInputStream极其相似，PipedWr">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java IO源码分析 - Reader，Writer系列（二）">
+<meta property="og:url" content="http://www.jiyongguang.xin/java-io-sourcecode-ReaderWriter2.html">
+<meta property="og:site_name" content="Illusion&#39;s Notes">
+<meta property="og:description" content="说明整个系列的文章全部参考或直接照搬下面两位作者的文章，这里只是根据自己需要对原作者的文章梳理的总结，仅给自己日后复习时提供思路，如有读者看到学习时建议移步原作。再次重申并非我所写  潘威威：Java8 I/O源码-目录 skywang12345：Java I/O系列   PipedReader，PipedWriterPipedReader与PipedInputStream极其相似，PipedWr">
+<meta property="og:updated_time" content="2018-10-11T08:48:58.191Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java IO源码分析 - Reader，Writer系列（二）">
+<meta name="twitter:description" content="说明整个系列的文章全部参考或直接照搬下面两位作者的文章，这里只是根据自己需要对原作者的文章梳理的总结，仅给自己日后复习时提供思路，如有读者看到学习时建议移步原作。再次重申并非我所写  潘威威：Java8 I/O源码-目录 skywang12345：Java I/O系列   PipedReader，PipedWriterPipedReader与PipedInputStream极其相似，PipedWr">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"right","display":"hide","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.jiyongguang.xin/java-io-sourcecode-ReaderWriter2.html"/>
+
+
+
+
+
+  <title> Java IO源码分析 - Reader，Writer系列（二） | Illusion's Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fc41b9ed62e060d0b4435d7241db4b6";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Illusion's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.jiyongguang.xin/java-io-sourcecode-ReaderWriter2.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Illusion">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Illusion's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java IO源码分析 - Reader，Writer系列（二）
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-11T16:46:06+08:00">
+                2018-10-11
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2018-10-11T16:48:58+08:00">
+                2018-10-11
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/java-io-sourcecode-ReaderWriter2.html" class="leancloud_visitors" data-flag-title="Java IO源码分析 - Reader，Writer系列（二）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  9,615
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  38
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>整个系列的文章<strong>全部参考或直接照搬</strong>下面两位作者的文章，这里只是根据自己需要对原作者的文章梳理的总结，仅给自己日后复习时提供思路，如有读者看到学习时建议移步原作。再次重申并非我所写</p>
+<ul>
+<li>潘威威：<a href="https://blog.csdn.net/panweiwei1994/article/details/78046000" target="_blank" rel="external">Java8 I/O源码-目录</a></li>
+<li>skywang12345：<a href="https://www.cnblogs.com/skywang12345/category/455711.html" target="_blank" rel="external">Java I/O系列</a> </li>
+</ul>
+<h1 id="PipedReader，PipedWriter"><a href="#PipedReader，PipedWriter" class="headerlink" title="PipedReader，PipedWriter"></a>PipedReader，PipedWriter</h1><p>PipedReader与PipedInputStream极其相似，PipedWriter与PipedOutputStream也极其相似。</p>
+<p>PipedReader与PipedWriter分别为字符管道输入流和字符管道输出流。管道输入流通过连接到管道输出流实现了类似管道的功能，用于线程之间的通信。</p>
+<a id="more"></a>
+<p>通常，由某个线程向管道输出流中写入数据。根据管道的特性，这些数据会<strong>自动发送</strong>到与管道输出流对应的管道输入流中。这时其他线程就可以从管道输入流中读取数据，这样就实现了线程之间的通信。</p>
+<p>PipedReader为字符管道输入流，用于读取对应的字符管道输出流写入其内置字符缓存数组buffer中的字符、借此来实现线程之间的通信。</p>
+<p>PipedWriter为字符管道输出流、用于将当前线程的指定字符写入到与此线程对应的管道字符输入流中。</p>
+<h2 id="PipedReader"><a href="#PipedReader" class="headerlink" title="PipedReader"></a>PipedReader</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PipedReader</span> <span class="keyword">extends</span> <span class="title">Reader</span> </span>&#123;</div><div class="line">    <span class="comment">//管道输出流是否关闭</span></div><div class="line">    <span class="keyword">boolean</span> closedByWriter = <span class="keyword">false</span>;</div><div class="line">    <span class="comment">//管道输入流是否关闭</span></div><div class="line">    <span class="keyword">boolean</span> closedByReader = <span class="keyword">false</span>;</div><div class="line">    <span class="comment">//管道输入流是否被连接</span></div><div class="line">    <span class="keyword">boolean</span> connected = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">    <span class="comment">//从管道中读取数据的线程</span></div><div class="line">    Thread readSide;</div><div class="line">    <span class="comment">//向管道中写入数据的线程</span></div><div class="line">    Thread writeSide;</div><div class="line"></div><div class="line">   <span class="comment">/**</span></div><div class="line">    * 管道循环输入缓冲区的默认大小。</div><div class="line">    */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_PIPE_SIZE = <span class="number">1024</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 放置数据的循环缓冲区。</div><div class="line">     */</div><div class="line">    <span class="keyword">char</span> buffer[];</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 缓冲区的位置，当从连接的管道输出流中接收到下一个数据字符时，会将其存储到该位置。</div><div class="line">     */</div><div class="line">    <span class="keyword">int</span> in = -<span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 缓冲区的位置，此管道输入流将从该位置读取下一个数据字节。</div><div class="line">     */</div><div class="line">    <span class="keyword">int</span> out = <span class="number">0</span>;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建PipedReader，并指定其对应的PipedWriter。</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PipedReader</span><span class="params">(PipedWriter src)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">this</span>(src, DEFAULT_PIPE_SIZE);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建一个PipedReader，使其连接到管道输出流src，并指定管道大小为pipeSize。</div><div class="line">     * <span class="doctag">@since</span>      1.6</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PipedReader</span><span class="params">(PipedWriter src, <span class="keyword">int</span> pipeSize)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        initPipe(pipeSize);</div><div class="line">        connect(src);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建尚未连接的PipedReader。</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PipedReader</span><span class="params">()</span> </span>&#123;</div><div class="line">        initPipe(DEFAULT_PIPE_SIZE);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建一个尚未连接的PipedReader，并指定管道大小为pipeSize。</div><div class="line">     * <span class="doctag">@since</span>      1.6</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PipedReader</span><span class="params">(<span class="keyword">int</span> pipeSize)</span> </span>&#123;</div><div class="line">        initPipe(pipeSize);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对于Piped系列的字符字节输入输出流，刚开始对其中的in和out两个变量还不太明白。第二遍刷类似的内容，果然一目了然</p>
+<h3 id="receive，"><a href="#receive，" class="headerlink" title="receive，"></a>receive，</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 接收一个字符，将其插入到缓冲区。如果没有可用的输入，方法会阻塞。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">(<span class="keyword">int</span> c)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="comment">//检查PipedReader的状态是否正常。</span></div><div class="line">    <span class="keyword">if</span> (!connected) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Pipe not connected"</span>);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (closedByWriter || closedByReader) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Pipe closed"</span>);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (readSide != <span class="keyword">null</span> &amp;&amp; !readSide.isAlive()) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Read end dead"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">///获取将数据写入管道的线程，状态设置</span></div><div class="line">    writeSide = Thread.currentThread();</div><div class="line">    <span class="comment">// 如果被写入管道的数据刚好被读完 或者</span></div><div class="line">    <span class="comment">// 管道已经被塞满 两种情况</span></div><div class="line">    <span class="keyword">while</span> (in == out) &#123;</div><div class="line">        <span class="keyword">if</span> ((readSide != <span class="keyword">null</span>) &amp;&amp; !readSide.isAlive()) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Pipe broken"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">/* full: kick any waiting readers */</span></div><div class="line">        <span class="comment">// 不分作用线程的情况直接唤醒一个跑，能跑通的跑就行</span></div><div class="line">        notifyAll();</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            wait(<span class="number">1000</span>);</div><div class="line">        &#125; <span class="keyword">catch</span> (InterruptedException ex) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> java.io.InterruptedIOException();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//？？？</span></div><div class="line">    <span class="keyword">if</span> (in &lt; <span class="number">0</span>) &#123;</div><div class="line">        in = <span class="number">0</span>;</div><div class="line">        out = <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//将数据字节写入到缓冲区中</span></div><div class="line">    buffer[in++] = (<span class="keyword">char</span>) c;</div><div class="line">    <span class="comment">//如果in已经超出了缓冲区的范围，将in置为0，从头开始写</span></div><div class="line">    <span class="keyword">if</span> (in &gt;= buffer.length) &#123;</div><div class="line">        in = <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>对于函数中notifyAll()函数调用的解释：</p>
+<p>因为该输入输出流就是供多线程数据交换使用，可能此时锁外挂着一堆读写线程。全部唤醒，因为无论这两种情况的哪一种不分线程是谁哪个能跑下去让它跑就行，跑不了的全部wait 1秒。</p>
+<h3 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h3><p>对于这种处理方式的==疑问==：</p>
+<p>虽然程序肯定会自己调通，但是不懂的是应该这样效率很差，为什么不用ReentrantLock解决。分成两种锁控制，根据不同的条件来控制作用线程的执行？难道是因为无法判断此时缓冲池是满还是空？(自己想了想好像是无法判断) 那新问题就是为什么不新加一个volatile变量控制当前线程的前一次作用缓冲池的线程是writeSide还是readSide？</p>
+<h3 id="receivedLast，read，close"><a href="#receivedLast，read，close" class="headerlink" title="receivedLast，read，close"></a>receivedLast，read，close</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 管道输出流关闭时（PipedWriter.close()中会调用此方法），通知其已经关闭。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">receivedLast</span><span class="params">()</span> </span>&#123;</div><div class="line">    closedByWriter = <span class="keyword">true</span>;</div><div class="line">    notifyAll();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 将最多len个数据字节从此管道输入流读入char数组。</div><div class="line"> * </div><div class="line"> * 如果已到达数据流的末尾，或者len超出管道缓冲区大小，则读取的字符数将少于len。</div><div class="line"> * </div><div class="line"> * 如果len为0，则不读取任何字节并返回0；</div><div class="line"> * 否则，在至少1个输入字符可用、检测到流末尾、抛出异常前，该方法将一直阻塞。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">char</span> cbuf[], <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span>  <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="comment">// 状态判断</span></div><div class="line">    <span class="keyword">if</span> (!connected) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Pipe not connected"</span>);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (closedByReader) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Pipe closed"</span>);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (writeSide != <span class="keyword">null</span> &amp;&amp; !writeSide.isAlive()</div><div class="line">               &amp;&amp; !closedByWriter &amp;&amp; (in &lt; <span class="number">0</span>)) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Write end dead"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 参数判断</span></div><div class="line">    <span class="keyword">if</span> ((off &lt; <span class="number">0</span>) || (off &gt; cbuf.length) || (len &lt; <span class="number">0</span>) ||</div><div class="line">        ((off + len) &gt; cbuf.length) || ((off + len) &lt; <span class="number">0</span>)) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (len == <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 特殊情况判断</span></div><div class="line">    <span class="comment">/* possibly wait on the first character */</span></div><div class="line">    <span class="keyword">int</span> c = read();</div><div class="line">    <span class="keyword">if</span> (c &lt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    cbuf[off] =  (<span class="keyword">char</span>)c;</div><div class="line">    <span class="keyword">int</span> rlen = <span class="number">1</span>;</div><div class="line">    <span class="keyword">while</span> ((in &gt;= <span class="number">0</span>) &amp;&amp; (--len &gt; <span class="number">0</span>)) &#123;</div><div class="line">        cbuf[off + rlen] = buffer[out++];</div><div class="line">        rlen++;</div><div class="line">        <span class="keyword">if</span> (out &gt;= buffer.length) &#123;</div><div class="line">            out = <span class="number">0</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (in == out) &#123;</div><div class="line">            <span class="comment">/* now empty */</span></div><div class="line">            in = -<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> rlen;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 关闭此传送流并释放与该流相关的所有系统资源。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span>  <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    in = -<span class="number">1</span>;</div><div class="line">    closedByReader = <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从close的设计可以看出，由于早期设计架构的思考，该类的开发人员明显的清楚，该类对于输入流操作的函数进入与非执行结束退出的关键判断条件是in和closedByReader变量。所以这里只要对其状态进行设置即可。</p>
+<h3 id="感悟"><a href="#感悟" class="headerlink" title="感悟"></a>感悟</h3><p>写代码一定要像这些大师一样，特别有条理，1、先对该PipedReader类进行状态的判断，2、然后进行输入参数的判断，3、然后进行特殊情况的判断处理，4、进行程序优化。可见目前自己青铜</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>PipedReader和PipedInputStream的几乎一模一样。区别在于PipedReader操作的是字符，PipedInputStream操作的是字节；</li>
+<li>PipedReader有ready方法来判断是否可以从PipedReader中读数据，而PipedInputStream则根据available()方法进行判断。</li>
+</ul>
+<h2 id="PipedWriter"><a href="#PipedWriter" class="headerlink" title="PipedWriter"></a>PipedWriter</h2><h3 id="flush"><a href="#flush" class="headerlink" title="flush"></a>flush</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 刷新此输出流并强制写出所有缓冲的输出字节。</div><div class="line"> * 这将通知所有读取数据的线程，告知它们管道中的字符处于等待中。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">flush</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">if</span> (sink != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (sink.closedByReader || closed) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IOException(<span class="string">"Pipe closed"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">synchronized</span> (sink) &#123;</div><div class="line">            sink.notifyAll();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们知道sink在PipedWriter类中指的是和其连接的PipedReader对象，也即两者操作的是同一个对象。所以如果PipedReader类的当前对象在进行receive函数或者read函数被wait的时候会挂到该对象的线程等待集合中。此时缓冲池装填可能是满了，也可能空了。</p>
+<p>所以当flush被调用时，明确的是该缓冲池中的数据要被读走了。然后唤醒该对象等待队列上的线程即可，无所谓唤醒的是读线程还是写线程，读线程一定可以正常运行下去，因为其进入wait情况的先决条件是<code>in&lt;0</code>很明显这时不可能，相反写线程肯定会继续卡住，因为其进入wait条件的先决条件是<code>in==out</code>很明显这很有可能。</p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>PipedWriter和PipedOutputStream的几乎一模一样。区别在于PipedReader操作的是字符，PipedInputStream操作的是字节。</li>
+</ul>
+<h1 id="InputStreamReader，OutputStreamWriter"><a href="#InputStreamReader，OutputStreamWriter" class="headerlink" title="InputStreamReader，OutputStreamWriter"></a>InputStreamReader，OutputStreamWriter</h1><p>InputStreamReader和OutputStreamWriter 是字节流通向字符流的桥梁：它使用指定的 charset 读写字节并将其解码为字符。</p>
+<ul>
+<li>InputStreamReader 的作用是将“字节输入流”转换成“字符输入流”。它继承于Reader。</li>
+<li>OutputStreamWriter 的作用是将“字节输出流”转换成“字符输出流”。它继承于Writer。</li>
+</ul>
+<h2 id="InputStreamReader"><a href="#InputStreamReader" class="headerlink" title="InputStreamReader"></a>InputStreamReader</h2><p>由于InputStreamReader类的函数全是依赖其内部声明的StreamDecoder对象来作用的。所以这里我们大概了解一下该类的各个函数的返回结果即可。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 将“字节输入流”转换成“字符输入流”</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InputStreamReader</span> <span class="keyword">extends</span> <span class="title">Reader</span> </span>&#123;</div><div class="line">    <span class="comment">// InputStreamReader的功能是依赖StreamDecoder完成的</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> StreamDecoder sd;</div><div class="line"></div><div class="line">    <span class="comment">// 根据in创建InputStreamReader，使用默认的编码</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">InputStreamReader</span><span class="params">(InputStream in)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(in);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            sd = StreamDecoder.forInputStreamReader(in, <span class="keyword">this</span>, (String)<span class="keyword">null</span>); <span class="comment">// ## check lock object</span></div><div class="line">        &#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</div><div class="line">            <span class="comment">// The default encoding should always be available</span></div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Error(e);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">// 获取解码器</span></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getEncoding</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> sd.getEncoding();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 读取并返回一个字符</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">return</span> sd.read();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 将InputStreamReader中的数据写入cbuf中，从cbuf的offset位置开始写入，写入长度是length</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">(<span class="keyword">char</span> cbuf[], <span class="keyword">int</span> offset, <span class="keyword">int</span> length)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">return</span> sd.read(cbuf, offset, length);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 能否从InputStreamReader中读取数据</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">ready</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">return</span> sd.ready();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// 关闭InputStreamReader</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        sd.close();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>感觉像是给InutStream穿了个外衣。将字节流通过流解码器StreamDecoder，解码成了字符流。</p>
+<h2 id="OutputStreamWriter"><a href="#OutputStreamWriter" class="headerlink" title="OutputStreamWriter"></a>OutputStreamWriter</h2><p>OutputStreamWriter 作用和原理都与InputStreamReader一模一样。<br>作用就是将“字节输出流”转换成“字符输出流”。它的原理是，我们创建“字符输出流”对象时，会指定“字节输出流”以及“字符编码”。</p>
+<h2 id="演示程序"><a href="#演示程序" class="headerlink" title="演示程序"></a>演示程序</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * InputStreamReader 和 OutputStreamWriter 测试程序</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> skywang</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StreamConverter</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String FileName = <span class="string">"file.txt"</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String CharsetName = <span class="string">"utf-8"</span>;</div><div class="line">    <span class="comment">//private static final String CharsetName = "gb2312";</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        testWrite();</div><div class="line">        testRead();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * OutputStreamWriter 演示函数</div><div class="line">     *</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testWrite</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// 创建文件“file.txt”对应File对象</span></div><div class="line">            File file = <span class="keyword">new</span> File(FileName);</div><div class="line">            <span class="comment">// 创建FileOutputStream对应OutputStreamWriter：将字节流转换为字符流，即写入out1的数据会自动由字节转换为字符。</span></div><div class="line">            OutputStreamWriter out1 = <span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(file), CharsetName);</div><div class="line">            <span class="comment">// 写入10个汉字</span></div><div class="line">            out1.write(<span class="string">"字节流转为字符流示例"</span>);</div><div class="line">            <span class="comment">// 向“文件中”写入"0123456789"+换行符</span></div><div class="line">            out1.write(<span class="string">"0123456789\n"</span>);</div><div class="line"></div><div class="line">            out1.close();</div><div class="line"></div><div class="line">        &#125; <span class="keyword">catch</span>(IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * InputStreamReader 演示程序</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testRead</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// 方法1：新建FileInputStream对象</span></div><div class="line">            <span class="comment">// 新建文件“file.txt”对应File对象</span></div><div class="line">            File file = <span class="keyword">new</span> File(FileName);</div><div class="line">            InputStreamReader in1 = <span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(file), CharsetName);</div><div class="line"></div><div class="line">            <span class="comment">// 测试read()，从中读取一个字符</span></div><div class="line">            <span class="keyword">char</span> c1 = (<span class="keyword">char</span>)in1.read();</div><div class="line">            System.out.println(<span class="string">"c1="</span>+c1);</div><div class="line"></div><div class="line">            <span class="comment">// 测试skip(long byteCount)，跳过4个字符</span></div><div class="line">            in1.skip(<span class="number">6</span>);</div><div class="line"></div><div class="line">            <span class="comment">// 测试read(char[] cbuf, int off, int len)</span></div><div class="line">            <span class="keyword">char</span>[] buf = <span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">10</span>];</div><div class="line">            in1.read(buf, <span class="number">0</span>, buf.length);</div><div class="line">            System.out.println(<span class="string">"buf="</span>+(<span class="keyword">new</span> String(buf)));</div><div class="line"></div><div class="line">            in1.close();</div><div class="line">        &#125; <span class="keyword">catch</span>(IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>运行结果：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">c1=字</div><div class="line">buf=流示例<span class="number">0123456</span></div></pre></td></tr></table></figure></p>
+<h3 id="问题1，char为什么能表示中文呢"><a href="#问题1，char为什么能表示中文呢" class="headerlink" title="问题1，char为什么能表示中文呢"></a>问题1，char为什么能表示中文呢</h3><p>看了下面这篇文章很好理解<a href="https://my.oschina.net/u/914655/blog/318664" target="_blank" rel="external">这篇博文</a>。</p>
+<p>答：因为java是用unicode字符编码表来对应字符的，”字”这个中文字符的unicode就是2个字节(且所有收录的中文都是2个字节的，本人粗略算了一下2万多个收录了)。且如果其给定的int值范围超过0-65535的范围，如果强制转换<code>（char c = (char)i;</code>）其会自动mod 65536(此处只针对大于)。java会根据该规则自动转换到0-65535区间中的一个。而“字”这个字的unicode编码其实是23383。</p>
+<h3 id="问题2，UTF-8方式存储的数据，StreamDecoder类怎么精准算出原数据占几个字节，并还原原始数据"><a href="#问题2，UTF-8方式存储的数据，StreamDecoder类怎么精准算出原数据占几个字节，并还原原始数据" class="headerlink" title="问题2，UTF-8方式存储的数据，StreamDecoder类怎么精准算出原数据占几个字节，并还原原始数据"></a>问题2，UTF-8方式存储的数据，StreamDecoder类怎么精准算出原数据占几个字节，并还原原始数据</h3><p>看了下面这篇阮一峰老师的文章很好理解<a href="http://www.ruanyifeng.com/blog/2007/10/ascii_unicode_and_utf-8.html" target="_blank" rel="external">字符编码笔记：ASCII，Unicode 和 UTF-8</a></p>
+<p>答：也就是因为UTF-8方式读取字符的时候可以精准的找到整个字符所占的所有字节呀！这也就是为什么它的中文占3甚至4个字节的原因，因为UTF-8编码方式的每个字节都有标识位，需要耗费一些空间。还是挺好理解的</p>
+<h3 id="重点3"><a href="#重点3" class="headerlink" title="重点3"></a>重点3</h3><p>一定要搞懂一件事：</p>
+<p>Unicode 是「字符集」<br>UTF-8 是「编码规则」</p>
+<p>其中：</p>
+<ul>
+<li>字符集：为每一个「字符」分配一个唯一的 ID（学名为码位 / 码点 / Code Point）</li>
+<li>编码规则：将「码位」转换为字节序列的规则（编码/解码 可以理解为 加密/解密 的过程）</li>
+</ul>
+<p>参考：<a href="https://www.zhihu.com/question/23374078/answer/24385963" target="_blank" rel="external"><br>邱昊宇的回答</a></p>
+<h2 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>InputStreamReader，字节流通向字符流的桥梁：它使用指定的charset读取字节并将其解码为字符。</li>
+<li>每次调用InputStreamReader中的read方法都会导致从底层输入流读取一个或多个字节，然后调用编码转换器将字节转化为字符。为避免频繁调用转换器(StreamDecoder类内部底层调用)，实现从字节到字符的高效转换，可以提前从底层流读取更多的字节。为了达到最高效率，可要考虑在BufferedReader内包装InputStreamReader。</li>
+<li>InputStreamReader的功能是依赖于StreamDecoder完成的。</li>
+<li>OutputStreamWriter，字符流通向字节流的桥梁：它使用指定的charset将要写入流中的字符编码成字节。</li>
+<li>每次调用write()方法都会导致在给定字符（或字符集）上调用编码转换器(StreamEncoder类内部底层调用)。为避免频繁调用转换器，在写入底层输出流之前，可以将得到的这些字节积累在缓冲区。例如，可考虑将OutputStreamWriter包装到BufferedWriter中。</li>
+<li>OutputStreamWriter的功能是依赖于StreamEncoder完成的。</li>
+</ul>
+<h1 id="FileReader，FileWriter"><a href="#FileReader，FileWriter" class="headerlink" title="FileReader，FileWriter"></a>FileReader，FileWriter</h1><ul>
+<li>FileReader 是用于读取字符流的类，它继承于InputStreamReader。要读取原始字节流，请考虑使用 FileInputStream。</li>
+<li>FileWriter 是用于写入字符流的类，它继承于OutputStreamWriter。要写入原始字节流，请考虑使用 FileOutputStream。</li>
+</ul>
+<p>需要注意的是该类并非直接继承自Reader，Writer类，而是继承其子类并在其子类基础上进行扩展。</p>
+<p>大致看了一下源码，我们可以看出FileReader是基于InputStreamReader实现的。相对的FileWriter是基于OutputStreamWriter实现的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileWriter</span> <span class="keyword">extends</span> <span class="title">OutputStreamWriter</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileWriter</span><span class="params">(String fileName)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="keyword">super</span>(<span class="keyword">new</span> FileOutputStream(fileName));</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileReader</span> <span class="keyword">extends</span> <span class="title">InputStreamReader</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FileReader</span><span class="params">(String fileName)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</div><div class="line">        <span class="keyword">super</span>(<span class="keyword">new</span> FileInputStream(fileName));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>都是如此。只是几个构造函数参数不同</p>
+<h2 id="演示程序-1"><a href="#演示程序-1" class="headerlink" title="演示程序"></a>演示程序</h2><p>FileWriter<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 创建文件“file.txt”对应File对象</span></div><div class="line">File file = <span class="keyword">new</span> File(FileName);</div><div class="line"><span class="comment">// 创建FileOutputStream对应FileWriter：将字节流转换为字符流，即写入out1的数据会自动由字节转换为字符。</span></div><div class="line">FileWriter out1 = <span class="keyword">new</span> FileWriter(file);</div><div class="line"><span class="comment">// 写入10个汉字</span></div><div class="line">out1.write(<span class="string">"字节流转为字符流示例"</span>);</div><div class="line"><span class="comment">// 向“文件中”写入"0123456789"+换行符</span></div><div class="line">out1.write(<span class="string">"0123456789\n"</span>);</div></pre></td></tr></table></figure></p>
+<p>FileReader<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 新建文件“file.txt”对应File对象</span></div><div class="line">File file = <span class="keyword">new</span> File(FileName);</div><div class="line">FileReader in1 = <span class="keyword">new</span> FileReader(file);</div><div class="line"></div><div class="line"><span class="comment">// 测试read()，从中读取一个字符</span></div><div class="line"><span class="keyword">char</span> c1 = (<span class="keyword">char</span>)in1.read();</div><div class="line">System.out.println(<span class="string">"c1="</span>+c1);</div><div class="line"></div><div class="line"><span class="comment">// 测试skip(long byteCount)，跳过4个字符</span></div><div class="line">in1.skip(<span class="number">6</span>);</div></pre></td></tr></table></figure></p>
+<h1 id="BufferedReader，BufferedWriter"><a href="#BufferedReader，BufferedWriter" class="headerlink" title="BufferedReader，BufferedWriter"></a>BufferedReader，BufferedWriter</h1><p>==注意：== 其实看过其他类的源码后，真正理解了字节，字符输入输出流的作用机制后，就很清楚了，其实BufferedReader比起其他输入流没任何优势，只是他的缓冲池大，所以它缓冲的数据是其他输入流的n倍。也就为其他输入流提供了缓冲作用</p>
+<h2 id="BufferedReader"><a href="#BufferedReader" class="headerlink" title="BufferedReader"></a>BufferedReader</h2><p>BufferedReader，字符缓冲输入流，作用是为其他输入流提供缓冲功能。BufferedReader从其他字符输入流中读取数据内容，缓冲各个字符，从而实现字符、数组和行的高效读取。当通过其read函数读取不到BufferedRead流中的数据时会调用fill()函数读取源输入流的数据来填充BufferedReader缓冲池的数据。</p>
+<p>通常，Reader所作的每个读取请求都会导致对底层字符或字节流进行相应的读取请求。因此，建议用BufferedReader包装所有其read()操作可能开销很高的Reader（如FileReader和InputStreamReader）。例如，<br>BufferedReader in = new BufferedReader(new FileReader(“foo.in”));将缓冲指定文件的输入。如果没有缓冲，则每次调用read()或readLine()都会导致从文件中读取字节，并将其转换为字符后返回，而这是极其低效的。而BufferedReader就可以一次性帮我们读更多，从而减少了读的次数，也就减少了字符转化的次数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// BufferedInputStream</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fill</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">    <span class="keyword">int</span> n = getInIfOpen().read(buffer, pos, buffer.length - pos);</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="问题：提供缓冲为什么能实现字符、数组和行的高效读取？"><a href="#问题：提供缓冲为什么能实现字符、数组和行的高效读取？" class="headerlink" title="问题：提供缓冲为什么能实现字符、数组和行的高效读取？"></a>问题：提供缓冲为什么能实现字符、数组和行的高效读取？</h3><ol>
+<li>是提高了读取的效率</li>
+<li>是减少了打开存储介质的连接次数。缓冲中的数据实际上是保存在内存中，而原始数据可能是保存在硬盘中。从内存中读取数据的速度比从硬盘读取数据的速度至少快10倍以上。</li>
+</ol>
+<h3 id="问题：为什么不一次性将Reader中全部数据都读取到缓冲中呢？"><a href="#问题：为什么不一次性将Reader中全部数据都读取到缓冲中呢？" class="headerlink" title="问题：为什么不一次性将Reader中全部数据都读取到缓冲中呢？"></a>问题：为什么不一次性将Reader中全部数据都读取到缓冲中呢？</h3><ol>
+<li>读取全部的数据所需要的时间可能会很长。</li>
+<li>内存价格很贵，容量远没有硬盘那么大。我们能做的就是在效率和成本之间找到平衡点。大多数情况下，默认值就足够大了。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BufferedReader</span> <span class="keyword">extends</span> <span class="title">Reader</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// 底层字符输入流,BufferedReader实际操作的字符输入流</span></div><div class="line">    <span class="keyword">private</span> Reader in;</div><div class="line">    <span class="comment">// 字符缓冲区</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">char</span> cb[];</div><div class="line">    <span class="comment">// nChars是cb字符缓冲区中字符的总的个数</span></div><div class="line">    <span class="comment">// nextChar是下一个要读取的字符在cb缓冲区中的位置</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> nChars, nextChar;</div><div class="line">    <span class="comment">// 表示标记无效。设置了标记，但是被标记位置由于某种原因导致标记无效</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> INVALIDATED = -<span class="number">2</span>;</div><div class="line">    <span class="comment">//表示没有标记</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> UNMARKED = -<span class="number">1</span>;</div><div class="line">    <span class="comment">//标记位置初始化为UNMARKED</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> markedChar = UNMARKED;</div><div class="line">    <span class="comment">//在仍保留该标记的情况下，对可读取字符数量的限制。</span></div><div class="line">    <span class="comment">//在读取达到或超过此限制的字符后，尝试重置流可能会失败。</span></div><div class="line">    <span class="comment">//限制值大于输入缓冲区的大小将导致分配一个新缓冲区，其大小不小于该限制值。因此应该小心使用较大的值。</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> readAheadLimit = <span class="number">0</span>; <span class="comment">/* Valid only when markedChar &gt; 0 */</span></div><div class="line">    <span class="comment">//表示是否跳过换行符。（skipLF ，skip line feed）</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> skipLF = <span class="keyword">false</span>;</div><div class="line">    <span class="comment">//表示当做了标记时，是否忽略换行符。</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> markedSkipLF = <span class="keyword">false</span>;</div><div class="line">    <span class="comment">//字符缓冲区默认大小</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> defaultCharBufferSize = <span class="number">8192</span>;</div><div class="line">    <span class="comment">//每行默认的字符个数</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> defaultExpectedLineLength = <span class="number">80</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建指定底层字符输入流in和指定字符缓冲区大小sz的BufferedReader</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BufferedReader</span><span class="params">(Reader in, <span class="keyword">int</span> sz)</span> </span>&#123;</div><div class="line">        <span class="keyword">super</span>(in);</div><div class="line">        <span class="keyword">if</span> (sz &lt;= <span class="number">0</span>)</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Buffer size &lt;= 0"</span>);</div><div class="line">        <span class="keyword">this</span>.in = in;</div><div class="line">        cb = <span class="keyword">new</span> <span class="keyword">char</span>[sz];</div><div class="line">        nextChar = nChars = <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建指定底层字符输入流in和默认字符缓冲区大小defaultCharBufferSize的BufferedReader</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BufferedReader</span><span class="params">(Reader in)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(in, defaultCharBufferSize);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="fill，read"><a href="#fill，read" class="headerlink" title="fill，read"></a>fill，read</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">     * 填充缓冲区。</div><div class="line">     * 如果标记有效，要考虑标记。</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">fill</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="comment">//cb中填充数据的起始位置，记录了此次填充时是从缓冲池的什么位置开始填充数据的</span></div><div class="line">        <span class="keyword">int</span> dst;</div><div class="line">        <span class="comment">//如果没有标记，从缓冲区索引为0的位置开始填充</span></div><div class="line">        <span class="comment">//这个if的处理逻辑是填充缓冲池前的原数据加载行为，</span></div><div class="line">        <span class="comment">//即找到缓冲池中原本标记的有效数据，读取readAheadLimit个后，舍弃其他数据。</span></div><div class="line">        <span class="keyword">if</span> (markedChar &lt;= UNMARKED) &#123;</div><div class="line">            dst = <span class="number">0</span>;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;<span class="comment">//如果有标记</span></div><div class="line">            <span class="comment">//delta为标记位置与下个读取字符之间的距离</span></div><div class="line">            <span class="keyword">int</span> delta = nextChar - markedChar;</div><div class="line">            <span class="comment">//如果delta超出readAheadLimit，标记即为无效。</span></div><div class="line">            <span class="keyword">if</span> (delta &gt;= readAheadLimit) &#123; </div><div class="line">                markedChar = INVALIDATED;</div><div class="line">                readAheadLimit = <span class="number">0</span>;</div><div class="line">                dst = <span class="number">0</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">//如果delta没有超出readAheadLimit，即标记有效</span></div><div class="line">                <span class="comment">//且readAheadLimit小于等于缓冲区长度</span></div><div class="line">                <span class="comment">//将markedChar与nextChar之间的字符写入到缓冲区中</span></div><div class="line">                <span class="keyword">if</span> (readAheadLimit &lt;= cb.length) &#123;</div><div class="line">                    <span class="comment">/* Shuffle in the current buffer */</span></div><div class="line">                    System.arraycopy(cb, markedChar, cb, <span class="number">0</span>, delta);</div><div class="line">                    markedChar = <span class="number">0</span>;</div><div class="line">                    dst = delta;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="comment">//如果delta没有超出readAheadLimit，即标记有效</span></div><div class="line">                    <span class="comment">//且readAheadLimit大于缓冲区长度</span></div><div class="line">                    <span class="comment">//将重新设置缓冲区大小，markedChar与nextChar之间的字符写入到缓冲区中</span></div><div class="line">                    <span class="keyword">char</span> ncb[] = <span class="keyword">new</span> <span class="keyword">char</span>[readAheadLimit];</div><div class="line">                    <span class="comment">//这里触发的条件是缓冲区已经标记，且标记后读取的规定的字符数要超过计算的个数(nextChar - markedChar)，</span></div><div class="line">                    <span class="comment">//且要读取的个数超过了缓冲区总长度。</span></div><div class="line">                    System.arraycopy(cb, markedChar, ncb, <span class="number">0</span>, delta);</div><div class="line">                    cb = ncb;</div><div class="line">                    markedChar = <span class="number">0</span>;</div><div class="line">                    dst = delta;</div><div class="line">                &#125;</div><div class="line">                nextChar = nChars = delta;</div><div class="line">           &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> n;</div><div class="line">    <span class="comment">//从底层输入流中读取数据，并存储到缓冲区cb中</span></div><div class="line">    <span class="comment">//如果没有读取到数据，就继续读(可能有数据为空的情况)，直到读到数据或者到达流末尾为止(只要不返回-1，就说明没结束)</span></div><div class="line">    <span class="keyword">do</span> &#123;</div><div class="line">        n = in.read(cb, dst, cb.length - dst);</div><div class="line">    &#125; <span class="keyword">while</span> (n == <span class="number">0</span>);</div><div class="line">    <span class="comment">//如果读到了数据</span></div><div class="line">    <span class="keyword">if</span> (n &gt; <span class="number">0</span>) &#123;</div><div class="line">        nChars = dst + n;</div><div class="line">        nextChar = dst;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 读取单个字符。</div><div class="line"> *</div><div class="line"> * <span class="doctag">@return</span> 作为一个整数（其范围从0到65535( 0x00-0xffff)）返回，如果已到达流末尾，则返回 -1</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">read</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">        <span class="comment">//确认BufferedReader是否处于开启状态</span></div><div class="line">        ensureOpen();</div><div class="line">        <span class="comment">//？？？什么意义？</span></div><div class="line">        <span class="keyword">for</span> (;;) &#123;</div><div class="line">            <span class="comment">//如果缓冲区数据已被读完，填充缓冲区。如果填充缓冲区后缓冲区依然是空的，说明已到达流末尾，返回-1。</span></div><div class="line">            <span class="keyword">if</span> (nextChar &gt;= nChars) &#123;</div><div class="line">                fill();</div><div class="line">                <span class="keyword">if</span> (nextChar &gt;= nChars)</div><div class="line">                    <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//如果skipLF为true，说明要跳过换行符</span></div><div class="line">            <span class="keyword">if</span> (skipLF) &#123;</div><div class="line">                <span class="comment">//说明只作用一次</span></div><div class="line">                skipLF = <span class="keyword">false</span>;</div><div class="line">                <span class="comment">//如果缓冲区内下个字符为换行符，跳过它。</span></div><div class="line">                <span class="keyword">if</span> (cb[nextChar] == <span class="string">'\n'</span>) &#123;</div><div class="line">                    nextChar++;</div><div class="line">                    <span class="keyword">continue</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">            <span class="comment">//返回缓冲区中下个字符，然后nextChar+1</span></div><div class="line">            <span class="keyword">return</span> cb[nextChar++];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 从缓冲区中读取数据，写入到cbuf中。off为开始存储字符处的偏移量。len为要读取的最大字符数。</div><div class="line"> * 如有必要，从底层输入流中读取数据。</div><div class="line"> * </div><div class="line"> * 该方法在read(char cbuf[], int off, int len)中被调用</div><div class="line"> * </div><div class="line"> * <span class="doctag">@param</span>   b     目标字符数组</div><div class="line"> * <span class="doctag">@param</span>   off   开始存储字符处的偏移量</div><div class="line"> * <span class="doctag">@param</span>   len   要读取的最大字符数</div><div class="line"> * <span class="doctag">@return</span>  实际读入cbuf的总字节数，如果由于已到达流末尾而不再有数据，则返回-1。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">read1</span><span class="params">(<span class="keyword">char</span>[] cbuf, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="comment">//如果缓冲区已被读完</span></div><div class="line">    <span class="keyword">if</span> (nextChar &gt;= nChars) &#123;</div><div class="line">        <span class="comment">//如果要读取的长度大于等于缓冲区大小，且没有标记，且不跳过换行符</span></div><div class="line">        <span class="keyword">if</span> (len &gt;= cb.length &amp;&amp; markedChar &lt;= UNMARKED &amp;&amp; !skipLF) &#123;</div><div class="line">            <span class="comment">//直接从底层输入流中读取数据到cbuf中，</span></div><div class="line">            <span class="comment">//？？？这里有个搞不懂的地方，那这样的话那么缓冲区的暂存数据还未被读走不是选择性[跳]着读了吗？</span></div><div class="line">            <span class="keyword">return</span> in.read(cbuf, off, len);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//填充缓冲区</span></div><div class="line">        fill();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//如果以上步骤执行完后，缓冲区还是没有可读数据，说明已经到达流末尾，返回-1</span></div><div class="line">    <span class="keyword">if</span> (nextChar &gt;= nChars) <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">    <span class="comment">//如果跳过换行符</span></div><div class="line">    <span class="keyword">if</span> (skipLF) &#123;</div><div class="line">        <span class="comment">//说明换行符只不被读一次</span></div><div class="line">        skipLF = <span class="keyword">false</span>;</div><div class="line">        <span class="comment">//如果下个字符是换行符</span></div><div class="line">        <span class="keyword">if</span> (cb[nextChar] == <span class="string">'\n'</span>) &#123;</div><div class="line">            <span class="comment">//跳过它</span></div><div class="line">            nextChar++;</div><div class="line">            <span class="comment">//如果缓冲区已被读完，填充缓冲区</span></div><div class="line">            <span class="keyword">if</span> (nextChar &gt;= nChars)</div><div class="line">                fill();</div><div class="line">            <span class="comment">//如果填充缓冲区后，缓冲区依然是空的。说明已经到达流末尾，返回-1</span></div><div class="line">            <span class="keyword">if</span> (nextChar &gt;= nChars)</div><div class="line">                <span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">// 如果缓冲池中还有数据的话也就不填了，该次读取仅读有的这些</span></div><div class="line">    <span class="comment">// 所以说，如果一个数组过来读没读满的话，不能说明原数据没数据了。</span></div><div class="line">    <span class="keyword">int</span> n = Math.min(len, nChars - nextChar);</div><div class="line">    <span class="comment">//读取</span></div><div class="line">    System.arraycopy(cb, nextChar, cbuf, off, n);</div><div class="line">    <span class="comment">//缓冲区当前位置+n</span></div><div class="line">    nextChar += n;</div><div class="line">    <span class="keyword">return</span> n;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>==注意== ： 这里带上read1函数的一个主要原因是源码中的设计有个地方不太明白。注释中已经说明</p>
+<p>其他地方无论readLine读行还是skip跳字符等，都和之前研究过的BufferedInputStream一样，不一样的只是多了关于换行符的判断。</p>
+<h2 id="BufferedWriter"><a href="#BufferedWriter" class="headerlink" title="BufferedWriter"></a>BufferedWriter</h2><p>BufferedWriter，字符缓冲输出流，作用是为其他输出流提供缓冲功能。BufferedWriter将文本写入其他字符输出流，缓冲各个字符，从而提供单个字符、数组和字符串的高效写入。</p>
+<p>通常Writer将其输出立即发送到底层字符或字节流。除非要求提示输出，否则建议用BufferedWriter包装所有其write()操作可能开销很高的 Writer（如FileWriters和OutputStreamWriters）。例如，PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(“foo.out”))); 将缓冲PrintWriter对文件的输出。如果没有缓冲，则每次调用print()方法会导致将字符转换为字节，然后立即写入到文件，而这是极其低效的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// BufferedOutputStream</span></div><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">flushBuffer</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</div><div class="line">        out.write(buf, <span class="number">0</span>, count);<span class="comment">// 一次性向OutPutStream输出更多数据</span></div><div class="line">        count = <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="BufferedWriter是如何为其他输出流提供缓冲功能的"><a href="#BufferedWriter是如何为其他输出流提供缓冲功能的" class="headerlink" title="BufferedWriter是如何为其他输出流提供缓冲功能的"></a>BufferedWriter是如何为其他输出流提供缓冲功能的</h3><p>创建BufferedWriter时，我们会通过它的构造函数指定某个底层字符输出流Writer为参数。当程序中每次将单个字符、数组和字符串写入到BufferedWriter中时、都会检查BufferedWriter中的缓存区是否存满，如果没有存满则将字符写入到缓存区中；如果存满，则调用底层的writer(char[] b, int off, int len)将缓存区中的所有字符一次性写入到底层Writer中。</p>
+<h3 id="提供缓冲为什么能实现单个字符、数组和字符串的高效写入"><a href="#提供缓冲为什么能实现单个字符、数组和字符串的高效写入" class="headerlink" title="提供缓冲为什么能实现单个字符、数组和字符串的高效写入"></a>提供缓冲为什么能实现单个字符、数组和字符串的高效写入</h3><p>如果没有缓冲，使用底层字符输出流向目的文件中写入单个字符、数组和字符串时，每写入一次就要打开一次到目的文件的连接。这样频繁的访问效率非常底下。比如，将一个非常大的数据写入到目的文件中，如果每写入一个字符就要打开一次到目的文件的连接，可以想象效率是如何低下。</p>
+<p>有了缓冲，当使用底层字符输出流向目的文件中写入单个字符、数组和字符串时，将单个字符、数组和字符串先写入到BufferedWriter的内置缓存空间中，然后当达到一定数量时一次性写入Writer流中。此时，Writer就可以打开一次通道，将这个数据块写入到文件中。这样虽然不能达到一次访问就将所有数据写入磁盘中的效果，但也大大提高了效率和减少了对磁盘的访问量。</p>
+<h3 id="write，newLine"><a href="#write，newLine" class="headerlink" title="write，newLine"></a>write，newLine</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 写入字符数组的某一部分。</div><div class="line"> * 将字符数组的cbuf中从下标off开始的len个字符写入缓冲区cb中</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">char</span> cbuf[], <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">        ensureOpen();</div><div class="line">        <span class="comment">//检查参数是否合法</span></div><div class="line">        <span class="keyword">if</span> ((off &lt; <span class="number">0</span>) || (off &gt; cbuf.length) || (len &lt; <span class="number">0</span>) ||</div><div class="line">            ((off + len) &gt; cbuf.length) || ((off + len) &lt; <span class="number">0</span>)) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (len == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//如果cbuf的数据的长度大于等于缓冲区长度</span></div><div class="line">        <span class="keyword">if</span> (len &gt;= nChars) &#123;</div><div class="line">            <span class="comment">//刷新缓冲区，将要写入的数据直接写入到底层输出流中</span></div><div class="line">            flushBuffer();</div><div class="line">            <span class="comment">//Writer抽象类的不同子类实现不同，因为该函数在Writer抽象类中声明的是抽象方法，也就是准备给子类各自去不同实现的</span></div><div class="line">            <span class="comment">//CharArrayWriter的实现方式是如果缓冲池大小小于len则扩容成(缓冲池大小1倍，len大小)两者较大的量。</span></div><div class="line">            <span class="comment">//PipedWriter的实现方式是迭代len次的调用write(int a)，逐个写入</span></div><div class="line">            out.write(cbuf, off, len);</div><div class="line">            <span class="keyword">return</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">//如果cbuf的数据的长度小于缓冲区长度，将数据写入缓冲区中。</span></div><div class="line">        <span class="keyword">int</span> b = off, t = off + len;</div><div class="line">        <span class="keyword">while</span> (b &lt; t) &#123;</div><div class="line">            <span class="keyword">int</span> d = min(nChars - nextChar, t - b);</div><div class="line">            System.arraycopy(cbuf, b, cb, nextChar, d);</div><div class="line">            b += d;</div><div class="line">            nextChar += d;</div><div class="line">            <span class="comment">//如果写入过程中缓冲区满了，刷新缓冲区，继续将数据写入缓冲区。</span></div><div class="line">            <span class="keyword">if</span> (nextChar &gt;= nChars)</div><div class="line">                flushBuffer();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 写入一个行分隔符。</div><div class="line">     * 行分隔符字符串由系统属性line.separator定义，并且不一定是单个新行('\n')符。</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">newLine</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">        <span class="comment">// 这里写入一个行分隔符，所以当你再写数据的时候，如果操作的是文件</span></div><div class="line">        <span class="comment">// 新数据就会出现在文件另一行。</span></div><div class="line">        write(lineSeparator);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里写上write函数的原因是方法中<code>out.write(cbuf, off, len);</code>这句曾困扰我一会儿，突然想不通当<code>len &gt;= nChars</code>时具体他会怎么操作了。</p>
+<p>后来想明白了，还操作个啥，BufferedWriter才不会管，让实际操作的<em>*</em>Writer输入流自己去处理去，因为本身该方法在抽象父类Writer中就是抽象函数，也就是任意Writer的非抽象子类都必须重写。所以它根本必须要管，也没权利管。</p>
+<h2 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>BufferedReader，字符缓冲输入流，作用是为其他输入流提供缓冲功能。BufferedReader从其他字符输入流中读取文本，缓冲各个字符，从而实现字符、数组和行的高效读取。</li>
+<li>BufferedReader支持标记功能。</li>
+<li>BufferedWriter，字符缓冲输出流，作用是为其他输出流提供缓冲功能。BufferedWriter将文本写入其他字符输出流，缓冲各个字符，从而提供单个字符、数组和字符串的高效写入。</li>
+</ul>
+<h1 id="PrintWriter"><a href="#PrintWriter" class="headerlink" title="PrintWriter"></a>PrintWriter</h1><p>PrintWriter 是字符类型的打印输出流，它继承于Writer。</p>
+<p>PrintStream 用于向文本输出流打印对象的格式化表示形式。它实现在 PrintStream 中的所有 print 方法。它不包含用于写入原始字节的方法，对于这些字节，程序应该使用未编码的字节流进行写入。</p>
+<p>==需要注意的是==，该类和其对应的字节输出流的自动刷新功能不同，它只有在调用printf，及println函数的时候才会自动刷新。这一点下面的源码注释中我有写。</p>
+<p>PrintWriter<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrintWriter</span> <span class="keyword">extends</span> <span class="title">Writer</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * PrintWriter的底层字符输出流</div><div class="line">     */</div><div class="line">    <span class="keyword">protected</span> Writer out;</div><div class="line">    <span class="comment">//是否自动刷新。</span></div><div class="line">    <span class="comment">//如果为true，每次执行printf()[format函数的原因], </span></div><div class="line">    <span class="comment">// println()[newLine函数的原因]函数，都会调用flush()函数。</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">boolean</span> autoFlush;</div><div class="line">    <span class="comment">//是否有异常</span></div><div class="line">    <span class="comment">//当PrintWriter有异常产生时，会被本身捕获，并设置trouble为true</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> trouble = <span class="keyword">false</span>;</div><div class="line">    <span class="comment">//用于格式化字符串的对象</span></div><div class="line">    <span class="keyword">private</span> Formatter formatter;</div><div class="line">    <span class="comment">//字节打印流</span></div><div class="line">    <span class="comment">//用于checkError方法</span></div><div class="line">    <span class="keyword">private</span> PrintStream psOut = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 行分隔符</div><div class="line">     * 在PrintWriter被创建时line.separator属性的值。</div><div class="line">     */</div><div class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String lineSeparator;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 返回csn(字符集名字)对应的Chaset</div><div class="line">     * csn为null或是不支持的字符集，抛出异常</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> Charset <span class="title">toCharset</span><span class="params">(String csn)</span></span></div><div class="line">        <span class="keyword">throws</span> UnsupportedEncodingException</div><div class="line">    &#123;</div><div class="line">        Objects.requireNonNull(csn, <span class="string">"charsetName"</span>);</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">return</span> Charset.forName(csn);</div><div class="line">        &#125; <span class="keyword">catch</span> (IllegalCharsetNameException|UnsupportedCharsetException unused) &#123;</div><div class="line">            <span class="comment">// UnsupportedEncodingException should be thrown</span></div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedEncodingException(csn);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建新的PrintWriter。</div><div class="line">     * 指定底层输出流，默认不会自动flush，采用默认字符集</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PrintWriter</span> <span class="params">(Writer out)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(out, <span class="keyword">false</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建新的PrintWriter。</div><div class="line">     * 指定底层输出流，指定是否自动flush，采用默认字符集</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PrintWriter</span><span class="params">(Writer out,</span></span></div><div class="line">                       <span class="keyword">boolean</span> autoFlush) &#123;</div><div class="line">        <span class="keyword">super</span>(out);</div><div class="line">        <span class="keyword">this</span>.out = out;</div><div class="line">        <span class="keyword">this</span>.autoFlush = autoFlush;</div><div class="line">        <span class="comment">//line.separator属性的值</span></div><div class="line">        lineSeparator = java.security.AccessController.doPrivileged(</div><div class="line">            <span class="keyword">new</span> sun.security.action.GetPropertyAction(<span class="string">"line.separator"</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建新的PrintWriter。</div><div class="line">     * 指定底层输出流，不自动flush，采用默认字符集</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PrintWriter</span><span class="params">(OutputStream out)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(out, <span class="keyword">false</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建新的PrintWriter。</div><div class="line">     * 指定底层输出流，指定是否自动flush，采用默认字符集</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PrintWriter</span><span class="params">(OutputStream out, <span class="keyword">boolean</span> autoFlush)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>(<span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(out)), autoFlush);</div><div class="line"></div><div class="line">        <span class="comment">// save print stream for error propagation</span></div><div class="line">        <span class="keyword">if</span> (out <span class="keyword">instanceof</span> java.io.PrintStream) &#123;</div><div class="line">            psOut = (PrintStream) out;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建新的PrintWriter。</div><div class="line">     * 指定文件名，默认不自动flush，采用默认字符集</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PrintWriter</span><span class="params">(String fileName)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</div><div class="line">        <span class="keyword">this</span>(<span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(fileName))),</div><div class="line">             <span class="keyword">false</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 私有构造方法。创建新的PrintWriter。</div><div class="line">     * 指定文件名，默认不自动flush，采用指定字符集</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="title">PrintWriter</span><span class="params">(Charset charset, File file)</span></span></div><div class="line">        <span class="keyword">throws</span> FileNotFoundException</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">this</span>(<span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(file), charset)),</div><div class="line">             <span class="keyword">false</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建新的PrintWriter。</div><div class="line">     * 指定文件名，默认不自动flush，采用指定字符集</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PrintWriter</span><span class="params">(String fileName, String csn)</span></span></div><div class="line">        <span class="keyword">throws</span> FileNotFoundException, UnsupportedEncodingException</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">this</span>(toCharset(csn), <span class="keyword">new</span> File(fileName));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建新的PrintWriter。</div><div class="line">     * 指定文件名，默认不自动flush，采用默认字符集</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PrintWriter</span><span class="params">(File file)</span> <span class="keyword">throws</span> FileNotFoundException </span>&#123;</div><div class="line">        <span class="keyword">this</span>(<span class="keyword">new</span> BufferedWriter(<span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(file))),</div><div class="line">             <span class="keyword">false</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 创建新的PrintWriter。</div><div class="line">     * 指定文件名，默认不自动flush，采用指定字符集</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PrintWriter</span><span class="params">(File file, String csn)</span></span></div><div class="line">        <span class="keyword">throws</span> FileNotFoundException, UnsupportedEncodingException</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">this</span>(toCharset(csn), file);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>光构造函数就有9个，其实底层用的就只有一个。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">PrintWriter</span><span class="params">(Writer out,<span class="keyword">boolean</span> autoFlush)</span> </span>&#123;</div><div class="line">    <span class="keyword">super</span>(out);</div><div class="line">    <span class="keyword">this</span>.out = out;</div><div class="line">    <span class="keyword">this</span>.autoFlush = autoFlush;</div><div class="line">    lineSeparator = java.security.AccessController.doPrivileged(</div><div class="line">        <span class="keyword">new</span> sun.security.action.GetPropertyAction(<span class="string">"line.separator"</span>));</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="checkError，setError，clearError"><a href="#checkError，setError，clearError" class="headerlink" title="checkError，setError，clearError"></a>checkError，setError，clearError</h2><p>该类除构造函数会抛出异常外，其余所有的函数调用均不会抛出异常。在调用时如果抛出异常会被catch掉，然后设置trouble变量为true，并不会显示抛出。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 如果流没有关闭，则刷新流且检查其错误状态。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">checkError</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">//如果流没有关闭，则刷新流</span></div><div class="line">    <span class="keyword">if</span> (out != <span class="keyword">null</span>) &#123;</div><div class="line">        flush();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//检查错误状态</span></div><div class="line">    <span class="keyword">if</span> (out <span class="keyword">instanceof</span> java.io.PrintWriter) &#123;</div><div class="line">        PrintWriter pw = (PrintWriter) out;</div><div class="line">        <span class="keyword">return</span> pw.checkError();</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (psOut != <span class="keyword">null</span>) &#123;</div><div class="line">        <span class="keyword">return</span> psOut.checkError();</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//如果抛出了异常，返回true</span></div><div class="line">    <span class="keyword">return</span> trouble;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 指示已发生错误。</div><div class="line"> * 在调用clearError()之前，此方法将导致checkError()的后续调用返回 true。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">setError</span><span class="params">()</span> </span>&#123;</div><div class="line">    trouble = <span class="keyword">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 清除此流的错误状态。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">clearError</span><span class="params">()</span> </span>&#123;</div><div class="line">    trouble = <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="write"><a href="#write" class="headerlink" title="write"></a>write</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 写入字符数组。</div><div class="line"> * 此方法不能从Writer类继承，因为它必须取消I/O异常。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(<span class="keyword">char</span> buf[])</span> </span>&#123;</div><div class="line">    write(buf, <span class="number">0</span>, buf.length);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>很多时候我们不得不重新自己定义一些函数。因为我们有些原因不能重写父类的函数</p>
+<p>其实大多数函数都是直接底层调用，除了会有字符输入输出流特有的安全检查机制ensureOpen对于底层实际操作的输入输出流的<code>null</code>判断外。大部分都是直接调用，然后区别只是catch到异常的时候不再往外抛，而是设置trouble变量为<code>true</code>。如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * 写入字符串的某一部分。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">write</span><span class="params">(String s, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> </span>&#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        <span class="keyword">synchronized</span> (lock) &#123;</div><div class="line">            ensureOpen();</div><div class="line">            out.write(s, off, len);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">catch</span> (InterruptedIOException x) &#123;</div><div class="line">        Thread.currentThread().interrupt();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">catch</span> (IOException x) &#123;</div><div class="line">        trouble = <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="printf"><a href="#printf" class="headerlink" title="printf"></a>printf</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 其实底层调用的就是Formatter类的format方法</span></div><div class="line"><span class="function"><span class="keyword">public</span> PrintWriter <span class="title">printf</span><span class="params">(String format, Object ... args)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> format(format, args);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="总结-4"><a href="#总结-4" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>从构造方法中可以看到，BufferedWriter包装了底层输出流，为其提供了缓冲功能。</li>
+<li>此类中的方法不会抛出I/O异常，尽管其某些构造方法可能抛出异常。客户端可能会查询调用checkError()是否出现错误。</li>
+<li>print方法可以打印boolean、char 、char[]、double 、float、int、 long、Object、String这些类型。都是按照平台的默认字符串编码将String.valueOf() 方法生成的字符串转换为字节，并完全以write(int)方法的方式向输出流中写入这些字节。</li>
+<li>println(type param)方法可以打印boolean、char 、char[]、double 、float、int、 long、Object、String这些类型。都是先调用print方法打印，再调用println()方法换行。</li>
+<li>printf方法和format方法的效果是相同的。因为printf方法是依赖于调用format方法实现的。</li>
+<li>append方法其实是依赖于out.write方法实现的。</li>
+</ul>
+<h1 id="RandomAccessFile"><a href="#RandomAccessFile" class="headerlink" title="RandomAccessFile"></a>RandomAccessFile</h1><ul>
+<li>RandomAccessFile 是随机访问文件 <strong>(包括读/写)的类</strong>。它支持对文件随机访问的读取和写入，即我们可以从指定的位置读取/写入文件数据。</li>
+<li>需要注意的是，RandomAccessFile 虽然属于java.io包，但它不是InputStream或者OutputStream的子类；它也不同于FileInputStream和FileOutputStream。 FileInputStream 只能对文件进行读操作，而FileOutputStream 只能对文件进行写操作；但是，RandomAccessFile 同时支持文件的读和写，并且它支持随机访问。</li>
+</ul>
+<h2 id="RandomAccessFile-模式说明"><a href="#RandomAccessFile-模式说明" class="headerlink" title="RandomAccessFile 模式说明"></a>RandomAccessFile 模式说明</h2><p>RandomAccessFile共有4种模式：”r”, “rw”, “rws”和”rwd”。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="string">"r"</span>    以只读方式打开。调用结果对象的任何 write 方法都将导致抛出 IOException。  </div><div class="line"><span class="string">"rw"</span>   打开以便读取和写入。</div><div class="line"><span class="string">"rws"</span>  打开以便读取和写入。相对于 <span class="string">"rw"</span>，<span class="string">"rws"</span> 还要求对“文件的内容”或“元数据”的每个更新都同步写入到基础存储设备。 这里的s是<span class="keyword">synchronized</span>的意思</div><div class="line"><span class="string">"rwd"</span>  打开以便读取和写入，相对于 <span class="string">"rw"</span>，<span class="string">"rwd"</span> 还要求对“文件的内容”的每个更新都同步写入到基础存储设备。  和rws的区别是不包含原数据</div></pre></td></tr></table></figure></p>
+<p>==说明：==</p>
+<ol>
+<li><strong>什么是“元数据”，即metadata？</strong></li>
+</ol>
+<p>metadata是“关于数据的数据”。在文件系统中，数据被包含在文件和文件夹中；metadata信息包括：“数据是一个文件，一个目录还是一个链接”，“数据的创建时间(简称ctime)”，“最后一次修改时间(简称mtime)”，“数据拥有者”，“数据拥有群组”，“访问权限”等等。<strong>也就是数据的修饰信息，状态信息。而非具体的数据内容</strong></p>
+<ol>
+<li><strong>“rw”, “rws”, “rwd” 的区别？</strong></li>
+</ol>
+<ul>
+<li>当操作的文件是存储在本地的基础存储设备上时(如硬盘, NandFlash等)，”rws” 或 “rwd”, “rw” 才有区别。</li>
+<li>当模式是 “rws” 并且 操作的是基础存储设备上的文件；那么，每次“更改文件内容[如write()写入数据]” 或 “修改文件元数据(如文件的mtime)”时，都会将这些改变同步到基础存储设备上</li>
+<li>当模式是 “rwd” 并且 操作的是基础存储设备上的文件；那么，每次“更改文件内容[如write()写入数据]”时，都会将这些改变同步到基础存储设备上。</li>
+<li>当模式是 “rw” 并且 操作的是基础存储设备上的文件；那么，关闭文件时，会将“文件内容的修改”同步到基础存储设备上。至于，“更改文件内容”时，是否会立即同步，取决于系统底层实现。</li>
+</ul>
+<h2 id="作者的演示程序"><a href="#作者的演示程序" class="headerlink" title="作者的演示程序"></a>作者的演示程序</h2><p>还是很好理解的。<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div></pre></td><td class="code"><pre><div class="line"> <span class="comment">/**</span></div><div class="line"> * RandomAccessFile 测试程序</div><div class="line"> *</div><div class="line"> * 运行结果(输出如下)：</div><div class="line"> * c1=a</div><div class="line"> * c2=b</div><div class="line"> * buf=9876543210</div><div class="line"> * </div><div class="line"> * 此外,</div><div class="line"> * (01) 在源文件所在目录生成了file.txt。</div><div class="line"> * (02) 注意RandomAccessFile写入boolean, byte, char, int,所占的字符个数。</div><div class="line"> *</div><div class="line"> * <span class="doctag">@author</span> skywang</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RandomAccessFileTest</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String FileName = <span class="string">"file.txt"</span>;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="comment">// 若文件“file.txt”存在，则删除该文件。</span></div><div class="line">        File file = <span class="keyword">new</span> File(FileName);</div><div class="line">        <span class="keyword">if</span> (file.exists())</div><div class="line">            file.delete();</div><div class="line"></div><div class="line">        testCreateWrite();</div><div class="line">        testAppendWrite();</div><div class="line">        testRead();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 若“file.txt”不存在的话，则新建文件，并向文件中写入内容</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testCreateWrite</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// 创建文件“file.txt”对应File对象</span></div><div class="line">            File file = <span class="keyword">new</span> File(FileName);</div><div class="line">            <span class="comment">// 创建文件“file.txt”对应的RandomAccessFile对象</span></div><div class="line">            RandomAccessFile raf = <span class="keyword">new</span> RandomAccessFile(file, <span class="string">"rw"</span>);</div><div class="line"></div><div class="line">            <span class="comment">// 向“文件中”写入26个字母+回车</span></div><div class="line">            raf.writeChars(<span class="string">"abcdefghijklmnopqrstuvwxyz\n"</span>);</div><div class="line">            <span class="comment">// 向“文件中”写入"9876543210"+回车</span></div><div class="line">            raf.writeChars(<span class="string">"9876543210\n"</span>);</div><div class="line"></div><div class="line">            raf.close();</div><div class="line">        &#125; <span class="keyword">catch</span>(IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 向文件末尾追加内容</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testAppendWrite</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// 创建文件“file.txt”对应File对象</span></div><div class="line">            File file = <span class="keyword">new</span> File(FileName);</div><div class="line">            <span class="comment">// 创建文件“file.txt”对应的RandomAccessFile对象</span></div><div class="line">            RandomAccessFile raf = <span class="keyword">new</span> RandomAccessFile(file, <span class="string">"rw"</span>);</div><div class="line"></div><div class="line">            <span class="comment">// 获取文件长度</span></div><div class="line">            <span class="keyword">long</span> fileLen = raf.length();</div><div class="line">            <span class="comment">// 将位置定位到“文件末尾”</span></div><div class="line">            raf.seek(fileLen);</div><div class="line"></div><div class="line">            <span class="comment">// 以下向raf文件中写数据  </span></div><div class="line">            raf.writeBoolean(<span class="keyword">true</span>); <span class="comment">// 占1个字节  </span></div><div class="line">            raf.writeByte(<span class="number">0x41</span>);    <span class="comment">// 占1个字节  </span></div><div class="line">            raf.writeChar(<span class="string">'a'</span>);     <span class="comment">// 占2个字节  </span></div><div class="line">            raf.writeShort(<span class="number">0x3c3c</span>); <span class="comment">// 占2个字节  </span></div><div class="line">            raf.writeInt(<span class="number">0x75</span>);     <span class="comment">// 占4个字节  </span></div><div class="line">            raf.writeLong(<span class="number">0x1234567890123456L</span>); <span class="comment">// 占8个字节  </span></div><div class="line">            raf.writeFloat(<span class="number">4.7f</span>);  <span class="comment">// 占4个字节  </span></div><div class="line">            raf.writeDouble(<span class="number">8.256</span>);<span class="comment">// 占8个字节  </span></div><div class="line">            raf.writeUTF(<span class="string">"UTF严"</span>); <span class="comment">// UTF-8格式写入</span></div><div class="line">            raf.writeChar(<span class="string">'\n'</span>);   <span class="comment">// 占2个字符。“换行符”</span></div><div class="line"></div><div class="line">            raf.close();</div><div class="line">        &#125; <span class="keyword">catch</span>(IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 通过RandomAccessFile读取文件</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">testRead</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="comment">// 创建文件“file.txt”对应File对象</span></div><div class="line">            File file = <span class="keyword">new</span> File(FileName);</div><div class="line">            <span class="comment">// 创建文件“file.txt”对应的RandomAccessFile对象，以只读方式打开</span></div><div class="line">            RandomAccessFile raf = <span class="keyword">new</span> RandomAccessFile(file, <span class="string">"r"</span>);</div><div class="line"></div><div class="line">            <span class="comment">// 读取一个字符</span></div><div class="line">            <span class="keyword">char</span> c1 = raf.readChar();</div><div class="line">            System.out.println(<span class="string">"c1="</span>+c1);</div><div class="line">            <span class="comment">// 读取一个字符</span></div><div class="line">            <span class="keyword">char</span> c2 = raf.readChar();</div><div class="line">            System.out.println(<span class="string">"c2="</span>+c2);</div><div class="line"></div><div class="line">            <span class="comment">// 跳过54个字节。</span></div><div class="line">            raf.seek(<span class="number">54</span>);</div><div class="line"></div><div class="line">            <span class="comment">// 测试read(byte[] buffer, int byteOffset, int byteCount)</span></div><div class="line">            <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">20</span>];</div><div class="line">            raf.read(buf, <span class="number">0</span>, buf.length);</div><div class="line">            System.out.println(<span class="string">"buf="</span>+(<span class="keyword">new</span> String(buf)));</div><div class="line"></div><div class="line">            raf.close();</div><div class="line">        &#125; <span class="keyword">catch</span>(IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="https://ooo.0o0.ooo/2017/07/01/59575fbd1bc1b.png" alt="Illusion WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="https://ooo.0o0.ooo/2017/07/01/595760e0ac208.png" alt="Illusion Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Illusion
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://www.jiyongguang.xin/java-io-sourcecode-ReaderWriter2.html" title="Java IO源码分析 - Reader，Writer系列（二）">http://www.jiyongguang.xin/java-io-sourcecode-ReaderWriter2.html</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/java-io-sourcecode-ReaderWriter1.html" rel="next" title="Java IO源码分析 - Reader，Writer系列（一）">
+                <i class="fa fa-chevron-left"></i> Java IO源码分析 - Reader，Writer系列（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/java-io-sourcecode-InputStreamOutputStream.html" rel="prev" title="Java IO源码分析 - InputStream，OutputStream系列">
+                Java IO源码分析 - InputStream，OutputStream系列 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMTAzOS83NTg3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="https://ooo.0o0.ooo/2017/06/25/594fd4e99b16a.jpg"
+               alt="Illusion" />
+          <p class="site-author-name" itemprop="name">Illusion</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">130</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">52</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/JYG0723" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/YongGuang_Ji" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/f3e5bada84d9/timeline" target="_blank" title="简书">
+                  
+                    <i class="fa fa-fw fa-heartbeat"></i>
+                  
+                  简书
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/ji-yong-guang/activities" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.54tianzhisheng.cn/" title="ZhiSheng" target="_blank">ZhiSheng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.cnblogs.com/dolphin0520/" title="海 子" target="_blank">海 子</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PipedReader，PipedWriter"><span class="nav-number">2.</span> <span class="nav-text">PipedReader，PipedWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PipedReader"><span class="nav-number">2.1.</span> <span class="nav-text">PipedReader</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#receive，"><span class="nav-number">2.1.1.</span> <span class="nav-text">receive，</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#疑问"><span class="nav-number">2.1.2.</span> <span class="nav-text">疑问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#receivedLast，read，close"><span class="nav-number">2.1.3.</span> <span class="nav-text">receivedLast，read，close</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#感悟"><span class="nav-number">2.1.4.</span> <span class="nav-text">感悟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.1.5.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PipedWriter"><span class="nav-number">2.2.</span> <span class="nav-text">PipedWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#flush"><span class="nav-number">2.2.1.</span> <span class="nav-text">flush</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#InputStreamReader，OutputStreamWriter"><span class="nav-number">3.</span> <span class="nav-text">InputStreamReader，OutputStreamWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#InputStreamReader"><span class="nav-number">3.1.</span> <span class="nav-text">InputStreamReader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OutputStreamWriter"><span class="nav-number">3.2.</span> <span class="nav-text">OutputStreamWriter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#演示程序"><span class="nav-number">3.3.</span> <span class="nav-text">演示程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题1，char为什么能表示中文呢"><span class="nav-number">3.3.1.</span> <span class="nav-text">问题1，char为什么能表示中文呢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题2，UTF-8方式存储的数据，StreamDecoder类怎么精准算出原数据占几个字节，并还原原始数据"><span class="nav-number">3.3.2.</span> <span class="nav-text">问题2，UTF-8方式存储的数据，StreamDecoder类怎么精准算出原数据占几个字节，并还原原始数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重点3"><span class="nav-number">3.3.3.</span> <span class="nav-text">重点3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-2"><span class="nav-number">3.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FileReader，FileWriter"><span class="nav-number">4.</span> <span class="nav-text">FileReader，FileWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#演示程序-1"><span class="nav-number">4.1.</span> <span class="nav-text">演示程序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#BufferedReader，BufferedWriter"><span class="nav-number">5.</span> <span class="nav-text">BufferedReader，BufferedWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BufferedReader"><span class="nav-number">5.1.</span> <span class="nav-text">BufferedReader</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题：提供缓冲为什么能实现字符、数组和行的高效读取？"><span class="nav-number">5.1.1.</span> <span class="nav-text">问题：提供缓冲为什么能实现字符、数组和行的高效读取？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题：为什么不一次性将Reader中全部数据都读取到缓冲中呢？"><span class="nav-number">5.1.2.</span> <span class="nav-text">问题：为什么不一次性将Reader中全部数据都读取到缓冲中呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fill，read"><span class="nav-number">5.1.3.</span> <span class="nav-text">fill，read</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BufferedWriter"><span class="nav-number">5.2.</span> <span class="nav-text">BufferedWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BufferedWriter是如何为其他输出流提供缓冲功能的"><span class="nav-number">5.2.1.</span> <span class="nav-text">BufferedWriter是如何为其他输出流提供缓冲功能的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#提供缓冲为什么能实现单个字符、数组和字符串的高效写入"><span class="nav-number">5.2.2.</span> <span class="nav-text">提供缓冲为什么能实现单个字符、数组和字符串的高效写入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#write，newLine"><span class="nav-number">5.2.3.</span> <span class="nav-text">write，newLine</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-3"><span class="nav-number">5.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PrintWriter"><span class="nav-number">6.</span> <span class="nav-text">PrintWriter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#checkError，setError，clearError"><span class="nav-number">6.1.</span> <span class="nav-text">checkError，setError，clearError</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#write"><span class="nav-number">6.2.</span> <span class="nav-text">write</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#printf"><span class="nav-number">6.3.</span> <span class="nav-text">printf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-4"><span class="nav-number">6.4.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RandomAccessFile"><span class="nav-number">7.</span> <span class="nav-text">RandomAccessFile</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RandomAccessFile-模式说明"><span class="nav-number">7.1.</span> <span class="nav-text">RandomAccessFile 模式说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作者的演示程序"><span class="nav-number">7.2.</span> <span class="nav-text">作者的演示程序</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Illusion</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("SiWq9uW8U9zf5Ew5EuL0KhdX-gzGzoHsz", "iU2RJCJNIldv6uPxKbbN6s3j");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+
+</body>
+</html>
+<script type="text/javascript" src="/js/src/particle.js" count="66" zindex="-2" opacity="0.5" color="0,0,0"></script>
