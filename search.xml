@@ -1328,6 +1328,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[解析 SpringBoot 项目的 pom.xml]]></title>
+    <url>%2Fframe-springboot-starter.html</url>
+    <content type="text"><![CDATA[1. Spring Boot父级依赖123456&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt; &lt;version&gt;1.5.4.RELEASE&lt;/version&gt; &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;&lt;/parent&gt; 这块配置就是Spring Boot父级依赖，有了这个，当前的项目就是Spring Boot项目了，spring-boot-starter-parent是一个特殊的starter,它用来提供相关的Maven默认依赖，使用它之后，常用的包依赖可以省去version标签。使用父级依赖提供的默认version。关于Spring Boot提供了哪些jar包的依赖，可查看C:\Users\用户.m2\repository\org\springframework\boot\spring-boot-dependencies\1.5.1.RELEASE\spring-boot-dependencies-1.5.1.RELEASE.pom 123456789101112131415161718&lt;properties&gt; &lt;!-- Dependency versions --&gt; &lt;activemq.version&gt;5.14.3&lt;/activemq.version&gt; &lt;antlr2.version&gt;2.7.7&lt;/antlr2.version&gt; &lt;appengine-sdk.version&gt;1.9.48&lt;/appengine-sdk.version&gt; &lt;artemis.version&gt;1.5.2&lt;/artemis.version&gt; &lt;aspectj.version&gt;1.8.9&lt;/aspectj.version&gt; &lt;assertj.version&gt;2.6.0&lt;/assertj.version&gt; &lt;atomikos.version&gt;3.9.3&lt;/atomikos.version&gt; &lt;bitronix.version&gt;2.1.4&lt;/bitronix.version&gt; &lt;caffeine.version&gt;2.3.5&lt;/caffeine.version&gt; &lt;cassandra-driver.version&gt;3.1.3&lt;/cassandra-driver.version&gt; &lt;classmate.version&gt;1.3.3&lt;/classmate.version&gt; &lt;commons-beanutils.version&gt;1.9.3&lt;/commons-beanutils.version&gt; &lt;commons-collections.version&gt;3.2.2&lt;/commons-collections.version&gt; &lt;spring-data-releasetrain.version&gt;Ingalls-RELEASE&lt;/spring-data-releasetrain.version&gt; ......&lt;/properties&gt; 如果你不想使用某个依赖默认的版本，您还可以通过覆盖自己的项目中的属性来覆盖各个依赖项。如下： 1234567891011&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt; &lt;version&gt;1.5.4.RELEASE&lt;/version&gt; &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;&lt;/parent&gt;&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt; &lt;version&gt;1.5.3.RELEASE&lt;/version&gt;&lt;/dependency&gt; 2. 起步依赖 spring-boot-starter-xxSpring Boot提供了很多”开箱即用“的依赖模块，都是以spring-boot-starter-xx作为命名的。举个例子来说明一下这个起步依赖的好处，比如组装台式机和品牌机，自己组装的话需要自己去选择不同的零件，最后还要组装起来，期间有可能会遇到零件不匹配的问题。耗时又消力，而品牌机就好一点，买来就能直接用的，后续想换零件也是可以的。相比较之下，后者带来的效果更好点（这里就不讨论价格问题哈），起步依赖就像这里的品牌机，自动给你封装好了你想要实现的功能的依赖。就比如我们之前要实现web功能，引入了spring-boot-starter-web这个起步依赖。我们来看看spring-boot-starter-web到底依赖了哪些，如下图： 看来依赖如此之多，如果让我自己弄估计要调半天，所以Spring Boot通过提供众多起步依赖降低项目依赖的复杂度。起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或者某类功能。 3. Spring Boot Maven插件12345678&lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt; &lt;/plugin&gt; &lt;/plugins&gt;&lt;/build&gt; 上面的配置就是Spring Boot Maven插件，Spring Boot Maven插件提供了许多方便的功能： 把项目打包成一个可执行的超级JAR（uber-JAR）,包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用java -jar来运行应用程序。 搜索public static void main()方法来标记为可运行类。]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>SpringBoot</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[IDEA下maven的正确使用]]></title>
     <url>%2Fjava-idea-maven.html</url>
     <content type="text"><![CDATA[IDEA 下 SpringBoot 项目的运行SpringBoot 项目可以使用命令 mvn spring-boot:run 在命令行启动该应用，IDEA 中该命令在如下位置： 运行之后： 当看到如下命令，并且控制台没有任何异常信息。就可以在浏览器中对 SpringBoot 项目进行访问了。 命令行下 SpringBoot 项目的运行先在 maven 命令中运行 clean 命令，然后再运行 package 命令打包。IDEA 中命令在如下位置： 运行结果：BUILD SUCCESS 运行 mvn package 进行打包时，会打包成一个可以直接运行的 JAR 文件，使用 java -jar 命令就可以直接运行： 没有任何异常信息，运行成功之后就可以对 SpringBoot 项目进行访问了。 Maven有如下几种依赖范围：在引入dependency时，对一些依赖的作用范围梳理不清。 compile:编译依赖范围。如果没有指定，就会默认使用该依赖范围。使用此依赖范围的Maven依赖，对于编译、测试、运行三种classpath都有效。典型的例子是spring-code,在编译、测试和运行的时候都需要使用该依赖。 test: 测试依赖范围。使用次依赖范围的Maven依赖，只对于测试classpath有效，在编译主代码或者运行项目的使用时将无法使用此依赖。典型的例子是Jnuit,它只有在编译测试代码及运行测试的时候才需要。 provided:已提供依赖范围。使用此依赖范围的Maven依赖，对于编译和测试classpath有效，但在运行时候无效。典型的例子是servlet-api,编译和测试项目的时候需要该依赖，但在运行项目的时候，由于容器以及提供，就不需要Maven重复地引入一遍。(测试时不会启动容器，所以用不到容器默认提供的servlet-api，但是测试代码 又需要用到，所以在引入依赖时需要在标签中带上provided)。在项目运行时该依赖就不会起作用]]></content>
@@ -1339,17 +1350,6 @@
         <tag>IDEA</tag>
         <tag>Java</tag>
         <tag>Maven</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[解析 SpringBoot 项目的 pom.xml]]></title>
-    <url>%2Fframe-springboot-starter.html</url>
-    <content type="text"><![CDATA[1. Spring Boot父级依赖123456&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt; &lt;version&gt;1.5.4.RELEASE&lt;/version&gt; &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;&lt;/parent&gt; 这块配置就是Spring Boot父级依赖，有了这个，当前的项目就是Spring Boot项目了，spring-boot-starter-parent是一个特殊的starter,它用来提供相关的Maven默认依赖，使用它之后，常用的包依赖可以省去version标签。使用父级依赖提供的默认version。关于Spring Boot提供了哪些jar包的依赖，可查看C:\Users\用户.m2\repository\org\springframework\boot\spring-boot-dependencies\1.5.1.RELEASE\spring-boot-dependencies-1.5.1.RELEASE.pom 123456789101112131415161718&lt;properties&gt; &lt;!-- Dependency versions --&gt; &lt;activemq.version&gt;5.14.3&lt;/activemq.version&gt; &lt;antlr2.version&gt;2.7.7&lt;/antlr2.version&gt; &lt;appengine-sdk.version&gt;1.9.48&lt;/appengine-sdk.version&gt; &lt;artemis.version&gt;1.5.2&lt;/artemis.version&gt; &lt;aspectj.version&gt;1.8.9&lt;/aspectj.version&gt; &lt;assertj.version&gt;2.6.0&lt;/assertj.version&gt; &lt;atomikos.version&gt;3.9.3&lt;/atomikos.version&gt; &lt;bitronix.version&gt;2.1.4&lt;/bitronix.version&gt; &lt;caffeine.version&gt;2.3.5&lt;/caffeine.version&gt; &lt;cassandra-driver.version&gt;3.1.3&lt;/cassandra-driver.version&gt; &lt;classmate.version&gt;1.3.3&lt;/classmate.version&gt; &lt;commons-beanutils.version&gt;1.9.3&lt;/commons-beanutils.version&gt; &lt;commons-collections.version&gt;3.2.2&lt;/commons-collections.version&gt; &lt;spring-data-releasetrain.version&gt;Ingalls-RELEASE&lt;/spring-data-releasetrain.version&gt; ......&lt;/properties&gt; 如果你不想使用某个依赖默认的版本，您还可以通过覆盖自己的项目中的属性来覆盖各个依赖项。如下： 1234567891011&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt; &lt;version&gt;1.5.4.RELEASE&lt;/version&gt; &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;&lt;/parent&gt;&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt; &lt;version&gt;1.5.3.RELEASE&lt;/version&gt;&lt;/dependency&gt; 2. 起步依赖 spring-boot-starter-xxSpring Boot提供了很多”开箱即用“的依赖模块，都是以spring-boot-starter-xx作为命名的。举个例子来说明一下这个起步依赖的好处，比如组装台式机和品牌机，自己组装的话需要自己去选择不同的零件，最后还要组装起来，期间有可能会遇到零件不匹配的问题。耗时又消力，而品牌机就好一点，买来就能直接用的，后续想换零件也是可以的。相比较之下，后者带来的效果更好点（这里就不讨论价格问题哈），起步依赖就像这里的品牌机，自动给你封装好了你想要实现的功能的依赖。就比如我们之前要实现web功能，引入了spring-boot-starter-web这个起步依赖。我们来看看spring-boot-starter-web到底依赖了哪些，如下图： 看来依赖如此之多，如果让我自己弄估计要调半天，所以Spring Boot通过提供众多起步依赖降低项目依赖的复杂度。起步依赖本质上是一个Maven项目对象模型（Project Object Model，POM），定义了对其他库的传递依赖，这些东西加在一起即支持某项功能。很多起步依赖的命名都暗示了它们提供的某种或者某类功能。 3. Spring Boot Maven插件12345678&lt;build&gt; &lt;plugins&gt; &lt;plugin&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt; &lt;/plugin&gt; &lt;/plugins&gt;&lt;/build&gt; 上面的配置就是Spring Boot Maven插件，Spring Boot Maven插件提供了许多方便的功能： 把项目打包成一个可执行的超级JAR（uber-JAR）,包括把应用程序的所有依赖打入JAR文件内，并为JAR添加一个描述文件，其中的内容能让你用java -jar来运行应用程序。 搜索public static void main()方法来标记为可运行类。]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>SpringBoot</tag>
       </tags>
   </entry>
   <entry>
@@ -1365,13 +1365,13 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Illuos1ion-picture-nan]]></title>
-    <url>%2FIlluos1ion-picture-nan.html</url>
+    <title><![CDATA[Illuos1ion-picture]]></title>
+    <url>%2FIlluos1ion-picture.html</url>
     <content type="text"><![CDATA[]]></content>
   </entry>
   <entry>
-    <title><![CDATA[Illuos1ion-picture]]></title>
-    <url>%2FIlluos1ion-picture.html</url>
+    <title><![CDATA[Illuos1ion-picture-nan]]></title>
+    <url>%2FIlluos1ion-picture-nan.html</url>
     <content type="text"><![CDATA[]]></content>
   </entry>
   <entry>
